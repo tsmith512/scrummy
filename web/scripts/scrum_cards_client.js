@@ -9,7 +9,7 @@ $(document).ready(function(){
   document.addEventListener('voteOccured',voteOccured,true);
   document.addEventListener('userSignedIn',userSignedIn,true);
   document.addEventListener('clientDisconnected',clientDisconnected,true);
-  document.addEventListener('clientReset',clientRes,false);
+  document.addEventListener('clientReset',clientReset,false);
 });
 
 function signIn(){
@@ -38,7 +38,7 @@ function signIn(){
     }
   });
 }
-function clientRes(e){
+function clientReset(e){
   $('.image').removeClass('image-selected');
 }
 function adminDisconnected(e){
@@ -90,8 +90,8 @@ function addVote(user,vote){
   $('#'+user).addClass('voted');
 }
 function resetVote(){
-  $('.image-text').text('').hide();
-  $('#clients').children().removeClass('voted');
+  $('#votingResult .image-text').text('').hide();
+  $('votingResult #clients').children().removeClass('voted');
   cli.send('resetCmd',null,null);
 }
 
