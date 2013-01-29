@@ -37,12 +37,12 @@ io.sockets.on('connection',function(socket){
   });
 
   socket.on('vote',function(data){
-    socket.broadcast.emit('voteOccured', data);
+    io.sockets.emit('voteOccured', data);
   });
 
   socket.on('resetCmd',function(){
     if(sockDict == null) return;
-    socket.broadcast.emit('reset',{ 'userName' : sockDict[socket.id] });
+    io.sockets.emit('reset',{ 'userName' : sockDict[socket.id] });
   });
 
   socket.on('disconnect',function(){
