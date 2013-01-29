@@ -4,7 +4,7 @@ var express = require('express'),
     server = http.createServer(app),
     io = require('socket.io').listen(server),
     sockDict = new Array();
-    adminSocket = null,
+    bucket = [],
     config  = require('./settings.js');
 
 app.use(express.static(__dirname + '/web'));
@@ -23,8 +23,9 @@ io.sockets.on('connection',function(socket){
     }
 
     sockDict[socket.id] = data.userName;
+    bucket[bucket.length] = {id: socket.id, nickname: data.userName};
     socket.broadcast.emit('userSignedIn',{ 'userName' : data.userName});
-    fn(true,{ 'points' : config.points} );
+    fn(true,{ 'points' : config.points, 'users' : bucket} );
   });
 
   socket.on('vote',function(data){

@@ -26,6 +26,9 @@ function signIn(){
         $(imagesDiv).append('<div style=\'display:none\' class=\'image\' onclick=\'vote(this)\'><span class=\'image-text\'>'+ item + '</span></div>');
       });
 
+      currentUsers = msg.users;
+      $(currentUsers).each(function(i,e){ addUserToDiv(e.nickname); })
+
       $('#dSignIn').hide();
       $('#dVote').show();
       $('#spanUser').text(uName);
