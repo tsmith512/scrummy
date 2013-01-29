@@ -1,4 +1,4 @@
-require(['scripts/socket_client.js','scripts/settings.js'],function(cl){
+require(['scripts/socket_client.js'],function(cl){
 });
 
 var cli= null;
@@ -11,7 +11,7 @@ $(document).ready(function(){
 });
 
 function signIn(){
-  cli = new client(settings.server_host,settings.port);
+  cli = new client();
   uName = $('#txtName').val();
   cli.send('signIn',{ 'userName' : uName }, function(res,msg){
     if(!res){

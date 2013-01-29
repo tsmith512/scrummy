@@ -1,4 +1,4 @@
-var client = function(host,port){
+var client = function(){
   var conStr = window.location.origin;
   this.socket = io.connect(conStr);
 

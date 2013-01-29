@@ -1,4 +1,0 @@
-var settings = {
-  "server_host" : "localhost",
-  "port" : "8081",
-}
