@@ -1,5 +1,5 @@
 var client = function(host,port){
-  var conStr = host + ':' + port;
+  var conStr = window.location.origin;
   this.socket = io.connect(conStr);
 
   this.socket.on('reset',function(data){

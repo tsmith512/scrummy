@@ -1,4 +1,4 @@
-require(['scripts/socket_client','scripts/settings.js'],function(cl){
+require(['scripts/socket_client.js','scripts/settings.js'],function(cl){
 });
 
 var cli= null;
