@@ -6,6 +6,10 @@ var client = function(){
     var evt = createEvent('clientReset');
     document.dispatchEvent(evt);
   });
+  this.socket.on('reveal',function(data){
+    var evt = createEvent('clientReveal');
+    document.dispatchEvent(evt);
+  });
   this.socket.on('adminDisconnected', function(data){
     var evt = createEvent('adminDisconnected');
     document.dispatchEvent(evt);

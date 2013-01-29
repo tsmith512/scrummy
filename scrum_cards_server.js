@@ -42,7 +42,12 @@ io.sockets.on('connection',function(socket){
 
   socket.on('reset',function(){
     if(sockDict == null) return;
-    io.sockets.emit('reset',{ 'userName' : sockDict[socket.id] });
+    io.sockets.emit('reset');
+  });
+
+  socket.on('reveal',function(){
+    if(sockDict == null) return;
+    io.sockets.emit('reveal');
   });
 
   socket.on('disconnect',function(){

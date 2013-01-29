@@ -10,6 +10,7 @@ $(document).ready(function(){
   document.addEventListener('userSignedIn',userSignedIn,true);
   document.addEventListener('clientDisconnected',clientDisconnected,true);
   document.addEventListener('clientReset',clientReset,false);
+  document.addEventListener('clientReveal',clientReveal,false);
 });
 
 function signIn(){
@@ -44,6 +45,11 @@ function clientReset(e){
   $('#votingResult #clients').children().removeClass('voted');
   $('.image').removeClass('image-selected');
 }
+function clientReveal(e){
+  $('.image-text').show();
+}
+
+
 function adminDisconnected(e){
   alert('Admin has disconnected. Please try and reconnect');
   $('#dSignIn').show();
@@ -97,7 +103,7 @@ function resetVote(){
 }
 
 function revealVotes(){
-  $('.image-text').show();
+  cli.send('reveal',null,null);
 }
 
 function voteOccured(e){
