@@ -1,10 +1,9 @@
 var express = require('express'),
-    app = express(),
-    http = require('http'),
-    server = http.createServer(app),
-    io = require('socket.io').listen(server),
-    sockDict = new Array();
-    bucket = [],
+    app     = express(),
+    http    = require('http'),
+    server  = http.createServer(app),
+    io      = require('socket.io').listen(server),
+    bucket  = [],
     config  = require('./settings.js');
 
 app.use(express.static(__dirname + '/web'));
@@ -13,16 +12,6 @@ server.listen(config.port);
 io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
-    console.log(data);
-
-    for(sock in sockDict){
-      var name = sockDict[sock];
-      if(name == data.userName){
-        fn(false,"Username taken!");
-        return;
-      }
-    }
-
     for ( client in bucket ) {
       if (client.nickname == data.userName) {
         fn( false, 'Nickname already in use.' );
@@ -30,7 +19,8 @@ io.sockets.on('connection',function(socket){
       }
     }
 
-    sockDict[socket.id] = data.userName;
+    console.log("Client %s connected", data.userName);
+
     bucket.push({id: socket.id, nickname: data.userName});
     socket.broadcast.emit('userSignedIn',{ 'userName' : data.userName});
     fn(true,{ 'points' : config.points, 'users' : bucket} );
@@ -41,12 +31,10 @@ io.sockets.on('connection',function(socket){
   });
 
   socket.on('reset',function(){
-    if(sockDict == null) return;
     io.sockets.emit('reset');
   });
 
   socket.on('reveal',function(){
-    if(sockDict == null) return;
     io.sockets.emit('reveal');
   });
 
@@ -57,13 +45,13 @@ io.sockets.on('connection',function(socket){
     var i = bucket.length;
     while (i--) {
       if (bucket[i].id == socket.id) {
+        var nickname = bucket[i].nickname;
         bucket.splice(i, 1);
+
+        socket.broadcast.emit('clientDisconnect', {userName : nickname });
+        console.log("Client %s disconnected. %d remaining.", nickname, bucket.length);
       }
     }
-
-
-    socket.broadcast.emit('clientDisconnect', {userName : sockDict[socket.id] });
-    sockDict[socket.id] = null;
   });
 
 });
