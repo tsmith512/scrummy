@@ -1,8 +1,9 @@
 require(['scripts/socket_client.js'],function(cl){
 });
 
-var cli= null;
-var uName;
+var cli = null;
+var mySid = null;
+var myNick = null;
 var voteValues = null;
 
 $(document).ready(function(){
@@ -15,8 +16,8 @@ $(document).ready(function(){
 
 function signIn(){
   cli = new client();
-  uName = $('#txtName').val();
-  cli.send('signIn',{ 'userName' : uName }, function(res,msg){
+  myNick = $('#txtName').val();
+  cli.send('signIn',{ 'nickname' : myNick }, function(res,msg){
     if(!res){
       alert(msg);
     }else{
@@ -28,11 +29,12 @@ function signIn(){
       });
 
       currentUsers = msg.users;
-      $(currentUsers).each(function(i,e){ addUserToDiv(e.nickname); })
+      mySid = msg.sid; // Set "my" Socket ID
+      $(currentUsers).each(function(i,e){ addUserToDiv(e.sid, e.nickname); })
 
       $('#dSignIn').hide();
       $('#dVote').show();
-      $('#spanUser').text(uName);
+      $('#spanUser').text(myNick);
       $('#votingResult').show();
       $('#dSignIn').hide();
       showCards();
@@ -73,8 +75,7 @@ function showCards()
 function vote(sender){
   $('.image').removeClass('image-selected');
   var number = $(sender).children('.image-text').text();
-  var uName = $('#txtName').val();
-  cli.send('vote',{ 'userName' : uName, 'number' : number },null);
+  cli.send('vote',{ 'sid' : mySid, 'number' : number },null);
   $(sender).addClass('image-selected');
   $('#btnVote').attr('disabled','disabled');
 }
@@ -83,20 +84,20 @@ function vote(sender){
  * Functions from Admin script before it was merged into the client/admin interface
  */
 
-function addUserToDiv(userName){
+function addUserToDiv(sid, nickname){
   div = document.createElement('div');
-  $(div).attr('id',userName);
-  $(div).append('<span class=\'vote-username\'>'+userName+'</span>');
+  $(div).attr('id',sid);
+  $(div).append('<span class=\'vote-nickname\'>'+nickname+'</span>');
   $(div).append('<div class=\'clear\'></div>');
   $(div).addClass('vote-user');
   $(div).append('<div class=\'image-admin\'><span style=\'display:none\' class=\'image-text\'></span></div>');
   $('#clients').append(div);
 }
 
-function addVote(user,vote){
+function addVote(sid,vote){
   $('.image-text').hide();
-  $('#'+user+' .image-text').text(vote);
-  $('#'+user).addClass('voted');
+  $('#'+sid+' .image-text').text(vote);
+  $('#'+sid).addClass('voted');
 }
 function resetVote(){
   cli.send('reset',null,null);
@@ -107,11 +108,11 @@ function revealVotes(){
 }
 
 function voteOccured(e){
-    addVote(e.userName,e.number);
+    addVote(e.sid,e.number);
 }
 function userSignedIn(e){
-    addUserToDiv(e.userName);
+    addUserToDiv(e.sid, e.nickname);
 }
 function clientDisconnected(e){
-    $('#'+e.userName).remove();
+    $('#'+e.sid).remove();
 }

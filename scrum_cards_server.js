@@ -13,17 +13,18 @@ io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
     for ( client in bucket ) {
-      if (client.nickname == data.userName) {
+      if (client.nickname == data.nickname) {
         fn( false, 'Nickname already in use.' );
         return;
       }
     }
 
-    console.log("Client %s connected", data.userName);
+    client = {sid: socket.id, nickname: data.nickname}
+    console.log("Client %s connected", data.nickname);
 
-    bucket.push({id: socket.id, nickname: data.userName});
-    socket.broadcast.emit('userSignedIn',{ 'userName' : data.userName});
-    fn(true,{ 'points' : config.points, 'users' : bucket} );
+    bucket.push(client);
+    socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
+    fn(true,{ 'sid' : client.sid, 'points' : config.points, 'users' : bucket} );
   });
 
   socket.on('vote',function(data){
@@ -44,12 +45,12 @@ io.sockets.on('connection',function(socket){
      * client having to recalculate the length (as you would in a for loop) */
     var i = bucket.length;
     while (i--) {
-      if (bucket[i].id == socket.id) {
-        var nickname = bucket[i].nickname;
+      if (bucket[i].sid == socket.id) {
+        var client = bucket[i];
         bucket.splice(i, 1);
 
-        socket.broadcast.emit('clientDisconnect', {userName : nickname });
-        console.log("Client %s disconnected. %d remaining.", nickname, bucket.length);
+        socket.broadcast.emit('clientDisconnect', {'nickname' : client.nickname, 'sid' : client.sid });
+        console.log("Client %s disconnected. %d remaining.", client.nickname, bucket.length);
       }
     }
   });
