@@ -6,24 +6,29 @@ var client = function(){
     var evt = createEvent('clientReset');
     document.dispatchEvent(evt);
   });
+  this.socket.on('reveal',function(data){
+    var evt = createEvent('clientReveal');
+    document.dispatchEvent(evt);
+  });
   this.socket.on('adminDisconnected', function(data){
     var evt = createEvent('adminDisconnected');
     document.dispatchEvent(evt);
   });
   this.socket.on('clientDisconnect',function(data){
     var evt = createEvent('clientDisconnected');
-    evt.userName = data.userName;
+    evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
   this.socket.on('userSignedIn', function(data){
     var evt = createEvent('userSignedIn');
-    evt.userName = data.userName;
+    evt.nickname = data.nickname;
+    evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
 
   this.socket.on('voteOccured', function(data){
     var evt = createEvent('voteOccured');
-    evt.userName = data.userName;
+    evt.sid = data.sid;
     evt.number = data.number;
     document.dispatchEvent(evt);
   });
