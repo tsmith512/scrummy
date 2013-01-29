@@ -15,13 +15,19 @@
       <input value="Sign in" type="button" id="btnSignIn" onclick='signIn()' />
     </div>
 
-    </div>
+    </div><!--#/dSignIn-->
+    <div id="votingResult" style="display:none">
+    <input type="button" id"btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
+    <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
+    <div id="clients"></div>
+    <div class="clear"></div>
+  </div><!--/#votingResult-->
     <div id="dVote" class="vote-form" style="display:none;">
       <h1><span id="spanUser"></span></h1>
       <p></p>
       <div class="images">
       </div>
-    </div>
+    </div><!--/#dVote-->
   </div>
   </body>
 </html>

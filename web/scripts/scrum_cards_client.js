@@ -6,8 +6,10 @@ var uName;
 var voteValues = null;
 
 $(document).ready(function(){
-    document.addEventListener('clientReset',clientRes,false);
-  document.addEventListener('adminDisconnected',adminDisconnected,false);
+  document.addEventListener('voteOccured',voteOccured,true);
+  document.addEventListener('userSignedIn',userSignedIn,true);
+  document.addEventListener('clientDisconnected',clientDisconnected,true);
+  document.addEventListener('clientReset',clientRes,false);
 });
 
 function signIn(){
@@ -27,6 +29,8 @@ function signIn(){
       $('#dSignIn').hide();
       $('#dVote').show();
       $('#spanUser').text(uName);
+      $('#votingResult').show();
+      $('#dSignIn').hide();
       showCards();
     }
   });
@@ -61,4 +65,43 @@ function vote(sender){
   cli.send('vote',{ 'userName' : uName, 'number' : number },null);
   $(sender).addClass('image-selected');
   $('#btnVote').attr('disabled','disabled');
+}
+
+/**
+ * Functions from Admin script before it was merged into the client/admin interface
+ */
+
+function addUserToDiv(userName){
+  div = document.createElement('div');
+  $(div).attr('id',userName);
+  $(div).append('<span class=\'vote-username\'>'+userName+'</span>');
+  $(div).append('<div class=\'clear\'></div>');
+  $(div).addClass('vote-user');
+  $(div).append('<div class=\'image-admin\'><span style=\'display:none\' class=\'image-text\'></span></div>');
+  $('#clients').append(div);
+}
+
+function addVote(user,vote){
+  $('.image-text').hide();
+  $('#'+user+' .image-text').text(vote);
+  $('#'+user).addClass('voted');
+}
+function resetVote(){
+  $('.image-text').text('').hide();
+  $('#clients').children().removeClass('voted');
+  cli.send('resetCmd',null,null);
+}
+
+function revealVotes(){
+  $('.image-text').show();
+}
+
+function voteOccured(e){
+    addVote(e.userName,e.number);
+}
+function userSignedIn(e){
+    addUserToDiv(e.userName);
+}
+function clientDisconnected(e){
+    $('#'+e.userName).remove();
 }
