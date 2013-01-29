@@ -1,10 +1,14 @@
-var app = require('express').createServer(),
-    io = require('socket.io').listen(app),
+var express = require('express'),
+    app = express(),
+    http = require('http'),
+    server = http.createServer(app),
+    io = require('socket.io').listen(server),
     sockDict = new Array();
     adminSocket = null,
     config  = require('./settings.js');
 
-app.listen(config.port);
+app.use(express.static(__dirname + '/web'));
+server.listen(config.port);
 
 io.sockets.on('connection',function(socket){
 
