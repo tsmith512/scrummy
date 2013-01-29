@@ -1,9 +1,13 @@
-var client = function(host,port){
-  var conStr = host + ':' + port;
+var client = function(){
+  var conStr = window.location.origin;
   this.socket = io.connect(conStr);
 
   this.socket.on('reset',function(data){
     var evt = createEvent('clientReset');
+    document.dispatchEvent(evt);
+  });
+  this.socket.on('reveal',function(data){
+    var evt = createEvent('clientReveal');
     document.dispatchEvent(evt);
   });
   this.socket.on('adminDisconnected', function(data){
@@ -12,18 +16,19 @@ var client = function(host,port){
   });
   this.socket.on('clientDisconnect',function(data){
     var evt = createEvent('clientDisconnected');
-    evt.userName = data.userName;
+    evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
   this.socket.on('userSignedIn', function(data){
     var evt = createEvent('userSignedIn');
-    evt.userName = data.userName;
+    evt.nickname = data.nickname;
+    evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
 
   this.socket.on('voteOccured', function(data){
     var evt = createEvent('voteOccured');
-    evt.userName = data.userName;
+    evt.sid = data.sid;
     evt.number = data.number;
     document.dispatchEvent(evt);
   });

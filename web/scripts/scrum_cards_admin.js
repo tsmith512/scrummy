@@ -1,4 +1,4 @@
-require(['scripts/socket_client.js','scripts/settings.js'],function(ck){});
+require(['scripts/socket_client.js'],function(ck){});
 
 var cli = null;
 
@@ -35,7 +35,7 @@ function revealVotes(){
 
 function signIn(){
   var uName = $('#txtName').val();
-  cli = new client(settings.server_host,settings.port);
+  cli = new client();
   cli.send('signIn',{ 'userName' : uName },function(res,msg){
     if(!res){
       alert(msg);
