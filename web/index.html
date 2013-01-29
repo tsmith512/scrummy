@@ -1,33 +1,48 @@
-<html>
-  <head>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="scripts/jquery.js" type="text/javascript"></script>
-    <script src="scripts/require.js" type="text/javascript"></script>
-    <script src="scripts/scrum_cards_client.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-  </head>
-  <body>
-    <div id="container" class="vote-container">
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title></title>
+  <meta name="viewport" content="width=device-width" />
+
+  <link rel="stylesheet" href="css/normalize.min.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+  <script src="js/vendor/jquery-1.9.0.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/scripts/require.js" type="text/javascript"></script>
+  <script src="scripts/scrum_cards_client.js" type="text/javascript"></script>
+  <script src="/js/main.js"></script>
+</head>
+<body>
+
+  <div id="container" class="vote-container">
     <div id="dSignIn" class="signin-form">
       <div class="signin-inside">
-      <input type="input" id="txtName" />
-      <p></p>
-      <input value="Sign in" type="button" id="btnSignIn" onclick='signIn()' />
-    </div>
-
+        <input type="input" id="txtName" />
+        <p></p>
+        <input value="Sign in" type="button" id="btnSignIn" onclick='signIn()' />
+      </div><!--/.signin-inside-->
     </div><!--#/dSignIn-->
+
     <div id="votingResult" style="display:none">
-    <input type="button" id"btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
-    <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
-    <div id="clients"></div>
-    <div class="clear"></div>
-  </div><!--/#votingResult-->
+      <input type="button" id"btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
+      <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
+      <div id="clients"></div>
+      <div class="clear"></div>
+    </div><!--/#votingResult-->
+
     <div id="dVote" class="vote-form" style="display:none;">
       <h1><span id="spanUser"></span></h1>
       <p></p>
       <div class="images">
       </div>
     </div><!--/#dVote-->
-  </div>
-  </body>
+
+  </div><!--/#container-->
+
+</body>
 </html>
