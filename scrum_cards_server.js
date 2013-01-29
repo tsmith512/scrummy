@@ -40,7 +40,7 @@ io.sockets.on('connection',function(socket){
     io.sockets.emit('voteOccured', data);
   });
 
-  socket.on('resetCmd',function(){
+  socket.on('reset',function(){
     if(sockDict == null) return;
     io.sockets.emit('reset',{ 'userName' : sockDict[socket.id] });
   });

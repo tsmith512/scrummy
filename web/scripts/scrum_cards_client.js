@@ -39,6 +39,9 @@ function signIn(){
   });
 }
 function clientReset(e){
+  $('#dVote .image').removeClass('image-selected');
+  $('#votingResult .image-text').text('').hide();
+  $('#votingResult #clients').children().removeClass('voted');
   $('.image').removeClass('image-selected');
 }
 function adminDisconnected(e){
@@ -90,9 +93,7 @@ function addVote(user,vote){
   $('#'+user).addClass('voted');
 }
 function resetVote(){
-  $('#votingResult .image-text').text('').hide();
-  $('votingResult #clients').children().removeClass('voted');
-  cli.send('resetCmd',null,null);
+  cli.send('reset',null,null);
 }
 
 function revealVotes(){
