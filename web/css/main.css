@@ -548,34 +548,184 @@ table {
   border-spacing: 0;
 }
 
-/* line 1, ../scss/_originalstyles.scss */
+/* ==========================================================================
+   Helper classes and Preferred Defaults
+   ========================================================================== */
+/* apply a natural box layout model to all elements */
+/* line 6, ../scss/_helpers.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 12, ../scss/_helpers.scss */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+
+/* line 19, ../scss/_helpers.scss */
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 100%;
+}
+
+/* line 26, ../scss/_helpers.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* line 31, ../scss/_helpers.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 43, ../scss/_helpers.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* line 52, ../scss/_helpers.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 57, ../scss/_helpers.scss */
+.clearfix:before, #container:before,
+.clearfix:after,
+#container:after {
+  content: " ";
+  display: table;
+}
+
+/* line 62, ../scss/_helpers.scss */
+.clearfix:after, #container:after {
+  clear: both;
+}
+
+/* line 66, ../scss/_helpers.scss */
+.clearfix, #container {
+  *zoom: 1;
+}
+
+/* line 87, ../scss/_helpers.scss */
+.listreset, .listreset ul, .listreset ol, .listreset li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Set up basic colors and typefaces */
+/* line 25, ../scss/main.scss */
 body {
-  background-color: #443266;
-  color: #443266;
+  background: #484644;
+  color: #fefefe;
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
 }
 
-/* line 5, ../scss/_originalstyles.scss */
-.signin-form {
-  border: 2px solid #443266;
-  border-radius: 20px;
-  margin: 0 auto;
-  width: 300px;
+/* line 31, ../scss/main.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Stint Ultra Expanded', cursive;
+  font-weight: 400;
+  color: #f68810;
 }
 
-/* line 13, ../scss/_originalstyles.scss */
-.signin-inside {
-  padding: 10px;
+/* line 36, ../scss/main.scss */
+a {
+  color: #1065f5;
+  text-decoration: none;
+}
+
+/* line 41, ../scss/main.scss */
+::-moz-selection, ::selection {
+  background: #1065f5;
+  color: #efe6e4;
+  text-shadow: none;
+}
+
+/* Layout */
+/* line 48, ../scss/main.scss */
+#logo {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2em auto;
+}
+/* line 53, ../scss/main.scss */
+#logo h1 {
+  color: #efe6e4;
+  text-shadow: #222222 1px 1px 1px;
   text-align: center;
 }
 
-/* line 18, ../scss/_originalstyles.scss */
+/* line 60, ../scss/main.scss */
+#container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2em auto;
+  border: 1px solid #2e2d2b;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: #222222 0px 0px 10px inset;
+  -moz-box-shadow: #222222 0px 0px 10px inset;
+  box-shadow: #222222 0px 0px 10px inset;
+  background: #555350;
+}
+
+/* line 73, ../scss/main.scss */
+section {
+  padding: 1em;
+  margin: 1em;
+  border-top: 1px solid #484644;
+  border-bottom: 1px solid #484644;
+}
+
+/* line 80, ../scss/main.scss */
+input {
+  background: #fefefe;
+  color: #484644;
+  padding: 4px 8px;
+  margin: 4px;
+  border: 1px solid #999999;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
+}
+
+/* line 2, ../scss/_originalstyles.scss */
 .vote-form {
   margin: 0 auto;
   width: 550px;
   text-align: center;
 }
 
-/* line 24, ../scss/_originalstyles.scss */
+/* line 8, ../scss/_originalstyles.scss */
 .image {
   position: relative;
   cursor: hand;
@@ -586,12 +736,12 @@ body {
   border: 2px solid #C3C3E5;
 }
 
-/* line 33, ../scss/_originalstyles.scss */
+/* line 17, ../scss/_originalstyles.scss */
 .image-selected {
   border: 2px solid grey;
 }
 
-/* line 36, ../scss/_originalstyles.scss */
+/* line 20, ../scss/_originalstyles.scss */
 .image-text {
   line-height: 170px;
   text-align: center;
@@ -599,7 +749,7 @@ body {
   font-size: 55px;
 }
 
-/* line 42, ../scss/_originalstyles.scss */
+/* line 26, ../scss/_originalstyles.scss */
 .image-admin {
   position: relative;
   cursor: hand;
@@ -612,41 +762,17 @@ body {
   border: 2px solid #C3C3E5;
 }
 
-/* line 54, ../scss/_originalstyles.scss */
+/* line 38, ../scss/_originalstyles.scss */
 .clear {
   clear: both;
 }
 
-/* line 58, ../scss/_originalstyles.scss */
-.admin-container,
-.vote-container {
-  width: 800px;
-  margin: 0 auto;
-  padding-top: 15px;
-  padding-bottom: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  background-color: white;
-  min-height: 700px;
-  border-left: 3px solid;
-  border-right: 3px solid;
-  text-align: center;
-}
-
-/* line 71, ../scss/_originalstyles.scss */
-.vote-container h1 {
-  width: inherit;
-  border-bottom: 1px solid #443266;
-  float: left;
-  padding-bottom: 15px;
-}
-
-/* line 77, ../scss/_originalstyles.scss */
+/* line 41, ../scss/_originalstyles.scss */
 #clients {
   margin: auto;
 }
 
-/* line 80, ../scss/_originalstyles.scss */
+/* line 44, ../scss/_originalstyles.scss */
 .vote-user {
   width: 200px;
   text-align: center;
@@ -659,19 +785,19 @@ body {
   float: left;
 }
 
-/* line 91, ../scss/_originalstyles.scss */
+/* line 55, ../scss/_originalstyles.scss */
 .vote-username {
   width: 120px;
   font-size: 25px;
 }
 
-/* line 96, ../scss/_originalstyles.scss */
+/* line 60, ../scss/_originalstyles.scss */
 .vote-item {
   margin: 0 auto;
   text-align: center;
 }
 
-/* line 100, ../scss/_originalstyles.scss */
+/* line 64, ../scss/_originalstyles.scss */
 .voted {
   border: 3px solid #00FF3C;
 }

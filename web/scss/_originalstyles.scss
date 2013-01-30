@@ -1,19 +1,3 @@
-body{
-  background-color:#443266;
-  color:#443266;
-}
-.signin-form{
-  border:2px solid #443266;
-  border-radius:20px;
-  margin:0 auto;
-  width:300px;
-}
-h1{
-}
-.signin-inside{
-  padding:10px;
-  text-align:center;
-}
 
 .vote-form{
   margin:0 auto;
@@ -53,26 +37,6 @@ h1{
 }
 .clear{
   clear:both;
-}
-.admin-container,
-.vote-container{
-  width:800px;
-  margin:0 auto;
-  padding-top:15px;
-  padding-bottom:20px;
-  padding-left:20px;
-  padding-right:20px;
-  background-color:white;
-  min-height:700px;
-  border-left:3px solid;
-  border-right:3px solid;
-  text-align:center;
-}
-.vote-container h1{
-  width:inherit;
-  border-bottom:1px solid #443266;
-  float:left;
-  padding-bottom:15px;
 }
 #clients{
   margin:auto;

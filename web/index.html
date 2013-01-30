@@ -6,6 +6,7 @@
   <title></title>
   <meta name="viewport" content="width=device-width" />
 
+  <link href='http://fonts.googleapis.com/css?family=Fjalla+One|Stint+Ultra+Expanded' rel='stylesheet' type='text/css' />
   <link rel="stylesheet" href="css/main.css" />
 
   <script src="socket.io/socket.io.js"></script>
@@ -17,28 +18,34 @@
 </head>
 <body>
 
-  <div id="container" class="vote-container">
-    <div id="dSignIn" class="signin-form">
+  <div id="logo">
+    <!-- Okay, so not logo really, but we'll get there -->
+    <h1>Planning Poker</h1>
+  </div>
+
+  <div id="container">
+
+    <section id="dSignIn" class="signin-form">
+      <h2>Log In</h2>
       <div class="signin-inside">
         <input type="input" id="txtName" />
-        <p></p>
         <input value="Sign in" type="button" id="btnSignIn" onclick='signIn()' />
       </div><!--/.signin-inside-->
-    </div><!--#/dSignIn-->
+    </section><!--#/dSignIn-->
 
-    <div id="votingResult" style="display:none">
+    <section id="votingResult" style="display:none">
       <input type="button" id"btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
       <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
       <div id="clients"></div>
       <div class="clear"></div>
-    </div><!--/#votingResult-->
+    </section><!--/#votingResult-->
 
-    <div id="dVote" class="vote-form" style="display:none;">
+    <section id="dVote" class="vote-form" style="display:none;">
       <h1><span id="spanUser"></span></h1>
       <p></p>
       <div class="images">
       </div>
-    </div><!--/#dVote-->
+    </section><!--/#dVote-->
 
   </div><!--/#container-->
 

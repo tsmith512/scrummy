@@ -1,5 +1,93 @@
+// Colors
+$bright: #fefefe;
+$light:  #efe6e4;
+$mid:    #999999;
+$low:   #484644;
+$dark:  #222222;
+$orange: #f68810;
+$blue:   #1065f5;
+
+// Typefaces:
+@mixin fjalla { font-family: 'Fjalla One', sans-serif;        font-weight: 400; }
+@mixin stint  { font-family: 'Stint Ultra Expanded', cursive; font-weight: 400; }
+
 // HTML5 Boilerplate Normalize
 @import "normalize";
+
+// Helper styles with various mixins and extendables, set border-box
+@import "helpers";
+
+// Include Compass Helpers
+@import "compass/css3";
+
+
+/* Set up basic colors and typefaces */
+body {
+  background: $low;
+  color: $bright;
+  @include fjalla;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include stint;
+  color: $orange;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+::-moz-selection, ::selection {
+  background: $blue;
+  color: $light;
+  text-shadow: none;
+}
+
+/* Layout */
+#logo {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2em auto;
+
+  h1 {
+    color: $light;
+    @include text-shadow($dark 1px 1px 1px);
+    text-align: center;
+  }
+}
+
+#container {
+  @extend .clearfix;
+  width: 90%;
+  max-width: 1000px;
+
+  margin: 2em auto;
+
+  border: 1px solid darken($low, 10%);
+  @include border-radius(10px);
+  @include box-shadow($dark 0px 0px 10px inset);
+  background: lighten($low, 5%);
+}
+
+section {
+  padding: 1em;
+  margin: 1em;
+  border-top: 1px solid $low;
+  border-bottom: 1px solid $low;
+}
+
+input {
+  background: $bright;
+  color: $low;
+
+  padding: 4px 8px;
+  margin: 4px;
+  border: 1px solid $mid;
+  @include border-radius(4px);
+
+  @include fjalla;
+}
 
 // Original styles from project author
 @import "originalstyles";
