@@ -34,10 +34,11 @@
     </section><!--#/dSignIn-->
 
     <section id="votingResult" style="display:none">
-      <input type="button" id"btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
-      <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
+      <div id="votingActions">
+        <input type="button" id="btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
+        <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
+      </div><!--/#votingActions-->
       <div id="clients"></div>
-      <div class="clear"></div>
     </section><!--/#votingResult-->
 
     <section id="dVote" class="vote-form" style="display:none;">

@@ -1,5 +1,5 @@
 // Colors
-$bright: #fefefe;
+$bright: #f2f2f2;
 $light:  #efe6e4;
 $mid:    #999999;
 $low:   #484644;
@@ -71,6 +71,7 @@ a {
 }
 
 section {
+  @extend .clearfix;
   padding: 1em;
   margin: 1em;
   border-top: 1px solid $low;
@@ -79,6 +80,8 @@ section {
 
 input {
   background: $bright;
+  &:hover { background: white; }
+
   color: $low;
 
   padding: 4px 8px;
@@ -88,6 +91,33 @@ input {
 
   @include fjalla;
 }
+
+/**
+ * Voting Actions & Results Section
+ */
+#votingActions {
+  width: 90%;
+  max-width: 400px;
+
+  text-align: center;
+
+  padding: 0 4px;
+  margin: 0.25em auto;
+
+  border: 1px solid lighten($low, 8%);
+  @include border-radius(4px);
+
+  background: darken($low, 8%);
+  @include box-shadow($dark 0px 0px 5px inset);
+
+  input {
+    width: 48%;
+    margin: 6px 0;
+    &:first-child { margin-right: 2%; }
+  }
+}
+
+
 
 // Original styles from project author
 @import "originalstyles";

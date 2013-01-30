@@ -610,20 +610,21 @@ table {
 }
 
 /* line 57, ../scss/_helpers.scss */
-.clearfix:before, #container:before,
+.clearfix:before, #container:before, section:before,
 .clearfix:after,
-#container:after {
+#container:after,
+section:after {
   content: " ";
   display: table;
 }
 
 /* line 62, ../scss/_helpers.scss */
-.clearfix:after, #container:after {
+.clearfix:after, #container:after, section:after {
   clear: both;
 }
 
 /* line 66, ../scss/_helpers.scss */
-.clearfix, #container {
+.clearfix, #container, section {
   *zoom: 1;
 }
 
@@ -638,7 +639,7 @@ table {
 /* line 25, ../scss/main.scss */
 body {
   background: #484644;
-  color: #fefefe;
+  color: #f2f2f2;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
 }
@@ -702,9 +703,9 @@ section {
   border-bottom: 1px solid #484644;
 }
 
-/* line 80, ../scss/main.scss */
+/* line 81, ../scss/main.scss */
 input {
-  background: #fefefe;
+  background: #f2f2f2;
   color: #484644;
   padding: 4px 8px;
   margin: 4px;
@@ -716,6 +717,41 @@ input {
   border-radius: 4px;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
+}
+/* line 83, ../scss/main.scss */
+input:hover {
+  background: white;
+}
+
+/**
+ * Voting Actions & Results Section
+ */
+/* line 98, ../scss/main.scss */
+#votingActions {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  padding: 0 4px;
+  margin: 0.25em auto;
+  border: 1px solid #5d5a58;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background: #333230;
+  -webkit-box-shadow: #222222 0px 0px 5px inset;
+  -moz-box-shadow: #222222 0px 0px 5px inset;
+  box-shadow: #222222 0px 0px 5px inset;
+}
+/* line 113, ../scss/main.scss */
+#votingActions input {
+  width: 48%;
+  margin: 6px 0;
+}
+/* line 116, ../scss/main.scss */
+#votingActions input:first-child {
+  margin-right: 2%;
 }
 
 /* line 2, ../scss/_originalstyles.scss */
