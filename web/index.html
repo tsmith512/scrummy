@@ -24,13 +24,13 @@
   </div>
 
   <div id="container">
-
+    <section id="top"></section>
     <section id="dSignIn" class="signin-form">
       <h2>Log In</h2>
-      <div class="signin-inside">
-        <input type="input" id="txtName" />
-        <input value="Sign in" type="button" id="btnSignIn" onclick='signIn()' />
-      </div><!--/.signin-inside-->
+      <div id="loginActions">
+        <input type="text" id="txtName" />
+        <input type="button" value="Go" id="btnSignIn" onclick='signIn()' />
+      </div><!--/#loginActions-->
     </section><!--#/dSignIn-->
 
     <section id="votingResult" style="display:none">
@@ -45,7 +45,7 @@
       <h2 id="nickname-display"></h2>
       <div class="cards"></div>
     </section><!--/#dVote-->
-
+    <section id="bottom"></section>
   </div><!--/#container-->
 
 </body>

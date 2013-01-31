@@ -17,11 +17,11 @@ $(document).ready(function(){
 function signIn(){
   cli = new client();
   myNick = $('#txtName').val();
+
   cli.send('signIn',{ 'nickname' : myNick }, function(res,msg){
     if(!res){
       alert(msg);
-    }else{
-      console.log(msg);
+    } else {
       voteValues = msg.points;
       $(voteValues).each(function(index,item){
         $('.cards')
@@ -32,11 +32,9 @@ function signIn(){
       mySid = msg.sid; // Set "my" Socket ID
       $(currentUsers).each(function(i,e){ addUserToDiv(e.sid, e.nickname); })
 
-      $('#dSignIn').hide();
-      $('#playersHand').show();
+      $('#dSignIn').slideUp();
       $('#nickname-display').text(myNick);
-      $('#votingResult').show();
-      $('#dSignIn').hide();
+      $('#votingResult, #playersHand').slideDown();
       showCards();
     }
   });
@@ -52,16 +50,10 @@ function clientReveal(e){
 }
 
 function showCards() {
-  var cardDivs = $('.card:hidden');
-  if(cardDivs.length <=0)
-    return;
-  var item = cardDivs[0];
-  $(item).animate(
-    {
-      opacity:'show'
-    },200,function(){
-      showCards();
-    });
+  var newCards = $('.card:hidden');
+  newCards.each(function(i){
+    $(this).delay(250*i).fadeIn(300);
+  });
 }
 
 function vote(sender){

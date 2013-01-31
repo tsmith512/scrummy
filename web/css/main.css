@@ -684,6 +684,7 @@ a {
   width: 90%;
   max-width: 1000px;
   margin: 2em auto;
+  padding: 1em;
   border: 1px solid #151211;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -696,15 +697,27 @@ a {
   background: #312928;
 }
 
-/* line 78, ../scss/main.scss */
+/* line 79, ../scss/main.scss */
 section {
   padding: 1em;
-  margin: 1em;
-  border-top: 1px solid #312928;
-  border-bottom: 1px solid #312928;
+  border-top: 1px solid #4d403f;
+  border-bottom: 1px solid #151211;
+  /* Hide outermost borders on these adjustment sections */
+}
+/* line 86, ../scss/main.scss */
+section#top {
+  border-top: 0;
+}
+/* line 87, ../scss/main.scss */
+section#bottom {
+  border-bottom: 0;
+}
+/* line 88, ../scss/main.scss */
+section#top, section#bottom {
+  padding: 0;
 }
 
-/* line 86, ../scss/main.scss */
+/* line 91, ../scss/main.scss */
 input {
   background: #f2f2f2;
   color: #312928;
@@ -719,45 +732,87 @@ input {
   font-family: "Fjalla One", sans-serif;
   font-weight: 400;
 }
-/* line 88, ../scss/main.scss */
+/* line 93, ../scss/main.scss */
 input:hover {
   background: white;
 }
 
 /**
- * Voting Actions & Results Section
+ * Shared Login and Voting Form Styles
  */
-/* line 103, ../scss/main.scss */
-#votingActions {
+/* line 108, ../scss/main.scss */
+#loginActions, #votingActions {
   width: 90%;
   max-width: 400px;
   text-align: center;
   padding: 0 4px;
   margin: 0.25em auto;
   border: 1px solid #473c3a;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
   background: #1b1616;
   -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
   -moz-box-shadow: #1f1a19 0px 0px 5px inset;
   box-shadow: #1f1a19 0px 0px 5px inset;
 }
-/* line 118, ../scss/main.scss */
-#votingActions input {
-  width: 48%;
+/* line 123, ../scss/main.scss */
+#loginActions input, #votingActions input {
   margin: 6px 0;
 }
-/* line 121, ../scss/main.scss */
-#votingActions input:first-child {
+/* line 125, ../scss/main.scss */
+#loginActions input:first-child, #votingActions input:first-child {
   margin-right: 2%;
 }
+/* line 128, ../scss/main.scss */
+#loginActions input[type="button"], #votingActions input[type="button"] {
+  color: #e3dfe3;
+  text-shadow: black 1px 1px 0;
+  background: #0e536e;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0e536e), color-stop(100%, #083141));
+  background-image: -webkit-linear-gradient(#0e536e, #083141);
+  background-image: -moz-linear-gradient(#0e536e, #083141);
+  background-image: -o-linear-gradient(#0e536e, #083141);
+  background-image: linear-gradient(#0e536e, #083141);
+  border: 1px solid #083141;
+}
+/* line 137, ../scss/main.scss */
+#loginActions input[type="button"]:hover, #votingActions input[type="button"]:hover {
+  text-shadow: #230800 1px 1px 0;
+  background: #fc5426;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ec3503), color-stop(100%, #871f02));
+  background-image: -webkit-linear-gradient(#ec3503, #871f02);
+  background-image: -moz-linear-gradient(#ec3503, #871f02);
+  background-image: -o-linear-gradient(#ec3503, #871f02);
+  background-image: linear-gradient(#ec3503, #871f02);
+  border: 1px solid #551301;
+}
 
-/* line 127, ../scss/main.scss */
+/**
+ * Login Form
+ */
+/* line 152, ../scss/main.scss */
+#loginActions input[type="text"] {
+  width: 72%;
+}
+/* line 156, ../scss/main.scss */
+#loginActions input[type="button"] {
+  width: 24%;
+}
+
+/**
+ * Voting Actions & Results Section
+ */
+/* line 166, ../scss/main.scss */
+#votingActions input {
+  width: 48%;
+}
+
+/* line 173, ../scss/main.scss */
 #clients .client {
-  width: 20%;
+  width: 8em;
   float: left;
   padding: 0.5em;
   margin: 0.5em;
@@ -773,34 +828,34 @@ input:hover {
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
 }
-/* line 141, ../scss/main.scss */
+/* line 187, ../scss/main.scss */
 #clients .client.voted {
   -webkit-box-shadow: #1f1a19 0px 0px 15px;
   -moz-box-shadow: #1f1a19 0px 0px 15px;
   box-shadow: #1f1a19 0px 0px 15px;
 }
-/* line 142, ../scss/main.scss */
+/* line 188, ../scss/main.scss */
 #clients .client.voted .nickname:first-letter {
   color: #d71414;
 }
-/* line 146, ../scss/main.scss */
+/* line 192, ../scss/main.scss */
 #clients .client .vote {
   display: none;
 }
-/* line 148, ../scss/main.scss */
+/* line 194, ../scss/main.scss */
 #votingResult.reveal #clients .client {
   background-image: none;
 }
-/* line 150, ../scss/main.scss */
+/* line 196, ../scss/main.scss */
 #votingResult.reveal #clients .client .vote {
   display: block;
 }
-/* line 152, ../scss/main.scss */
+/* line 198, ../scss/main.scss */
 #votingResult.reveal #clients .client .nickname {
   color: #1f1a19;
   text-shadow: none;
 }
-/* line 160, ../scss/main.scss */
+/* line 206, ../scss/main.scss */
 #clients .nickname {
   text-transform: uppercase;
   font-size: 1.25em;
@@ -810,12 +865,12 @@ input:hover {
   padding: 0.25em 0.125em 0.25em 0.125em;
   margin-bottom: 0.25em;
 }
-/* line 172, ../scss/main.scss */
+/* line 218, ../scss/main.scss */
 #clients .vote-wrap {
   min-height: 8.75em;
   text-align: center;
 }
-/* line 176, ../scss/main.scss */
+/* line 222, ../scss/main.scss */
 #clients .vote-wrap .vote {
   padding: 0.5em 0;
   font-size: 4em;
@@ -824,15 +879,49 @@ input:hover {
   font-weight: 400;
   text-shadow: #1f1a19 1px 1px 0px;
 }
+/* line 231, ../scss/main.scss */
+html.flexbox #clients {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  align-items: stretch;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-flex-pack: justify;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+/* line 254, ../scss/main.scss */
+html.flexbox #clients .client {
+  display: block;
+  -webkit-flex: none;
+  -moz-flex: none;
+  -ms-flex: none;
+  flex: none;
+  float: none;
+}
+/* line 264, ../scss/main.scss */
+html.flexbox #clients .client:first-child {
+  margin-left: 0;
+}
 
 /**
  * The Cards
  */
-/* line 189, ../scss/main.scss */
+/* line 272, ../scss/main.scss */
 #playersHand {
   display: flex;
 }
-/* line 192, ../scss/main.scss */
+/* line 275, ../scss/main.scss */
 #playersHand .card {
   position: relative;
   float: left;
@@ -850,20 +939,16 @@ input:hover {
   margin: 2em -2em 0 0;
   min-height: 8em;
   min-width: 6em;
-  -webkit-transition: all 0.25s;
-  -moz-transition: all 0.25s;
-  -o-transition: all 0.25s;
-  transition: all 0.25s;
 }
-/* line 211, ../scss/main.scss */
+/* line 294, ../scss/main.scss */
 #playersHand .card:hover {
   margin-top: 1.5em;
 }
-/* line 213, ../scss/main.scss */
+/* line 296, ../scss/main.scss */
 #playersHand .card:hover .card-text {
   color: #d71414;
 }
-/* line 216, ../scss/main.scss */
+/* line 299, ../scss/main.scss */
 #playersHand .card.selected {
   margin-top: 0em;
   -webkit-transition: all 0.55s;
@@ -876,16 +961,50 @@ input:hover {
   -o-transform: rotate(-5deg) scale(1.1);
   transform: rotate(-5deg) scale(1.1);
 }
-/* line 218, ../scss/main.scss */
+/* line 301, ../scss/main.scss */
 #playersHand .card.selected .card-text {
   color: #d71414;
 }
-/* line 225, ../scss/main.scss */
+/* line 308, ../scss/main.scss */
 #playersHand .card-text {
   font-size: 1.75em;
   color: #1f1a19;
   font-family: "Stint Ultra Expanded", cursive;
   font-weight: 400;
+}
+/* line 314, ../scss/main.scss */
+html.flexbox #playersHand .cards {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-flex-pack: justify;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+/* line 337, ../scss/main.scss */
+html.flexbox #playersHand .cards .card {
+  display: block;
+  -webkit-flex: none;
+  -moz-flex: none;
+  -ms-flex: none;
+  flex: none;
+  float: none;
+}
+/* line 347, ../scss/main.scss */
+html.flexbox #playersHand .cards .card:last-child {
+  margin-right: 0;
 }
 
 /* line 2, ../scss/_originalstyles.scss */
