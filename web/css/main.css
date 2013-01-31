@@ -224,7 +224,7 @@ kbd,
 pre,
 samp {
   font-family: monospace, serif;
-  _font-family: "courier new", monospace;
+  _font-family: 'courier new', monospace;
   font-size: 1em;
 }
 
@@ -375,7 +375,7 @@ form {
  */
 /* line 372, ../scss/_normalize.scss */
 fieldset {
-  border: 1px solid silver;
+  border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -640,13 +640,13 @@ section:after {
 body {
   background: #2b8045;
   color: #f2f2f2;
-  font-family: "Fjalla One", sans-serif;
+  font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
 }
 
 /* line 35, ../scss/main.scss */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Stint Ultra Expanded", cursive;
+  font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
   color: #fc5426;
   text-align: center;
@@ -729,7 +729,7 @@ input {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  font-family: "Fjalla One", sans-serif;
+  font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
 }
 /* line 93, ../scss/main.scss */
@@ -875,7 +875,7 @@ input:hover {
   padding: 0.5em 0;
   font-size: 4em;
   color: #d71414;
-  font-family: "Stint Ultra Expanded", cursive;
+  font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
   text-shadow: #1f1a19 1px 1px 0px;
 }
@@ -939,6 +939,10 @@ html.flexbox #clients .client:first-child {
   margin: 2em -2em 0 0;
   min-height: 8em;
   min-width: 6em;
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  transition: all 0.25s;
 }
 /* line 294, ../scss/main.scss */
 #playersHand .card:hover {
@@ -969,7 +973,7 @@ html.flexbox #clients .client:first-child {
 #playersHand .card-text {
   font-size: 1.75em;
   color: #1f1a19;
-  font-family: "Stint Ultra Expanded", cursive;
+  font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
 }
 /* line 314, ../scss/main.scss */
@@ -1022,7 +1026,7 @@ html.flexbox #playersHand .cards .card:last-child {
   float: left;
   height: 170px;
   margin: 5px;
-  border: 2px solid #c3c3e5;
+  border: 2px solid #C3C3E5;
 }
 
 /* line 17, ../scss/_originalstyles.scss */
@@ -1034,7 +1038,7 @@ html.flexbox #playersHand .cards .card:last-child {
 .image-text {
   line-height: 170px;
   text-align: center;
-  font-family: "Bradley Hand ITC", cursive;
+  font-family: 'Bradley Hand ITC', cursive;
   font-size: 55px;
 }
 
@@ -1048,7 +1052,7 @@ html.flexbox #playersHand .cards .card:last-child {
   margin-right: auto;
   margin-bottom: 5px;
   margin-top: 5px;
-  border: 2px solid #c3c3e5;
+  border: 2px solid #C3C3E5;
 }
 
 /* line 38, ../scss/_originalstyles.scss */
@@ -1064,5 +1068,5 @@ html.flexbox #playersHand .cards .card:last-child {
 
 /* line 45, ../scss/_originalstyles.scss */
 .voted {
-  border: 3px solid #00ff3c;
+  border: 3px solid #00FF3C;
 }
