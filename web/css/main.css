@@ -1,0 +1,1076 @@
+/* normalize.css v1.1.0 | MIT License | git.io/normalize */
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+/* line 22, ../scss/_normalize.scss */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/**
+ * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+/* line 32, ../scss/_normalize.scss */
+audio,
+canvas,
+video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+/* line 43, ../scss/_normalize.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
+ * Known issue: no IE 6 support.
+ */
+/* line 53, ../scss/_normalize.scss */
+[hidden] {
+  display: none;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+/**
+ * 1. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+/* line 68, ../scss/_normalize.scss */
+html {
+  font-size: 100%;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+/* line 83, ../scss/_normalize.scss */
+html,
+button,
+input,
+select,
+textarea {
+  font-family: sans-serif;
+}
+
+/**
+ * Address margins handled incorrectly in IE 6/7.
+ */
+/* line 91, ../scss/_normalize.scss */
+body {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Links
+   ========================================================================== */
+/**
+ * Address `outline` inconsistency between Chrome and other browsers.
+ */
+/* line 103, ../scss/_normalize.scss */
+a:focus {
+  outline: thin dotted;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+/* line 112, ../scss/_normalize.scss */
+a:active,
+a:hover {
+  outline: 0;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+/**
+ * Address font sizes and margins set differently in IE 6/7.
+ * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
+ */
+/* line 126, ../scss/_normalize.scss */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* line 131, ../scss/_normalize.scss */
+h2 {
+  font-size: 1.5em;
+  margin: 0.83em 0;
+}
+
+/* line 136, ../scss/_normalize.scss */
+h3 {
+  font-size: 1.17em;
+  margin: 1em 0;
+}
+
+/* line 141, ../scss/_normalize.scss */
+h4 {
+  font-size: 1em;
+  margin: 1.33em 0;
+}
+
+/* line 146, ../scss/_normalize.scss */
+h5 {
+  font-size: 0.83em;
+  margin: 1.67em 0;
+}
+
+/* line 151, ../scss/_normalize.scss */
+h6 {
+  font-size: 0.67em;
+  margin: 2.33em 0;
+}
+
+/**
+ * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
+ */
+/* line 160, ../scss/_normalize.scss */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/**
+ * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
+/* line 169, ../scss/_normalize.scss */
+b,
+strong {
+  font-weight: bold;
+}
+
+/* line 173, ../scss/_normalize.scss */
+blockquote {
+  margin: 1em 40px;
+}
+
+/**
+ * Address styling not present in Safari 5 and Chrome.
+ */
+/* line 181, ../scss/_normalize.scss */
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Address differences between Firefox and other browsers.
+ * Known issue: no IE 6/7 normalization.
+ */
+/* line 190, ../scss/_normalize.scss */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+/**
+ * Address styling not present in IE 6/7/8/9.
+ */
+/* line 200, ../scss/_normalize.scss */
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/**
+ * Address margins set differently in IE 6/7.
+ */
+/* line 210, ../scss/_normalize.scss */
+p,
+pre {
+  margin: 1em 0;
+}
+
+/**
+ * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
+ */
+/* line 221, ../scss/_normalize.scss */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, serif;
+  _font-family: 'courier new', monospace;
+  font-size: 1em;
+}
+
+/**
+ * Improve readability of pre-formatted text in all browsers.
+ */
+/* line 231, ../scss/_normalize.scss */
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/**
+ * Address CSS quotes not supported in IE 6/7.
+ */
+/* line 241, ../scss/_normalize.scss */
+q {
+  quotes: none;
+}
+
+/**
+ * Address `quotes` property not supported in Safari 4.
+ */
+/* line 250, ../scss/_normalize.scss */
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+/* line 259, ../scss/_normalize.scss */
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+/* line 268, ../scss/_normalize.scss */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+/* line 275, ../scss/_normalize.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 279, ../scss/_normalize.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* ==========================================================================
+   Lists
+   ========================================================================== */
+/**
+ * Address margins set differently in IE 6/7.
+ */
+/* line 294, ../scss/_normalize.scss */
+dl,
+menu,
+ol,
+ul {
+  margin: 1em 0;
+}
+
+/* line 298, ../scss/_normalize.scss */
+dd {
+  margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+/* line 308, ../scss/_normalize.scss */
+menu,
+ol,
+ul {
+  padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+/* line 317, ../scss/_normalize.scss */
+nav ul,
+nav ol {
+  list-style: none;
+  list-style-image: none;
+}
+
+/* ==========================================================================
+   Embedded content
+   ========================================================================== */
+/**
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improve image quality when scaled in IE 7.
+ */
+/* line 331, ../scss/_normalize.scss */
+img {
+  border: 0;
+  /* 1 */
+  -ms-interpolation-mode: bicubic;
+  /* 2 */
+}
+
+/**
+ * Correct overflow displayed oddly in IE 9.
+ */
+/* line 340, ../scss/_normalize.scss */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Figures
+   ========================================================================== */
+/**
+ * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
+ */
+/* line 352, ../scss/_normalize.scss */
+figure {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+/* line 364, ../scss/_normalize.scss */
+form {
+  margin: 0;
+}
+
+/**
+ * Define consistent border, margin, and padding.
+ */
+/* line 372, ../scss/_normalize.scss */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct color not being inherited in IE 6/7/8/9.
+ * 2. Correct text not wrapping in Firefox 3.
+ * 3. Correct alignment displayed oddly in IE 6/7.
+ */
+/* line 384, ../scss/_normalize.scss */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  white-space: normal;
+  /* 2 */
+  *margin-left: -7px;
+  /* 3 */
+}
+
+/**
+ * 1. Correct font size not being inherited in all browsers.
+ * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improve appearance and consistency in all browsers.
+ */
+/* line 401, ../scss/_normalize.scss */
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+  vertical-align: baseline;
+  /* 3 */
+  *vertical-align: middle;
+  /* 3 */
+}
+
+/**
+ * Address Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+/* line 414, ../scss/_normalize.scss */
+button,
+input {
+  line-height: normal;
+}
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+ */
+/* line 426, ../scss/_normalize.scss */
+button,
+select {
+  text-transform: none;
+}
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
+ */
+/* line 443, ../scss/_normalize.scss */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+  cursor: pointer;
+  /* 3 */
+  *overflow: visible;
+  /* 4 */
+}
+
+/**
+ * Re-set default cursor for disabled elements.
+ */
+/* line 454, ../scss/_normalize.scss */
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+/**
+ * 1. Address box sizing set to content-box in IE 8/9.
+ * 2. Remove excess padding in IE 8/9.
+ * 3. Remove excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
+ */
+/* line 466, ../scss/_normalize.scss */
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+  *height: 13px;
+  /* 3 */
+  *width: 13px;
+  /* 3 */
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
+ */
+/* line 479, ../scss/_normalize.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box;
+}
+
+/**
+ * Remove inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
+ */
+/* line 492, ../scss/_normalize.scss */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Remove inner padding and border in Firefox 3+.
+ */
+/* line 501, ../scss/_normalize.scss */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/**
+ * 1. Remove default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improve readability and alignment in all browsers.
+ */
+/* line 511, ../scss/_normalize.scss */
+textarea {
+  overflow: auto;
+  /* 1 */
+  vertical-align: top;
+  /* 2 */
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+/* line 524, ../scss/_normalize.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ==========================================================================
+   Helper classes and Preferred Defaults
+   ========================================================================== */
+/* apply a natural box layout model to all elements */
+/* line 6, ../scss/_helpers.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 12, ../scss/_helpers.scss */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+
+/* line 19, ../scss/_helpers.scss */
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 100%;
+}
+
+/* line 26, ../scss/_helpers.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* line 31, ../scss/_helpers.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 43, ../scss/_helpers.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* line 52, ../scss/_helpers.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 57, ../scss/_helpers.scss */
+.clearfix:before, #container:before, section:before,
+.clearfix:after,
+#container:after,
+section:after {
+  content: " ";
+  display: table;
+}
+
+/* line 62, ../scss/_helpers.scss */
+.clearfix:after, #container:after, section:after {
+  clear: both;
+}
+
+/* line 66, ../scss/_helpers.scss */
+.clearfix, #container, section {
+  *zoom: 1;
+}
+
+/* line 87, ../scss/_helpers.scss */
+.listreset, .listreset ul, .listreset ol, .listreset li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Set up basic colors and typefaces */
+/* line 29, ../scss/main.scss */
+body {
+  background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
+  color: #f2f2f2;
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
+}
+
+/* line 35, ../scss/main.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Stint Ultra Expanded', cursive;
+  font-weight: 400;
+  color: #fc5426;
+  text-align: center;
+}
+
+/* line 41, ../scss/main.scss */
+a {
+  color: #0e536e;
+  text-decoration: none;
+}
+
+/* line 46, ../scss/main.scss */
+::-moz-selection, ::selection {
+  background: #0e536e;
+  color: #e3dfe3;
+  text-shadow: none;
+}
+
+/* Layout */
+/* line 53, ../scss/main.scss */
+#logo {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2em auto;
+}
+/* line 58, ../scss/main.scss */
+#logo h1 {
+  color: #e3dfe3;
+  text-shadow: #1f1a19 1px 1px 0;
+  text-align: center;
+}
+
+/* line 65, ../scss/main.scss */
+#container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2em auto;
+  padding: 1em;
+  border: 1px solid #151211;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
+  -moz-box-shadow: #1f1a19 0px 0px 25px inset;
+  box-shadow: #1f1a19 0px 0px 25px inset;
+  background: #312928 url("../gfx/pit_bg_wood.jpg") center center repeat;
+}
+
+/* line 79, ../scss/main.scss */
+section {
+  padding: 1em;
+  border-top: 1px solid #4d403f;
+  border-bottom: 1px solid #151211;
+  /* Hide outermost borders on these adjustment sections */
+}
+/* line 86, ../scss/main.scss */
+section#top {
+  border-top: 0;
+}
+/* line 87, ../scss/main.scss */
+section#bottom {
+  border-bottom: 0;
+}
+/* line 88, ../scss/main.scss */
+section#top, section#bottom {
+  padding: 0;
+}
+
+/* line 91, ../scss/main.scss */
+input {
+  background: #f2f2f2;
+  color: #312928;
+  padding: 4px 8px;
+  margin: 4px;
+  border: 1px solid #e3dfe3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
+}
+/* line 93, ../scss/main.scss */
+input:hover {
+  background: white;
+}
+
+/**
+ * Shared Login and Voting Form Styles
+ */
+/* line 108, ../scss/main.scss */
+#loginActions, #votingActions {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  padding: 0 4px;
+  margin: 0.25em auto;
+  border: 1px solid #473c3a;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  background: #1b1616;
+  -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
+  -moz-box-shadow: #1f1a19 0px 0px 5px inset;
+  box-shadow: #1f1a19 0px 0px 5px inset;
+}
+/* line 123, ../scss/main.scss */
+#loginActions input, #votingActions input {
+  margin: 6px 0;
+}
+/* line 125, ../scss/main.scss */
+#loginActions input:first-child, #votingActions input:first-child {
+  margin-right: 2%;
+}
+/* line 128, ../scss/main.scss */
+#loginActions input[type="button"], #loginActions input[type="submit"], #votingActions input[type="button"], #votingActions input[type="submit"] {
+  color: #e3dfe3;
+  text-shadow: black 1px 1px 0;
+  background: #0e536e;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0e536e), color-stop(100%, #083141));
+  background-image: -webkit-linear-gradient(#0e536e, #083141);
+  background-image: -moz-linear-gradient(#0e536e, #083141);
+  background-image: -o-linear-gradient(#0e536e, #083141);
+  background-image: linear-gradient(#0e536e, #083141);
+  border: 1px solid #083141;
+}
+/* line 137, ../scss/main.scss */
+#loginActions input[type="button"]:hover, #loginActions input[type="submit"]:hover, #votingActions input[type="button"]:hover, #votingActions input[type="submit"]:hover {
+  text-shadow: #230800 1px 1px 0;
+  background: #fc5426;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ec3503), color-stop(100%, #871f02));
+  background-image: -webkit-linear-gradient(#ec3503, #871f02);
+  background-image: -moz-linear-gradient(#ec3503, #871f02);
+  background-image: -o-linear-gradient(#ec3503, #871f02);
+  background-image: linear-gradient(#ec3503, #871f02);
+  border: 1px solid #551301;
+}
+
+/**
+ * Login Form
+ */
+/* line 152, ../scss/main.scss */
+#loginActions input[type="text"] {
+  width: 72%;
+}
+/* line 156, ../scss/main.scss */
+#loginActions input[type="button"], #loginActions input[type="submit"] {
+  width: 24%;
+}
+
+/**
+ * Voting Actions & Results Section
+ */
+/* line 166, ../scss/main.scss */
+#votingActions input {
+  width: 48%;
+}
+
+/* line 173, ../scss/main.scss */
+#clients .client {
+  width: 8em;
+  float: left;
+  padding: 0.5em;
+  margin: 0.5em;
+  overflow: hidden;
+  border: 4px solid #e5e5e5;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  background: url("../gfx/card_art_fk.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  -webkit-box-shadow: #1f1a19 0px 0px 10px;
+  -moz-box-shadow: #1f1a19 0px 0px 10px;
+  box-shadow: #1f1a19 0px 0px 10px;
+}
+/* line 191, ../scss/main.scss */
+#clients .client.voted {
+  -webkit-box-shadow: #1f1a19 0px 0px 15px;
+  -moz-box-shadow: #1f1a19 0px 0px 15px;
+  box-shadow: #1f1a19 0px 0px 15px;
+}
+/* line 192, ../scss/main.scss */
+#clients .client.voted .nickname:first-letter {
+  color: #fc5426;
+}
+/* line 196, ../scss/main.scss */
+#clients .client .vote {
+  display: none;
+}
+/* line 198, ../scss/main.scss */
+#votingResult.reveal #clients .client {
+  background-image: none;
+}
+/* line 200, ../scss/main.scss */
+#votingResult.reveal #clients .client .vote {
+  display: block;
+}
+/* line 202, ../scss/main.scss */
+#votingResult.reveal #clients .client .nickname {
+  color: #1f1a19;
+  text-shadow: none;
+}
+/* line 204, ../scss/main.scss */
+#votingResult.reveal #clients .client .nickname:first-letter {
+  color: #d71414;
+}
+/* line 211, ../scss/main.scss */
+#clients .nickname {
+  text-transform: uppercase;
+  font-size: 1.125em;
+  letter-spacing: 3px;
+  color: #e3dfe3;
+  text-shadow: #1f1a19 1px 1px 0;
+  padding: 0.25em 0.125em 0.25em 0.125em;
+  margin-bottom: 0.25em;
+}
+/* line 223, ../scss/main.scss */
+#clients .vote-wrap {
+  min-height: 8.75em;
+  text-align: center;
+}
+/* line 227, ../scss/main.scss */
+#clients .vote-wrap .vote {
+  padding: 0.5em 0;
+  font-size: 4em;
+  color: #d71414;
+  font-family: 'Stint Ultra Expanded', cursive;
+  font-weight: 400;
+  text-shadow: #1f1a19 1px 1px 0px;
+}
+/* line 236, ../scss/main.scss */
+html.flexbox #clients {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  align-items: stretch;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-flex-pack: justify;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+/* line 259, ../scss/main.scss */
+html.flexbox #clients .client {
+  display: block;
+  -webkit-flex: none;
+  -moz-flex: none;
+  -ms-flex: none;
+  flex: none;
+  float: none;
+}
+/* line 269, ../scss/main.scss */
+html.flexbox #clients .client:first-child {
+  margin-left: 0;
+}
+
+/**
+ * The Cards
+ */
+/* line 277, ../scss/main.scss */
+#playersHand {
+  display: flex;
+}
+/* line 280, ../scss/main.scss */
+#playersHand .card {
+  position: relative;
+  float: left;
+  border: 1px solid #d7d1d7;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  background: #f2f2f2 url("../gfx/card_art_science.svg") center 70% no-repeat;
+  -webkit-box-shadow: #312928 0px 0px 10px;
+  -moz-box-shadow: #312928 0px 0px 10px;
+  box-shadow: #312928 0px 0px 10px;
+  padding: 0.25em 0.5em;
+  margin: 2em -2em 0 0;
+  min-height: 8em;
+  min-width: 6em;
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  transition: all 0.25s;
+}
+/* line 299, ../scss/main.scss */
+#playersHand .card:hover {
+  margin-top: 1.5em;
+}
+/* line 301, ../scss/main.scss */
+#playersHand .card:hover .card-text {
+  color: #d71414;
+}
+/* line 304, ../scss/main.scss */
+#playersHand .card.selected {
+  margin-top: 0em;
+  -webkit-transition: all 0.55s;
+  -moz-transition: all 0.55s;
+  -o-transition: all 0.55s;
+  transition: all 0.55s;
+  -webkit-transform: rotate(-5deg) scale(1.1);
+  -moz-transform: rotate(-5deg) scale(1.1);
+  -ms-transform: rotate(-5deg) scale(1.1);
+  -o-transform: rotate(-5deg) scale(1.1);
+  transform: rotate(-5deg) scale(1.1);
+}
+/* line 306, ../scss/main.scss */
+#playersHand .card.selected .card-text {
+  color: #d71414;
+}
+/* line 313, ../scss/main.scss */
+#playersHand .card-text {
+  font-size: 1.75em;
+  color: #1f1a19;
+  font-family: 'Stint Ultra Expanded', cursive;
+  font-weight: 400;
+}
+/* line 319, ../scss/main.scss */
+html.flexbox #playersHand .cards {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-flex-pack: justify;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+/* line 342, ../scss/main.scss */
+html.flexbox #playersHand .cards .card {
+  display: block;
+  -webkit-flex: none;
+  -moz-flex: none;
+  -ms-flex: none;
+  flex: none;
+  float: none;
+}
+/* line 352, ../scss/main.scss */
+html.flexbox #playersHand .cards .card:last-child {
+  margin-right: 0;
+}
+
+/* line 2, ../scss/_originalstyles.scss */
+.vote-form {
+  margin: 0 auto;
+  width: 550px;
+  text-align: center;
+}
+
+/* line 8, ../scss/_originalstyles.scss */
+.image {
+  position: relative;
+  cursor: hand;
+  width: 120px;
+  float: left;
+  height: 170px;
+  margin: 5px;
+  border: 2px solid #C3C3E5;
+}
+
+/* line 17, ../scss/_originalstyles.scss */
+.image-selected {
+  border: 2px solid grey;
+}
+
+/* line 20, ../scss/_originalstyles.scss */
+.image-text {
+  line-height: 170px;
+  text-align: center;
+  font-family: 'Bradley Hand ITC', cursive;
+  font-size: 55px;
+}
+
+/* line 26, ../scss/_originalstyles.scss */
+.image-admin {
+  position: relative;
+  cursor: hand;
+  width: 120px;
+  height: 170px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border: 2px solid #C3C3E5;
+}
+
+/* line 38, ../scss/_originalstyles.scss */
+.clear {
+  clear: both;
+}
+
+/* line 41, ../scss/_originalstyles.scss */
+.vote-item {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* line 45, ../scss/_originalstyles.scss */
+.voted {
+  border: 3px solid #00FF3C;
+}

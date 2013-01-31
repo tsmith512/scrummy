@@ -1,0 +1,358 @@
+// Colors:
+// Neutrals
+$bright: #f2f2f2;
+$light:  #E3DFE3;
+$low:    #312928;
+$dark:   #1F1A19;
+
+// Accents
+$orange: #FC5426;
+$blue:   #0E536E;
+$green:  #2B8045;
+$red:    #D71414;
+
+// Typefaces:
+@mixin fjalla { font-family: 'Fjalla One', sans-serif;        font-weight: 400; }
+@mixin stint  { font-family: 'Stint Ultra Expanded', cursive; font-weight: 400; }
+
+// HTML5 Boilerplate Normalize
+@import "normalize";
+
+// Helper styles with various mixins and extendables, set border-box
+@import "helpers";
+
+// Include Compass Helpers
+@import "compass/css3";
+
+
+/* Set up basic colors and typefaces */
+body {
+  background: $green url('../gfx/table_bg_green.gif') center center repeat;
+  color: $bright;
+  @include fjalla;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include stint;
+  color: $orange;
+  text-align: center;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+::-moz-selection, ::selection {
+  background: $blue;
+  color: $light;
+  text-shadow: none;
+}
+
+/* Layout */
+#logo {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2em auto;
+
+  h1 {
+    color: $light;
+    @include text-shadow($dark 1px 1px 0);
+    text-align: center;
+  }
+}
+
+#container {
+  @extend .clearfix;
+  width: 90%;
+  max-width: 1000px;
+
+  margin: 2em auto;
+  padding: 1em;
+
+  border: 1px solid darken($low, 10%);
+  @include border-radius(10px);
+  @include box-shadow($dark 0px 0px 25px inset);
+  background: $low url('../gfx/pit_bg_wood.jpg') center center repeat;
+}
+
+section {
+  @extend .clearfix;
+  padding: 1em;
+  border-top: 1px solid lighten($low, 10%);
+  border-bottom: 1px solid darken($low, 10%);
+
+  /* Hide outermost borders on these adjustment sections */
+  &#top { border-top: 0; }
+  &#bottom { border-bottom: 0; }
+  &#top, &#bottom { padding: 0; }
+}
+
+input {
+  background: $bright;
+  &:hover { background: white; }
+
+  color: $low;
+
+  padding: 4px 8px;
+  margin: 4px;
+  border: 1px solid $light;
+  @include border-radius(4px);
+
+  @include fjalla;
+}
+
+/**
+ * Shared Login and Voting Form Styles
+ */
+#loginActions, #votingActions {
+  width: 90%;
+  max-width: 400px;
+
+  text-align: center;
+
+  padding: 0 4px;
+  margin: 0.25em auto;
+
+  border: 1px solid lighten($low, 8%);
+  @include border-radius(10px);
+
+  background: darken($low, 8%);
+  @include box-shadow($dark 0px 0px 5px inset);
+
+  input {
+    margin: 6px 0;
+    &:first-child { margin-right: 2%; }
+  }
+
+  input[type="button"], input[type="submit"] {
+    color: $light;
+    @include text-shadow( darken($blue, 25%) 1px 1px 0 );
+
+    background: $blue;
+    @include background-image( linear-gradient($blue, darken($blue, 10%)) );
+
+    border: 1px solid darken($blue, 10%);
+
+    &:hover {
+      @include text-shadow( darken($orange, 50%) 1px 1px 0 );
+
+      background: $orange;
+      @include background-image( linear-gradient( darken($orange, 10%), darken($orange, 30%)) );
+
+      border: 1px solid darken($orange, 40%);
+    }
+  }
+}
+
+/**
+ * Login Form
+ */
+#loginActions {
+  input[type="text"] {
+    width: 72%;
+  }
+
+  input[type="button"], input[type="submit"] {
+    width: 24%;
+  }
+
+}
+
+/**
+ * Voting Actions & Results Section
+ */
+#votingActions {
+  input {
+    width: 48%;
+  }
+}
+
+#clients {
+
+  .client {
+    width: 8em;
+    float: left;
+
+    padding: 0.5em;
+    margin: 0.5em;
+
+    overflow: hidden;
+    border: 4px solid darken($bright, 5%);
+    @include border-radius(10px);
+
+    background:
+      url('../gfx/card_art_fk.svg') center center no-repeat,
+      url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
+      $bright;
+    // background-size: (152px/2) (152px/2);
+    @include box-shadow($dark 0px 0px 10px);
+
+    &.voted {
+      .nickname:first-letter { color: $orange; }
+      @include box-shadow($dark 0px 0px 15px);
+    }
+
+    .vote { display: none; }
+
+    #votingResult.reveal & {
+      background-image: none;
+      .vote { display: block; }
+
+      .nickname {
+        color: $dark;
+        &:first-letter { color: $red; }
+        @include text-shadow(none);
+      }
+
+    }
+  }
+
+  .nickname {
+    text-transform: uppercase;
+    font-size: 1.125em;
+    letter-spacing: 3px;
+    color: $light;
+
+    @include text-shadow($dark 1px 1px 0);
+
+    padding: 0.25em 0.125em 0.25em 0.125em;
+    margin-bottom: 0.25em;
+  }
+
+  .vote-wrap {
+    min-height: 8.75em;
+    text-align: center;
+
+    .vote {
+      padding: 0.5em 0;
+      font-size: 4em;
+      color: $red;
+      @include stint;
+      @include text-shadow($dark 1px 1px 0px);
+    }
+  }
+
+  html.flexbox & {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+
+    -webkit-align-items: stretch;
+    -moz-align-items: stretch;
+    -ms-align-items: stretch;
+    align-items: stretch;
+
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-flex-pack:justify;
+    -ms-justify-content:center;
+    justify-content:center;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-flow: row wrap;
+
+    .client {
+      display: block;
+
+      -webkit-flex: none;
+      -moz-flex:    none;
+      -ms-flex:     none;
+      flex:         none;
+
+      float: none;
+
+      &:first-child { margin-left: 0; }
+    }
+  }
+}
+
+/**
+ * The Cards
+ */
+#playersHand {
+  display: flex;
+
+  .card {
+    position: relative;
+
+    float: left;
+
+    border: 1px solid darken($light, 5%);
+    @include border-radius(8px);
+
+    background: $bright url('../gfx/card_art_science.svg') center 70% no-repeat;
+    @include box-shadow($low 0px 0px 10px);
+
+    padding: 0.25em 0.5em;
+    margin: 2em -2em 0 0;
+
+    min-height: 8em;
+    min-width: 6em;
+
+    @include transition(all 0.25s);
+
+    &:hover {
+      margin-top: 1.5em;
+      .card-text { color: $red; }
+    }
+
+    &.selected {
+      margin-top: 0em;
+      .card-text { color: $red; }
+
+      @include transition(all 0.55s);
+      @include transform( rotate(-5deg) scale(1.1) );
+    }
+  }
+
+  .card-text {
+    font-size: 1.75em;
+    color: $dark;
+    @include stint;
+  }
+
+  html.flexbox & .cards {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+
+    -webkit-align-items: center;
+    -moz-align-items:    center;
+    -ms-align-items:     center;
+    align-items:         center;
+
+    -webkit-justify-content: center;
+    -moz-justify-content:    center;
+    -ms-flex-pack:           justify;
+    -ms-justify-content:     center;
+    justify-content          :center;
+
+    -webkit-flex-flow:  row wrap;
+    -moz-flex-flow:     row wrap;
+    -ms-flex-direction: row;
+    -ms-flex-wrap:      wrap;
+    flex-flow:          row wrap;
+
+    .card {
+      display: block;
+
+      -webkit-flex: none;
+      -moz-flex:    none;
+      -ms-flex:     none;
+      flex:         none;
+
+      float: none;
+
+      &:last-child { margin-right: 0; }
+    }
+  }
+}
+
+// Original styles from project author
+@import "originalstyles";
