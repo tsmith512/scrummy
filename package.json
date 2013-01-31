@@ -1,10 +1,20 @@
 {
-  "name": "web-planning-poker",
+  "name": "scrummy",
+  "description": "A Scrum planning and estimation game from Four Kitchens",
   "version": "0.1.0",
-  "engines": {
-    "node":      "0.8.x",
-    "npm":       "1.1.x",
-    "express":   "3.1.x",
+  "scripts": {
+    "start": "node scrum_cards_server.js"
+  },
+  "dependencies": {
+    "npm": "1.1.x",
+    "express": "3.1.x",
     "socket.io": "0.9.x"
+  },
+  "engines": {
+    "node": "0.8.x"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/tsmith512/Web-Planning-Poker.git"
   }
 }
