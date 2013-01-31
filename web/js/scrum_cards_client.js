@@ -71,12 +71,13 @@ function showCards() {
   });
 }
 
-function vote(sender){
+function vote(card){
   $('.card').removeClass('selected');
-  var number = $(sender).children('.card-text').text();
-  cli.send('vote',{ 'sid' : mySid, 'number' : number },null);
-  $(sender).addClass('selected');
-  $('#btnVote').attr('disabled','disabled');
+  var number = $(card).children('.card-text').text();
+  cli.send('vote',{ 'sid' : mySid, 'number' : number }, function(res,msg){
+    if(!res){ alert(msg); return false; }
+    $(card).addClass('selected');
+  });
 }
 
 function displayClient(sid, nickname){

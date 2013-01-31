@@ -27,8 +27,15 @@ io.sockets.on('connection',function(socket){
     fn(true,{ 'sid' : client.sid, 'points' : config.points, 'users' : bucket} );
   });
 
-  socket.on('vote',function(data){
-    io.sockets.emit('voteOccured', data);
+  socket.on('vote',function(data, fn){
+    /* Check to make sure the vote provided is in the array of possible responses */
+    if ( config.points.indexOf(data.number) < 0 ) {
+      fn(false, 'Invalid vote');
+      return false;
+    } else {
+      fn(true);
+      io.sockets.emit('voteOccured', data);
+    }
   });
 
   socket.on('reset',function(){
