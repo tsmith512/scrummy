@@ -638,7 +638,7 @@ section:after {
 /* Set up basic colors and typefaces */
 /* line 29, ../scss/main.scss */
 body {
-  background: #2b8045;
+  background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
   color: #f2f2f2;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
@@ -694,7 +694,7 @@ a {
   -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
   -moz-box-shadow: #1f1a19 0px 0px 25px inset;
   box-shadow: #1f1a19 0px 0px 25px inset;
-  background: #312928;
+  background: #312928 url("../gfx/pit_bg_wood.jpg") center center repeat;
 }
 
 /* line 79, ../scss/main.scss */
@@ -817,45 +817,46 @@ input:hover {
   padding: 0.5em;
   margin: 0.5em;
   overflow: hidden;
-  border: 1px solid #231d1d;
+  border: 3px solid #e5e5e5;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  background: #f2f2f2 url("../gfx/card_back_bg_grey.png") center center repeat;
+  background: #f2f2f2 url("../gfx/card_back_bg_greenplaid.png") center center repeat;
+  background-size: 76px 76px;
   -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
 }
-/* line 187, ../scss/main.scss */
+/* line 188, ../scss/main.scss */
 #clients .client.voted {
   -webkit-box-shadow: #1f1a19 0px 0px 15px;
   -moz-box-shadow: #1f1a19 0px 0px 15px;
   box-shadow: #1f1a19 0px 0px 15px;
 }
-/* line 188, ../scss/main.scss */
+/* line 189, ../scss/main.scss */
 #clients .client.voted .nickname:first-letter {
   color: #d71414;
 }
-/* line 192, ../scss/main.scss */
+/* line 193, ../scss/main.scss */
 #clients .client .vote {
   display: none;
 }
-/* line 194, ../scss/main.scss */
+/* line 195, ../scss/main.scss */
 #votingResult.reveal #clients .client {
   background-image: none;
 }
-/* line 196, ../scss/main.scss */
+/* line 197, ../scss/main.scss */
 #votingResult.reveal #clients .client .vote {
   display: block;
 }
-/* line 198, ../scss/main.scss */
+/* line 199, ../scss/main.scss */
 #votingResult.reveal #clients .client .nickname {
   color: #1f1a19;
   text-shadow: none;
 }
-/* line 206, ../scss/main.scss */
+/* line 207, ../scss/main.scss */
 #clients .nickname {
   text-transform: uppercase;
   font-size: 1.25em;
@@ -865,12 +866,12 @@ input:hover {
   padding: 0.25em 0.125em 0.25em 0.125em;
   margin-bottom: 0.25em;
 }
-/* line 218, ../scss/main.scss */
+/* line 219, ../scss/main.scss */
 #clients .vote-wrap {
   min-height: 8.75em;
   text-align: center;
 }
-/* line 222, ../scss/main.scss */
+/* line 223, ../scss/main.scss */
 #clients .vote-wrap .vote {
   padding: 0.5em 0;
   font-size: 4em;
@@ -879,7 +880,7 @@ input:hover {
   font-weight: 400;
   text-shadow: #1f1a19 1px 1px 0px;
 }
-/* line 231, ../scss/main.scss */
+/* line 232, ../scss/main.scss */
 html.flexbox #clients {
   display: -webkit-flex;
   display: -moz-flex;
@@ -900,7 +901,7 @@ html.flexbox #clients {
   -ms-flex-wrap: wrap;
   flex-flow: row wrap;
 }
-/* line 254, ../scss/main.scss */
+/* line 255, ../scss/main.scss */
 html.flexbox #clients .client {
   display: block;
   -webkit-flex: none;
@@ -909,7 +910,7 @@ html.flexbox #clients .client {
   flex: none;
   float: none;
 }
-/* line 264, ../scss/main.scss */
+/* line 265, ../scss/main.scss */
 html.flexbox #clients .client:first-child {
   margin-left: 0;
 }
@@ -917,11 +918,11 @@ html.flexbox #clients .client:first-child {
 /**
  * The Cards
  */
-/* line 272, ../scss/main.scss */
+/* line 273, ../scss/main.scss */
 #playersHand {
   display: flex;
 }
-/* line 275, ../scss/main.scss */
+/* line 276, ../scss/main.scss */
 #playersHand .card {
   position: relative;
   float: left;
@@ -944,15 +945,15 @@ html.flexbox #clients .client:first-child {
   -o-transition: all 0.25s;
   transition: all 0.25s;
 }
-/* line 294, ../scss/main.scss */
+/* line 295, ../scss/main.scss */
 #playersHand .card:hover {
   margin-top: 1.5em;
 }
-/* line 296, ../scss/main.scss */
+/* line 297, ../scss/main.scss */
 #playersHand .card:hover .card-text {
   color: #d71414;
 }
-/* line 299, ../scss/main.scss */
+/* line 300, ../scss/main.scss */
 #playersHand .card.selected {
   margin-top: 0em;
   -webkit-transition: all 0.55s;
@@ -965,18 +966,18 @@ html.flexbox #clients .client:first-child {
   -o-transform: rotate(-5deg) scale(1.1);
   transform: rotate(-5deg) scale(1.1);
 }
-/* line 301, ../scss/main.scss */
+/* line 302, ../scss/main.scss */
 #playersHand .card.selected .card-text {
   color: #d71414;
 }
-/* line 308, ../scss/main.scss */
+/* line 309, ../scss/main.scss */
 #playersHand .card-text {
   font-size: 1.75em;
   color: #1f1a19;
   font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
 }
-/* line 314, ../scss/main.scss */
+/* line 315, ../scss/main.scss */
 html.flexbox #playersHand .cards {
   display: -webkit-flex;
   display: -moz-flex;
@@ -997,7 +998,7 @@ html.flexbox #playersHand .cards {
   -ms-flex-wrap: wrap;
   flex-flow: row wrap;
 }
-/* line 337, ../scss/main.scss */
+/* line 338, ../scss/main.scss */
 html.flexbox #playersHand .cards .card {
   display: block;
   -webkit-flex: none;
@@ -1006,7 +1007,7 @@ html.flexbox #playersHand .cards .card {
   flex: none;
   float: none;
 }
-/* line 347, ../scss/main.scss */
+/* line 348, ../scss/main.scss */
 html.flexbox #playersHand .cards .card:last-child {
   margin-right: 0;
 }

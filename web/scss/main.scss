@@ -27,7 +27,7 @@ $red:    #D71414;
 
 /* Set up basic colors and typefaces */
 body {
-  background: $green;
+  background: $green url('../gfx/table_bg_green.gif') center center repeat;
   color: $bright;
   @include fjalla;
 }
@@ -73,7 +73,7 @@ a {
   border: 1px solid darken($low, 10%);
   @include border-radius(10px);
   @include box-shadow($dark 0px 0px 25px inset);
-  background: $low;
+  background: $low url('../gfx/pit_bg_wood.jpg') center center repeat;
 }
 
 section {
@@ -178,10 +178,11 @@ input {
     margin: 0.5em;
 
     overflow: hidden;
-    border: 1px solid darken($low, 5%);
+    border: 3px solid darken($bright, 5%);
     @include border-radius(10px);
 
-    background: $bright url('../gfx/card_back_bg_grey.png') center center repeat;
+    background: $bright url('../gfx/card_back_bg_greenplaid.png') center center repeat;
+    background-size: (152px/2) (152px/2);
     @include box-shadow($dark 0px 0px 10px);
 
     &.voted {
