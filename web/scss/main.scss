@@ -52,7 +52,7 @@ a {
 
   h1 {
     color: $light;
-    @include text-shadow($dark 1px 1px 1px);
+    @include text-shadow($dark 1px 1px 0);
     text-align: center;
   }
 }
@@ -117,6 +117,51 @@ input {
   }
 }
 
+#clients {
+
+  .client {
+    width: 20%;
+    float: left;
+
+    padding: 0.5em;
+    margin: 0.5em;
+
+    border: 1px solid darken($blue, 35%);
+    @include border-radius(4px);
+
+    background: darken($blue, 30%);
+    @include box-shadow($dark 0px 0px 25px inset, $dark 0px 0px 5px);
+
+    &.voted {
+      background: darken($blue, 25%);
+      .nickname { color: $bright; }
+    }
+  }
+
+  .nickname {
+    text-align: center;
+    font-size: 1.25em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $light;
+    @include text-shadow($dark 1px 1px 0);
+
+    padding: 0.25em 0.125em 0.25em 0.125em;
+    border-bottom: 1px dotted darken($blue, 35%);
+    margin-bottom: 0.25em;
+  }
+
+  .vote-wrap {
+    min-height: 4em;
+    text-align: center;
+
+    .vote {
+      font-size: 3.5em;
+      @include stint;
+      @include text-shadow($dark 2px 2px 1px);
+    }
+  }
+}
 
 
 // Original styles from project author

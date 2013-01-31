@@ -674,7 +674,7 @@ a {
 /* line 53, ../scss/main.scss */
 #logo h1 {
   color: #efe6e4;
-  text-shadow: #222222 1px 1px 1px;
+  text-shadow: #222222 1px 1px 0;
   text-align: center;
 }
 
@@ -754,6 +754,56 @@ input:hover {
   margin-right: 2%;
 }
 
+/* line 122, ../scss/main.scss */
+#clients .client {
+  width: 20%;
+  float: left;
+  padding: 0.5em;
+  margin: 0.5em;
+  border: 1px solid #031f4f;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background: #042968;
+  -webkit-box-shadow: #222222 0px 0px 25px inset, #222222 0px 0px 5px;
+  -moz-box-shadow: #222222 0px 0px 25px inset, #222222 0px 0px 5px;
+  box-shadow: #222222 0px 0px 25px inset, #222222 0px 0px 5px;
+}
+/* line 135, ../scss/main.scss */
+#clients .client.voted {
+  background: #053380;
+}
+/* line 137, ../scss/main.scss */
+#clients .client.voted .nickname {
+  color: #f2f2f2;
+}
+/* line 141, ../scss/main.scss */
+#clients .nickname {
+  text-align: center;
+  font-size: 1.25em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #efe6e4;
+  text-shadow: #222222 1px 1px 0;
+  padding: 0.25em 0.125em 0.25em 0.125em;
+  border-bottom: 1px dotted #031f4f;
+  margin-bottom: 0.25em;
+}
+/* line 154, ../scss/main.scss */
+#clients .vote-wrap {
+  min-height: 4em;
+  text-align: center;
+}
+/* line 158, ../scss/main.scss */
+#clients .vote-wrap .vote {
+  font-size: 3.5em;
+  font-family: 'Stint Ultra Expanded', cursive;
+  font-weight: 400;
+  text-shadow: #222222 2px 2px 1px;
+}
+
 /* line 2, ../scss/_originalstyles.scss */
 .vote-form {
   margin: 0 auto;
@@ -804,36 +854,12 @@ input:hover {
 }
 
 /* line 41, ../scss/_originalstyles.scss */
-#clients {
-  margin: auto;
-}
-
-/* line 44, ../scss/_originalstyles.scss */
-.vote-user {
-  width: 200px;
-  text-align: center;
-  border: 3px solid #C3C3E5;
-  padding-left: 3px;
-  padding-top: 3px;
-  padding-right: 3px;
-  padding-bottom: 10px;
-  margin: 5px;
-  float: left;
-}
-
-/* line 55, ../scss/_originalstyles.scss */
-.vote-username {
-  width: 120px;
-  font-size: 25px;
-}
-
-/* line 60, ../scss/_originalstyles.scss */
 .vote-item {
   margin: 0 auto;
   text-align: center;
 }
 
-/* line 64, ../scss/_originalstyles.scss */
+/* line 45, ../scss/_originalstyles.scss */
 .voted {
   border: 3px solid #00FF3C;
 }

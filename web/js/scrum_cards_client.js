@@ -43,23 +43,15 @@ function signIn(){
 }
 function clientReset(e){
   $('#dVote .image').removeClass('image-selected');
-  $('#votingResult .image-text').text('').hide();
+  $('#votingResult .vote').text('').hide();
   $('#votingResult #clients').children().removeClass('voted');
   $('.image').removeClass('image-selected');
 }
 function clientReveal(e){
-  $('.image-text').show();
+  $('.vote').show();
 }
 
-
-function adminDisconnected(e){
-  alert('Admin has disconnected. Please try and reconnect');
-  $('#dSignIn').show();
-  $('#dVote').hide();
-}
-
-function showCards()
-{
+function showCards() {
   var cardDivs = $('.image:hidden');
   if(cardDivs.length <=0)
     return;
@@ -85,18 +77,17 @@ function vote(sender){
  */
 
 function addUserToDiv(sid, nickname){
-  div = document.createElement('div');
-  $(div).attr('id',sid);
-  $(div).append('<span class=\'vote-nickname\'>'+nickname+'</span>');
-  $(div).append('<div class=\'clear\'></div>');
-  $(div).addClass('vote-user');
-  $(div).append('<div class=\'image-admin\'><span style=\'display:none\' class=\'image-text\'></span></div>');
-  $('#clients').append(div);
+  $('<div />')
+    .attr('id', sid)
+    .addClass('client')
+    .append('<div class="nickname">'+nickname+'</div>')
+    .append('<div class="vote-wrap"><span class="vote" style="display:none"></span></div>')
+    .appendTo('#clients');
 }
 
 function addVote(sid,vote){
   $('.image-text').hide();
-  $('#'+sid+' .image-text').text(vote);
+  $('#'+sid+' .vote').text(vote);
   $('#'+sid).addClass('voted');
 }
 function resetVote(){
