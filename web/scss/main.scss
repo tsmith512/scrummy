@@ -178,15 +178,18 @@ input {
     margin: 0.5em;
 
     overflow: hidden;
-    border: 3px solid darken($bright, 5%);
+    border: 4px solid darken($bright, 5%);
     @include border-radius(10px);
 
-    background: $bright url('../gfx/card_back_bg_greenplaid.png') center center repeat;
-    background-size: (152px/2) (152px/2);
+    background:
+      url('../gfx/card_art_fk.svg') center center no-repeat,
+      url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
+      $bright;
+    // background-size: (152px/2) (152px/2);
     @include box-shadow($dark 0px 0px 10px);
 
     &.voted {
-      .nickname:first-letter { color: $red; }
+      .nickname:first-letter { color: $orange; }
       @include box-shadow($dark 0px 0px 15px);
     }
 
@@ -198,6 +201,7 @@ input {
 
       .nickname {
         color: $dark;
+        &:first-letter { color: $red; }
         @include text-shadow(none);
       }
 
@@ -206,7 +210,7 @@ input {
 
   .nickname {
     text-transform: uppercase;
-    font-size: 1.25em;
+    font-size: 1.125em;
     letter-spacing: 3px;
     color: $light;
 
@@ -281,7 +285,7 @@ input {
     border: 1px solid darken($light, 5%);
     @include border-radius(8px);
 
-    background: $bright;
+    background: $bright url('../gfx/card_art_science.svg') center 70% no-repeat;
     @include box-shadow($low 0px 0px 10px);
 
     padding: 0.25em 0.5em;
