@@ -12,11 +12,18 @@ $(document).ready(function(){
   document.addEventListener('clientDisconnected',clientDisconnected,true);
   document.addEventListener('clientReset',clientReset,false);
   document.addEventListener('clientReveal',clientReveal,false);
+
+  /* On form submit, execute signIn() but don't actually post/get or reload */
+  $("#loginActions form").submit(function(){ signIn(); return false; })
+
+  /* Setup the reveal and restore buttons in #votingActions */
+  $("#btnReveal").click(function(){ revealVotes(); });
+  $("#btnReset").click(function(){ resetVotes(); });
 });
 
 function signIn(){
   cli = new client();
-  myNick = $('#txtName').val();
+  myNick = $('#txtNickname').val();
 
   cli.send('signIn',{ 'nickname' : myNick }, function(res,msg){
     if(!res){
@@ -64,10 +71,6 @@ function vote(sender){
   $('#btnVote').attr('disabled','disabled');
 }
 
-/**
- * Functions from Admin script before it was merged into the client/admin interface
- */
-
 function addUserToDiv(sid, nickname){
   $('<div />')
     .attr('id', sid)
@@ -82,7 +85,8 @@ function addVote(sid,vote){
   $('#'+sid+' .vote').text(vote);
   $('#'+sid).addClass('voted');
 }
-function resetVote(){
+
+function resetVotes(){
   cli.send('reset',null,null);
 }
 

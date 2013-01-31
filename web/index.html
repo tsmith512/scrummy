@@ -27,16 +27,16 @@
     <section id="top"></section>
     <section id="dSignIn" class="signin-form">
       <h2>Log In</h2>
-      <div id="loginActions"><form onsubmit="signIn(); return false;">
-        <input type="text" id="txtName" />
+      <div id="loginActions"><form>
+        <input type="text" id="txtNickname" />
         <input type="submit" value="Go" id="btnSignIn" />
       </form></div><!--/#loginActions-->
     </section><!--#/dSignIn-->
 
     <section id="votingResult" style="display:none">
       <div id="votingActions">
-        <input type="button" id="btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
-        <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
+        <input type="button" id="btnReveal" value="Reveal" />
+        <input type="button" id="btnReset" value="Reset" />
       </div><!--/#votingActions-->
       <div id="clients"></div>
     </section><!--/#votingResult-->
