@@ -13,7 +13,7 @@ io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
     for ( client in bucket ) {
-      if (client.nickname == data.nickname) {
+      if (data.nickname.toLowerCase() == bucket[client].nickname.toLowerCase() ) {
         fn( false, 'Nickname already in use.' );
         return;
       }
