@@ -23,9 +23,9 @@ function signIn(){
     }else{
       console.log(msg);
       voteValues = msg.points;
-      var imagesDiv = $('.images');
       $(voteValues).each(function(index,item){
-        $(imagesDiv).append('<div style=\'display:none\' class=\'image\' onclick=\'vote(this)\'><span class=\'image-text\'>'+ item + '</span></div>');
+        $('.cards')
+          .append('<div style="display:none" class="card" onclick="vote(this)"><span class="card-text">'+ item + '</span></div>');
       });
 
       currentUsers = msg.users;
@@ -33,8 +33,8 @@ function signIn(){
       $(currentUsers).each(function(i,e){ addUserToDiv(e.sid, e.nickname); })
 
       $('#dSignIn').hide();
-      $('#dVote').show();
-      $('#spanUser').text(myNick);
+      $('#playersHand').show();
+      $('#nickname-display').text(myNick);
       $('#votingResult').show();
       $('#dSignIn').hide();
       showCards();
@@ -42,17 +42,17 @@ function signIn(){
   });
 }
 function clientReset(e){
-  $('#dVote .image').removeClass('image-selected');
-  $('#votingResult .vote').text('').hide();
-  $('#votingResult #clients').children().removeClass('voted');
-  $('.image').removeClass('image-selected');
+  $('#playersHand .card').removeClass('selected');
+  $('#votingResult .vote').text('');
+  $('#votingResult .client').removeClass('voted');
+  $('#votingResult').removeClass('reveal');
 }
 function clientReveal(e){
-  $('.vote').show();
+  $('#votingResult').addClass('reveal');
 }
 
 function showCards() {
-  var cardDivs = $('.image:hidden');
+  var cardDivs = $('.card:hidden');
   if(cardDivs.length <=0)
     return;
   var item = cardDivs[0];
@@ -65,10 +65,10 @@ function showCards() {
 }
 
 function vote(sender){
-  $('.image').removeClass('image-selected');
-  var number = $(sender).children('.image-text').text();
+  $('.card').removeClass('selected');
+  var number = $(sender).children('.card-text').text();
   cli.send('vote',{ 'sid' : mySid, 'number' : number },null);
-  $(sender).addClass('image-selected');
+  $(sender).addClass('selected');
   $('#btnVote').attr('disabled','disabled');
 }
 
@@ -81,12 +81,12 @@ function addUserToDiv(sid, nickname){
     .attr('id', sid)
     .addClass('client')
     .append('<div class="nickname">'+nickname+'</div>')
-    .append('<div class="vote-wrap"><span class="vote" style="display:none"></span></div>')
+    .append('<div class="vote-wrap"><span class="vote"></span></div>')
     .appendTo('#clients');
 }
 
 function addVote(sid,vote){
-  $('.image-text').hide();
+  $('#votingResult .card-text');
   $('#'+sid+' .vote').text(vote);
   $('#'+sid).addClass('voted');
 }

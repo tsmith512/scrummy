@@ -224,7 +224,7 @@ kbd,
 pre,
 samp {
   font-family: monospace, serif;
-  _font-family: 'courier new', monospace;
+  _font-family: "courier new", monospace;
   font-size: 1em;
 }
 
@@ -375,7 +375,7 @@ form {
  */
 /* line 372, ../scss/_normalize.scss */
 fieldset {
-  border: 1px solid #c0c0c0;
+  border: 1px solid silver;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -636,89 +636,90 @@ section:after {
 }
 
 /* Set up basic colors and typefaces */
-/* line 25, ../scss/main.scss */
+/* line 29, ../scss/main.scss */
 body {
-  background: #484644;
+  background: #2b8045;
   color: #f2f2f2;
-  font-family: 'Fjalla One', sans-serif;
+  font-family: "Fjalla One", sans-serif;
   font-weight: 400;
 }
 
-/* line 31, ../scss/main.scss */
+/* line 35, ../scss/main.scss */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Stint Ultra Expanded', cursive;
+  font-family: "Stint Ultra Expanded", cursive;
   font-weight: 400;
-  color: #f68810;
-}
-
-/* line 36, ../scss/main.scss */
-a {
-  color: #1065f5;
-  text-decoration: none;
+  color: #fc5426;
+  text-align: center;
 }
 
 /* line 41, ../scss/main.scss */
+a {
+  color: #0e536e;
+  text-decoration: none;
+}
+
+/* line 46, ../scss/main.scss */
 ::-moz-selection, ::selection {
-  background: #1065f5;
-  color: #efe6e4;
+  background: #0e536e;
+  color: #e3dfe3;
   text-shadow: none;
 }
 
 /* Layout */
-/* line 48, ../scss/main.scss */
+/* line 53, ../scss/main.scss */
 #logo {
   width: 90%;
   max-width: 1000px;
   margin: 2em auto;
 }
-/* line 53, ../scss/main.scss */
+/* line 58, ../scss/main.scss */
 #logo h1 {
-  color: #efe6e4;
-  text-shadow: #222222 1px 1px 0;
+  color: #e3dfe3;
+  text-shadow: #1f1a19 1px 1px 0;
   text-align: center;
 }
 
-/* line 60, ../scss/main.scss */
+/* line 65, ../scss/main.scss */
 #container {
   width: 90%;
   max-width: 1000px;
   margin: 2em auto;
-  border: 1px solid #2e2d2b;
+  border: 1px solid #151211;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  -webkit-box-shadow: #222222 0px 0px 10px inset;
-  -moz-box-shadow: #222222 0px 0px 10px inset;
-  box-shadow: #222222 0px 0px 10px inset;
-  background: #555350;
+  -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
+  -moz-box-shadow: #1f1a19 0px 0px 25px inset;
+  box-shadow: #1f1a19 0px 0px 25px inset;
+  background: #312928;
 }
 
-/* line 73, ../scss/main.scss */
+/* line 78, ../scss/main.scss */
 section {
   padding: 1em;
   margin: 1em;
-  border-top: 1px solid #484644;
-  border-bottom: 1px solid #484644;
+  border-top: 1px solid #312928;
+  border-bottom: 1px solid #312928;
 }
 
-/* line 81, ../scss/main.scss */
+/* line 86, ../scss/main.scss */
 input {
   background: #f2f2f2;
-  color: #484644;
+  color: #312928;
   padding: 4px 8px;
   margin: 4px;
-  border: 1px solid #999999;
+  border: 1px solid #e3dfe3;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  font-family: 'Fjalla One', sans-serif;
+  font-family: "Fjalla One", sans-serif;
   font-weight: 400;
 }
-/* line 83, ../scss/main.scss */
+/* line 88, ../scss/main.scss */
 input:hover {
   background: white;
 }
@@ -726,82 +727,165 @@ input:hover {
 /**
  * Voting Actions & Results Section
  */
-/* line 98, ../scss/main.scss */
+/* line 103, ../scss/main.scss */
 #votingActions {
   width: 90%;
   max-width: 400px;
   text-align: center;
   padding: 0 4px;
   margin: 0.25em auto;
-  border: 1px solid #5d5a58;
+  border: 1px solid #473c3a;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  background: #333230;
-  -webkit-box-shadow: #222222 0px 0px 5px inset;
-  -moz-box-shadow: #222222 0px 0px 5px inset;
-  box-shadow: #222222 0px 0px 5px inset;
+  background: #1b1616;
+  -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
+  -moz-box-shadow: #1f1a19 0px 0px 5px inset;
+  box-shadow: #1f1a19 0px 0px 5px inset;
 }
-/* line 113, ../scss/main.scss */
+/* line 118, ../scss/main.scss */
 #votingActions input {
   width: 48%;
   margin: 6px 0;
 }
-/* line 116, ../scss/main.scss */
+/* line 121, ../scss/main.scss */
 #votingActions input:first-child {
   margin-right: 2%;
 }
 
-/* line 122, ../scss/main.scss */
+/* line 127, ../scss/main.scss */
 #clients .client {
   width: 20%;
   float: left;
   padding: 0.5em;
   margin: 0.5em;
-  border: 1px solid #031f4f;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-  background: #042968;
-  -webkit-box-shadow: #222222 0px 0px 25px inset, #222222 0px 0px 5px;
-  -moz-box-shadow: #222222 0px 0px 25px inset, #222222 0px 0px 5px;
-  box-shadow: #222222 0px 0px 25px inset, #222222 0px 0px 5px;
-}
-/* line 135, ../scss/main.scss */
-#clients .client.voted {
-  background: #053380;
-}
-/* line 137, ../scss/main.scss */
-#clients .client.voted .nickname {
-  color: #f2f2f2;
+  overflow: hidden;
+  border: 1px solid #231d1d;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  background: #f2f2f2 url("../gfx/card_back_bg_grey.png") center center repeat;
+  -webkit-box-shadow: #1f1a19 0px 0px 10px;
+  -moz-box-shadow: #1f1a19 0px 0px 10px;
+  box-shadow: #1f1a19 0px 0px 10px;
 }
 /* line 141, ../scss/main.scss */
+#clients .client.voted {
+  -webkit-box-shadow: #1f1a19 0px 0px 15px;
+  -moz-box-shadow: #1f1a19 0px 0px 15px;
+  box-shadow: #1f1a19 0px 0px 15px;
+}
+/* line 142, ../scss/main.scss */
+#clients .client.voted .nickname:first-letter {
+  color: #d71414;
+}
+/* line 146, ../scss/main.scss */
+#clients .client .vote {
+  display: none;
+}
+/* line 148, ../scss/main.scss */
+#votingResult.reveal #clients .client {
+  background-image: none;
+}
+/* line 150, ../scss/main.scss */
+#votingResult.reveal #clients .client .vote {
+  display: block;
+}
+/* line 152, ../scss/main.scss */
+#votingResult.reveal #clients .client .nickname {
+  color: #1f1a19;
+  text-shadow: none;
+}
+/* line 160, ../scss/main.scss */
 #clients .nickname {
-  text-align: center;
-  font-size: 1.25em;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #efe6e4;
-  text-shadow: #222222 1px 1px 0;
+  font-size: 1.25em;
+  letter-spacing: 3px;
+  color: #e3dfe3;
+  text-shadow: #1f1a19 1px 1px 0;
   padding: 0.25em 0.125em 0.25em 0.125em;
-  border-bottom: 1px dotted #031f4f;
   margin-bottom: 0.25em;
 }
-/* line 154, ../scss/main.scss */
+/* line 172, ../scss/main.scss */
 #clients .vote-wrap {
-  min-height: 4em;
+  min-height: 8.75em;
   text-align: center;
 }
-/* line 158, ../scss/main.scss */
+/* line 176, ../scss/main.scss */
 #clients .vote-wrap .vote {
-  font-size: 3.5em;
-  font-family: 'Stint Ultra Expanded', cursive;
+  padding: 0.5em 0;
+  font-size: 4em;
+  color: #d71414;
+  font-family: "Stint Ultra Expanded", cursive;
   font-weight: 400;
-  text-shadow: #222222 2px 2px 1px;
+  text-shadow: #1f1a19 1px 1px 0px;
+}
+
+/**
+ * The Cards
+ */
+/* line 189, ../scss/main.scss */
+#playersHand {
+  display: flex;
+}
+/* line 192, ../scss/main.scss */
+#playersHand .card {
+  position: relative;
+  float: left;
+  border: 1px solid #d7d1d7;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  -webkit-box-shadow: #312928 0px 0px 10px;
+  -moz-box-shadow: #312928 0px 0px 10px;
+  box-shadow: #312928 0px 0px 10px;
+  padding: 0.25em 0.5em;
+  margin: 2em -2em 0 0;
+  min-height: 8em;
+  min-width: 6em;
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -o-transition: all 0.25s;
+  transition: all 0.25s;
+}
+/* line 211, ../scss/main.scss */
+#playersHand .card:hover {
+  margin-top: 1.5em;
+}
+/* line 213, ../scss/main.scss */
+#playersHand .card:hover .card-text {
+  color: #d71414;
+}
+/* line 216, ../scss/main.scss */
+#playersHand .card.selected {
+  margin-top: 0em;
+  -webkit-transition: all 0.55s;
+  -moz-transition: all 0.55s;
+  -o-transition: all 0.55s;
+  transition: all 0.55s;
+  -webkit-transform: rotate(-5deg) scale(1.1);
+  -moz-transform: rotate(-5deg) scale(1.1);
+  -ms-transform: rotate(-5deg) scale(1.1);
+  -o-transform: rotate(-5deg) scale(1.1);
+  transform: rotate(-5deg) scale(1.1);
+}
+/* line 218, ../scss/main.scss */
+#playersHand .card.selected .card-text {
+  color: #d71414;
+}
+/* line 225, ../scss/main.scss */
+#playersHand .card-text {
+  font-size: 1.75em;
+  color: #1f1a19;
+  font-family: "Stint Ultra Expanded", cursive;
+  font-weight: 400;
 }
 
 /* line 2, ../scss/_originalstyles.scss */
@@ -819,7 +903,7 @@ input:hover {
   float: left;
   height: 170px;
   margin: 5px;
-  border: 2px solid #C3C3E5;
+  border: 2px solid #c3c3e5;
 }
 
 /* line 17, ../scss/_originalstyles.scss */
@@ -831,7 +915,7 @@ input:hover {
 .image-text {
   line-height: 170px;
   text-align: center;
-  font-family: 'Bradley Hand ITC', cursive;
+  font-family: "Bradley Hand ITC", cursive;
   font-size: 55px;
 }
 
@@ -845,7 +929,7 @@ input:hover {
   margin-right: auto;
   margin-bottom: 5px;
   margin-top: 5px;
-  border: 2px solid #C3C3E5;
+  border: 2px solid #c3c3e5;
 }
 
 /* line 38, ../scss/_originalstyles.scss */
@@ -861,5 +945,5 @@ input:hover {
 
 /* line 45, ../scss/_originalstyles.scss */
 .voted {
-  border: 3px solid #00FF3C;
+  border: 3px solid #00ff3c;
 }
