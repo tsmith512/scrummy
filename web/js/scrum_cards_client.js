@@ -26,24 +26,32 @@ function signIn(){
   myNick = $('#txtNickname').val();
 
   cli.send('signIn',{ 'nickname' : myNick }, function(res,msg){
-    if(!res){
-      alert(msg);
-    } else {
-      voteValues = msg.points;
-      $(voteValues).each(function(index,item){
-        $('.cards')
-          .append('<div style="display:none" class="card" onclick="vote(this)"><span class="card-text">'+ item + '</span></div>');
-      });
+    /* Server returned false; alert with message and bail */
+    if(!res){ alert(msg); return false; }
+      
+    /* Create cards for each item in the Points object */
+    voteValues = msg.points;
+    $(voteValues).each(function(index,item){
+      $('<div />')
+        .hide() /* Hidden for now, showCards() reveals them in sequence */
+        .addClass('card')
+        .click(function(){ vote(this); })
+        .append( $('<span />').addClass('card-text').text(item) )
+        .appendTo('.cards');
+    });
 
-      currentUsers = msg.users;
-      mySid = msg.sid; // Set "my" Socket ID
-      $(currentUsers).each(function(i,e){ addUserToDiv(e.sid, e.nickname); })
+    /* Set client Socket ID for later; it's our identifier server-side */
+    mySid = msg.sid;
 
-      $('#dSignIn').slideUp();
-      $('#nickname-display').text(myNick);
-      $('#votingResult, #playersHand').slideDown();
-      showCards();
-    }
+    /* Server should respond with users already in the game, display them */
+    currentUsers = msg.users;
+    $(currentUsers).each(function(i,e){ displayClient(e.sid, e.nickname); })
+
+    /* Hide the sign-in form, reveal the results panel and the "hand" */
+    $('#nickname-display').text(myNick);
+    $('#dSignIn').slideUp();
+    $('#votingResult, #playersHand').slideDown();
+    showCards();
   });
 }
 function clientReset(e){
@@ -71,7 +79,7 @@ function vote(sender){
   $('#btnVote').attr('disabled','disabled');
 }
 
-function addUserToDiv(sid, nickname){
+function displayClient(sid, nickname){
   $('<div />')
     .attr('id', sid)
     .addClass('client')
@@ -98,7 +106,7 @@ function voteOccured(e){
     addVote(e.sid,e.number);
 }
 function userSignedIn(e){
-    addUserToDiv(e.sid, e.nickname);
+    displayClient(e.sid, e.nickname);
 }
 function clientDisconnected(e){
     $('#'+e.sid).remove();
