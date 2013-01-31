@@ -27,10 +27,10 @@
     <section id="top"></section>
     <section id="dSignIn" class="signin-form">
       <h2>Log In</h2>
-      <div id="loginActions">
+      <div id="loginActions"><form onsubmit="signIn(); return false;">
         <input type="text" id="txtName" />
-        <input type="button" value="Go" id="btnSignIn" onclick='signIn()' />
-      </div><!--/#loginActions-->
+        <input type="submit" value="Go" id="btnSignIn" />
+      </form></div><!--/#loginActions-->
     </section><!--#/dSignIn-->
 
     <section id="votingResult" style="display:none">
