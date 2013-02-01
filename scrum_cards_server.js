@@ -12,19 +12,28 @@ server.listen(config.port);
 io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
+    // Nicknames should be unique, are displayed in uppercase, and should only
+    // contain a small set of characters.
+    var requestedNick = data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'');
+
     for ( client in bucket ) {
-      if (data.nickname.toLowerCase() == bucket[client].nickname.toLowerCase() ) {
+      if (requestedNick == bucket[client].nickname.toLowerCase() ) {
         fn( false, 'Nickname already in use.' );
         return;
       }
     }
 
-    client = {sid: socket.id, nickname: data.nickname}
-    console.log("Client %s connected", data.nickname);
+    client = {sid: socket.id, nickname: requestedNick}
+    console.log("Client %s connected", requestedNick);
 
     bucket.push(client);
     socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
-    fn(true,{ 'sid' : client.sid, 'points' : config.points, 'users' : bucket} );
+    fn(true,{
+      'sid' : client.sid,
+      'nick' : requestedNick,
+      'points' : config.points,
+      'users' : bucket
+    });
   });
 
   socket.on('vote',function(data, fn){

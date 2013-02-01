@@ -43,6 +43,10 @@ function signIn(){
     /* Set client Socket ID for later; it's our identifier server-side */
     mySid = msg.sid;
 
+    /* Use the sanitized nickname from the server so it appears
+     * consistently among clients. */
+    myNick = msg.nickname;
+
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
     $(currentUsers).each(function(i,e){ displayClient(e.sid, e.nickname); })
