@@ -11,6 +11,7 @@ $(document).ready(function(){
   document.addEventListener('userSignedIn',userSignedIn,true);
   document.addEventListener('clientDisconnected',clientDisconnected,true);
   document.addEventListener('clientReset',clientReset,false);
+  document.addEventListener('clientRevoke',clientRevoke,false);
   document.addEventListener('clientReveal',clientReveal,false);
 
   /* On form submit, execute signIn() but don't actually post/get or reload */
@@ -58,12 +59,20 @@ function signIn(){
     showCards();
   });
 }
+
 function clientReset(e){
   $('#playersHand .card').removeClass('selected');
   $('#votingResult .vote').text('');
   $('#votingResult .client').removeClass('voted');
   $('#votingResult').removeClass('reveal');
 }
+
+function clientRevoke(e){
+  $('#votingResult .card-text');
+  $('#' + e.sid + ' .vote').text('');
+  $('#' + e.sid ).removeClass('voted');
+}
+
 function clientReveal(e){
   $('#votingResult').addClass('reveal');
 }
@@ -76,12 +85,27 @@ function showCards() {
 }
 
 function vote(card){
-  $('.card').removeClass('selected');
-  var number = $(card).children('.card-text').text();
-  cli.send('vote',{ 'number' : number }, function(res,msg){
-    if(!res){ alert(msg); return false; }
-    $(card).addClass('selected');
-  });
+  if ( $(card).hasClass('selected') ) {
+    /* The "current" vote has been clicked. We should revoke it. */
+    cli.send('voteRevoke', null, function(res,msg){
+      if(!res){ alert(msg); return false; }
+      $('.card.selected').removeClass('selected');
+    });
+  } else {
+    /* This is not the "current" vote. Send the new one. */
+    
+    // Clear out the old vote.
+    $('.card.selected').removeClass('selected');
+
+    // Get text of the new vote.
+    var number = $(card).children('.card-text').text();
+
+    // Send the new vote.
+    cli.send('vote',{ 'number' : number }, function(res,msg){
+      if(!res){ alert(msg); return false; }
+      $(card).addClass('selected');
+    });
+  }
 }
 
 function displayClient(sid, nickname){
