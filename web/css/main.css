@@ -5,7 +5,6 @@
 /**
  * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
-/* line 22, ../scss/_normalize.scss */
 article,
 aside,
 details,
@@ -24,7 +23,6 @@ summary {
 /**
  * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
-/* line 32, ../scss/_normalize.scss */
 audio,
 canvas,
 video {
@@ -37,7 +35,6 @@ video {
  * Prevent modern browsers from displaying `audio` without controls.
  * Remove excess height in iOS 5 devices.
  */
-/* line 43, ../scss/_normalize.scss */
 audio:not([controls]) {
   display: none;
   height: 0;
@@ -47,7 +44,6 @@ audio:not([controls]) {
  * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
  * Known issue: no IE 6 support.
  */
-/* line 53, ../scss/_normalize.scss */
 [hidden] {
   display: none;
 }
@@ -61,7 +57,6 @@ audio:not([controls]) {
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
-/* line 68, ../scss/_normalize.scss */
 html {
   font-size: 100%;
   /* 1 */
@@ -75,7 +70,6 @@ html {
  * Address `font-family` inconsistency between `textarea` and other form
  * elements.
  */
-/* line 83, ../scss/_normalize.scss */
 html,
 button,
 input,
@@ -87,7 +81,6 @@ textarea {
 /**
  * Address margins handled incorrectly in IE 6/7.
  */
-/* line 91, ../scss/_normalize.scss */
 body {
   margin: 0;
 }
@@ -98,7 +91,6 @@ body {
 /**
  * Address `outline` inconsistency between Chrome and other browsers.
  */
-/* line 103, ../scss/_normalize.scss */
 a:focus {
   outline: thin dotted;
 }
@@ -106,7 +98,6 @@ a:focus {
 /**
  * Improve readability when focused and also mouse hovered in all browsers.
  */
-/* line 112, ../scss/_normalize.scss */
 a:active,
 a:hover {
   outline: 0;
@@ -120,37 +111,31 @@ a:hover {
  * Address font sizes within `section` and `article` in Firefox 4+, Safari 5,
  * and Chrome.
  */
-/* line 126, ../scss/_normalize.scss */
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
 }
 
-/* line 131, ../scss/_normalize.scss */
 h2 {
   font-size: 1.5em;
   margin: 0.83em 0;
 }
 
-/* line 136, ../scss/_normalize.scss */
 h3 {
   font-size: 1.17em;
   margin: 1em 0;
 }
 
-/* line 141, ../scss/_normalize.scss */
 h4 {
   font-size: 1em;
   margin: 1.33em 0;
 }
 
-/* line 146, ../scss/_normalize.scss */
 h5 {
   font-size: 0.83em;
   margin: 1.67em 0;
 }
 
-/* line 151, ../scss/_normalize.scss */
 h6 {
   font-size: 0.67em;
   margin: 2.33em 0;
@@ -159,7 +144,6 @@ h6 {
 /**
  * Address styling not present in IE 7/8/9, Safari 5, and Chrome.
  */
-/* line 160, ../scss/_normalize.scss */
 abbr[title] {
   border-bottom: 1px dotted;
 }
@@ -167,13 +151,11 @@ abbr[title] {
 /**
  * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
  */
-/* line 169, ../scss/_normalize.scss */
 b,
 strong {
   font-weight: bold;
 }
 
-/* line 173, ../scss/_normalize.scss */
 blockquote {
   margin: 1em 40px;
 }
@@ -181,7 +163,6 @@ blockquote {
 /**
  * Address styling not present in Safari 5 and Chrome.
  */
-/* line 181, ../scss/_normalize.scss */
 dfn {
   font-style: italic;
 }
@@ -190,7 +171,6 @@ dfn {
  * Address differences between Firefox and other browsers.
  * Known issue: no IE 6/7 normalization.
  */
-/* line 190, ../scss/_normalize.scss */
 hr {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -200,7 +180,6 @@ hr {
 /**
  * Address styling not present in IE 6/7/8/9.
  */
-/* line 200, ../scss/_normalize.scss */
 mark {
   background: #ff0;
   color: #000;
@@ -209,7 +188,6 @@ mark {
 /**
  * Address margins set differently in IE 6/7.
  */
-/* line 210, ../scss/_normalize.scss */
 p,
 pre {
   margin: 1em 0;
@@ -218,7 +196,6 @@ pre {
 /**
  * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.
  */
-/* line 221, ../scss/_normalize.scss */
 code,
 kbd,
 pre,
@@ -231,7 +208,6 @@ samp {
 /**
  * Improve readability of pre-formatted text in all browsers.
  */
-/* line 231, ../scss/_normalize.scss */
 pre {
   white-space: pre;
   white-space: pre-wrap;
@@ -241,7 +217,6 @@ pre {
 /**
  * Address CSS quotes not supported in IE 6/7.
  */
-/* line 241, ../scss/_normalize.scss */
 q {
   quotes: none;
 }
@@ -249,7 +224,6 @@ q {
 /**
  * Address `quotes` property not supported in Safari 4.
  */
-/* line 250, ../scss/_normalize.scss */
 q:before,
 q:after {
   content: '';
@@ -259,7 +233,6 @@ q:after {
 /**
  * Address inconsistent and variable font size in all browsers.
  */
-/* line 259, ../scss/_normalize.scss */
 small {
   font-size: 80%;
 }
@@ -267,7 +240,6 @@ small {
 /**
  * Prevent `sub` and `sup` affecting `line-height` in all browsers.
  */
-/* line 268, ../scss/_normalize.scss */
 sub,
 sup {
   font-size: 75%;
@@ -276,12 +248,10 @@ sup {
   vertical-align: baseline;
 }
 
-/* line 275, ../scss/_normalize.scss */
 sup {
   top: -0.5em;
 }
 
-/* line 279, ../scss/_normalize.scss */
 sub {
   bottom: -0.25em;
 }
@@ -292,7 +262,6 @@ sub {
 /**
  * Address margins set differently in IE 6/7.
  */
-/* line 294, ../scss/_normalize.scss */
 dl,
 menu,
 ol,
@@ -300,7 +269,6 @@ ul {
   margin: 1em 0;
 }
 
-/* line 298, ../scss/_normalize.scss */
 dd {
   margin: 0 0 0 40px;
 }
@@ -308,7 +276,6 @@ dd {
 /**
  * Address paddings set differently in IE 6/7.
  */
-/* line 308, ../scss/_normalize.scss */
 menu,
 ol,
 ul {
@@ -318,7 +285,6 @@ ul {
 /**
  * Correct list images handled incorrectly in IE 7.
  */
-/* line 317, ../scss/_normalize.scss */
 nav ul,
 nav ol {
   list-style: none;
@@ -332,7 +298,6 @@ nav ol {
  * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
  * 2. Improve image quality when scaled in IE 7.
  */
-/* line 331, ../scss/_normalize.scss */
 img {
   border: 0;
   /* 1 */
@@ -343,7 +308,6 @@ img {
 /**
  * Correct overflow displayed oddly in IE 9.
  */
-/* line 340, ../scss/_normalize.scss */
 svg:not(:root) {
   overflow: hidden;
 }
@@ -354,7 +318,6 @@ svg:not(:root) {
 /**
  * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
  */
-/* line 352, ../scss/_normalize.scss */
 figure {
   margin: 0;
 }
@@ -365,7 +328,6 @@ figure {
 /**
  * Correct margin displayed oddly in IE 6/7.
  */
-/* line 364, ../scss/_normalize.scss */
 form {
   margin: 0;
 }
@@ -373,7 +335,6 @@ form {
 /**
  * Define consistent border, margin, and padding.
  */
-/* line 372, ../scss/_normalize.scss */
 fieldset {
   border: 1px solid #c0c0c0;
   margin: 0 2px;
@@ -385,7 +346,6 @@ fieldset {
  * 2. Correct text not wrapping in Firefox 3.
  * 3. Correct alignment displayed oddly in IE 6/7.
  */
-/* line 384, ../scss/_normalize.scss */
 legend {
   border: 0;
   /* 1 */
@@ -402,7 +362,6 @@ legend {
  *    and Chrome.
  * 3. Improve appearance and consistency in all browsers.
  */
-/* line 401, ../scss/_normalize.scss */
 button,
 input,
 select,
@@ -421,7 +380,6 @@ textarea {
  * Address Firefox 3+ setting `line-height` on `input` using `!important` in
  * the UA stylesheet.
  */
-/* line 414, ../scss/_normalize.scss */
 button,
 input {
   line-height: normal;
@@ -433,7 +391,6 @@ input {
  * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
  * Correct `select` style inheritance in Firefox 4+ and Opera.
  */
-/* line 426, ../scss/_normalize.scss */
 button,
 select {
   text-transform: none;
@@ -448,7 +405,6 @@ select {
  * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
  *    Known issue: inner spacing remains in IE 6.
  */
-/* line 443, ../scss/_normalize.scss */
 button,
 html input[type="button"],
 input[type="reset"],
@@ -464,7 +420,6 @@ input[type="submit"] {
 /**
  * Re-set default cursor for disabled elements.
  */
-/* line 454, ../scss/_normalize.scss */
 button[disabled],
 html input[disabled] {
   cursor: default;
@@ -476,7 +431,6 @@ html input[disabled] {
  * 3. Remove excess padding in IE 7.
  *    Known issue: excess padding remains in IE 6.
  */
-/* line 466, ../scss/_normalize.scss */
 input[type="checkbox"],
 input[type="radio"] {
   box-sizing: border-box;
@@ -494,7 +448,6 @@ input[type="radio"] {
  * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
  *    (include `-moz` to future-proof).
  */
-/* line 479, ../scss/_normalize.scss */
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
@@ -508,7 +461,6 @@ input[type="search"] {
  * Remove inner padding and search cancel button in Safari 5 and Chrome
  * on OS X.
  */
-/* line 492, ../scss/_normalize.scss */
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
@@ -517,7 +469,6 @@ input[type="search"]::-webkit-search-decoration {
 /**
  * Remove inner padding and border in Firefox 3+.
  */
-/* line 501, ../scss/_normalize.scss */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
@@ -528,7 +479,6 @@ input::-moz-focus-inner {
  * 1. Remove default vertical scrollbar in IE 6/7/8/9.
  * 2. Improve readability and alignment in all browsers.
  */
-/* line 511, ../scss/_normalize.scss */
 textarea {
   overflow: auto;
   /* 1 */
@@ -542,7 +492,6 @@ textarea {
 /**
  * Remove most spacing between table cells.
  */
-/* line 524, ../scss/_normalize.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -552,14 +501,12 @@ table {
    Helper classes and Preferred Defaults
    ========================================================================== */
 /* apply a natural box layout model to all elements */
-/* line 6, ../scss/_helpers.scss */
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 12, ../scss/_helpers.scss */
 .ir {
   background-color: transparent;
   border: 0;
@@ -567,7 +514,6 @@ table {
   *text-indent: -9999px;
 }
 
-/* line 19, ../scss/_helpers.scss */
 .ir:before {
   content: "";
   display: block;
@@ -575,13 +521,11 @@ table {
   height: 100%;
 }
 
-/* line 26, ../scss/_helpers.scss */
 .hidden {
   display: none !important;
   visibility: hidden;
 }
 
-/* line 31, ../scss/_helpers.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -593,7 +537,6 @@ table {
   width: 1px;
 }
 
-/* line 43, ../scss/_helpers.scss */
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
   clip: auto;
@@ -604,12 +547,10 @@ table {
   width: auto;
 }
 
-/* line 52, ../scss/_helpers.scss */
 .invisible {
   visibility: hidden;
 }
 
-/* line 57, ../scss/_helpers.scss */
 .clearfix:before, #container:before, section:before,
 .clearfix:after,
 #container:after,
@@ -618,17 +559,14 @@ section:after {
   display: table;
 }
 
-/* line 62, ../scss/_helpers.scss */
 .clearfix:after, #container:after, section:after {
   clear: both;
 }
 
-/* line 66, ../scss/_helpers.scss */
 .clearfix, #container, section {
   *zoom: 1;
 }
 
-/* line 87, ../scss/_helpers.scss */
 .listreset, .listreset ul, .listreset ol, .listreset li {
   list-style: none;
   margin: 0;
@@ -636,7 +574,6 @@ section:after {
 }
 
 /* Set up basic colors and typefaces */
-/* line 40, ../scss/main.scss */
 body {
   background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
   color: #f2f2f2;
@@ -644,7 +581,6 @@ body {
   font-weight: 400;
 }
 
-/* line 46, ../scss/main.scss */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
@@ -652,13 +588,11 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
-/* line 52, ../scss/main.scss */
 a {
   color: #0e536e;
   text-decoration: none;
 }
 
-/* line 57, ../scss/main.scss */
 ::-moz-selection, ::selection {
   background: #0e536e;
   color: #e3dfe3;
@@ -666,13 +600,11 @@ a {
 }
 
 /* Layout */
-/* line 64, ../scss/main.scss */
 #logo {
   width: 96%;
   max-width: 1000px;
   margin: 0.75em auto;
 }
-/* line 70, ../scss/main.scss */
 #logo h1 {
   color: #e3dfe3;
   text-shadow: #1f1a19 1px 1px 0;
@@ -680,19 +612,16 @@ a {
   margin: 0;
 }
 @media (min-width: 680px) {
-  /* line 64, ../scss/main.scss */
   #logo {
     margin: 1em auto;
   }
 }
 @media (min-width: 1080px) {
-  /* line 64, ../scss/main.scss */
   #logo {
     margin: 2em auto;
   }
 }
 
-/* line 86, ../scss/main.scss */
 #container {
   width: 96%;
   max-width: 1000px;
@@ -710,59 +639,49 @@ a {
   background: #312928 url("../gfx/pit_bg_wood.jpg") center center repeat;
 }
 @media (min-width: 980px) {
-  /* line 86, ../scss/main.scss */
   #container {
     margin: 1em auto;
     padding: 1em;
   }
 }
 @media (min-width: 1080px) {
-  /* line 86, ../scss/main.scss */
   #container {
     margin: 2em auto;
     padding: 1em;
   }
 }
 
-/* line 115, ../scss/main.scss */
 section {
   padding: 0.25em;
   border-top: 1px solid #4d403f;
   border-bottom: 1px solid #151211;
   /* Hide outermost borders on these adjustment sections */
 }
-/* line 122, ../scss/main.scss */
 section#top {
   border-top: 0;
 }
-/* line 123, ../scss/main.scss */
 section#bottom {
   border-bottom: 0;
 }
-/* line 124, ../scss/main.scss */
 section#top, section#bottom {
   padding: 0;
 }
 @media (min-width: 680px) {
-  /* line 115, ../scss/main.scss */
   section {
     padding: 0.5em;
   }
 }
 @media (min-width: 980px) {
-  /* line 115, ../scss/main.scss */
   section {
     padding: 0.75em;
   }
 }
 @media (min-width: 1080px) {
-  /* line 115, ../scss/main.scss */
   section {
     padding: 1em;
   }
 }
 
-/* line 139, ../scss/main.scss */
 input {
   background: #f2f2f2;
   color: #312928;
@@ -777,7 +696,6 @@ input {
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
 }
-/* line 141, ../scss/main.scss */
 input:hover {
   background: white;
 }
@@ -785,7 +703,6 @@ input:hover {
 /**
  * Shared Login and Voting Form Styles
  */
-/* line 156, ../scss/main.scss */
 #loginActions, #votingActions {
   width: 90%;
   max-width: 400px;
@@ -803,15 +720,12 @@ input:hover {
   -moz-box-shadow: #1f1a19 0px 0px 5px inset;
   box-shadow: #1f1a19 0px 0px 5px inset;
 }
-/* line 171, ../scss/main.scss */
 #loginActions input, #votingActions input {
   margin: 6px 0;
 }
-/* line 173, ../scss/main.scss */
 #loginActions input:first-child, #votingActions input:first-child {
   margin-right: 2%;
 }
-/* line 176, ../scss/main.scss */
 #loginActions input[type="button"], #loginActions input[type="submit"], #votingActions input[type="button"], #votingActions input[type="submit"] {
   color: #e3dfe3;
   text-shadow: black 1px 1px 0;
@@ -823,7 +737,6 @@ input:hover {
   background-image: linear-gradient(#0e536e, #083141);
   border: 1px solid #083141;
 }
-/* line 185, ../scss/main.scss */
 #loginActions input[type="button"]:hover, #loginActions input[type="submit"]:hover, #votingActions input[type="button"]:hover, #votingActions input[type="submit"]:hover {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
@@ -838,11 +751,9 @@ input:hover {
 /**
  * Login Form
  */
-/* line 200, ../scss/main.scss */
 #loginActions input[type="text"] {
   width: 72%;
 }
-/* line 204, ../scss/main.scss */
 #loginActions input[type="button"], #loginActions input[type="submit"] {
   width: 24%;
 }
@@ -850,12 +761,10 @@ input:hover {
 /**
  * Voting Actions & Results Section
  */
-/* line 214, ../scss/main.scss */
 #votingActions input {
   width: 48%;
 }
 
-/* line 221, ../scss/main.scss */
 #clients .client {
   width: 8em;
   float: left;
@@ -873,38 +782,30 @@ input:hover {
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
 }
-/* line 239, ../scss/main.scss */
 #clients .client.voted {
   -webkit-box-shadow: #1f1a19 0px 0px 15px;
   -moz-box-shadow: #1f1a19 0px 0px 15px;
   box-shadow: #1f1a19 0px 0px 15px;
 }
-/* line 240, ../scss/main.scss */
 #clients .client.voted .nickname:first-letter {
   color: #fc5426;
 }
-/* line 244, ../scss/main.scss */
 #clients .client .vote {
   display: none;
 }
-/* line 246, ../scss/main.scss */
 #votingResult.reveal #clients .client {
   background-image: none;
 }
-/* line 248, ../scss/main.scss */
 #votingResult.reveal #clients .client .vote {
   display: block;
 }
-/* line 250, ../scss/main.scss */
 #votingResult.reveal #clients .client .nickname {
   color: #1f1a19;
   text-shadow: none;
 }
-/* line 252, ../scss/main.scss */
 #votingResult.reveal #clients .client .nickname:first-letter {
   color: #d71414;
 }
-/* line 259, ../scss/main.scss */
 #clients .nickname {
   text-transform: uppercase;
   font-size: 1.125em;
@@ -914,12 +815,10 @@ input:hover {
   padding: 0.25em 0.125em 0.25em 0.125em;
   margin-bottom: 0.25em;
 }
-/* line 271, ../scss/main.scss */
 #clients .vote-wrap {
   min-height: 8.75em;
   text-align: center;
 }
-/* line 275, ../scss/main.scss */
 #clients .vote-wrap .vote {
   padding: 0.5em 0;
   font-size: 4em;
@@ -928,7 +827,6 @@ input:hover {
   font-weight: 400;
   text-shadow: #1f1a19 1px 1px 0px;
 }
-/* line 283, ../scss/main.scss */
 html.flexbox #clients {
   /* This is a simple vertical-match horizontal-center row-wrapping
    * usage of the "new" CSS Flexbox model for both the current clients
@@ -952,7 +850,6 @@ html.flexbox #clients {
   -ms-flex-wrap: wrap;
   flex-flow: row wrap;
 }
-/* line 127, ../scss/_helpers.scss */
 html.flexbox #clients .card, html.flexbox #clients .client {
   display: block;
   -webkit-flex: none;
@@ -961,7 +858,6 @@ html.flexbox #clients .card, html.flexbox #clients .client {
   flex: none;
   float: none;
 }
-/* line 137, ../scss/_helpers.scss */
 html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child {
   margin-right: 0;
 }
@@ -969,13 +865,11 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
 /**
  * The Cards
  */
-/* line 291, ../scss/main.scss */
 #playersHand {
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
    * class first. */
   /* Set up the cards */
 }
-/* line 293, ../scss/main.scss */
 #playersHand .card {
   position: relative;
   float: left;
@@ -995,11 +889,9 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
   -o-transition: all 0.25s;
   transition: all 0.25s;
 }
-/* line 311, ../scss/main.scss */
 #playersHand .card:hover .card-text, #playersHand .card.selected .card-text {
   color: #d71414;
 }
-/* line 315, ../scss/main.scss */
 #playersHand .card-text {
   font-size: 1em;
   color: #1f1a19;
@@ -1007,47 +899,38 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
   font-weight: 400;
 }
 @media (max-width: 679px) {
-  /* line 322, ../scss/main.scss */
   #playersHand .cards {
     text-align: center;
   }
-  /* line 326, ../scss/main.scss */
   #playersHand .card {
     float: none;
     display: inline-block;
     padding: 0.5em 0.75em;
     margin: 0.5em;
   }
-  /* line 333, ../scss/main.scss */
   #playersHand .card.selected {
     background: #fc5426;
     border-color: #b92a03;
   }
-  /* line 336, ../scss/main.scss */
   #playersHand .card.selected .card-text {
     color: #f2f2f2;
   }
 }
-/* line 344, ../scss/main.scss */
 html.no-flexbox #playersHand .cards {
   text-align: center;
 }
-/* line 348, ../scss/main.scss */
 html.no-flexbox #playersHand .card {
   display: inline-block;
   float: none;
   text-align: left;
 }
-/* line 353, ../scss/main.scss */
 html.no-flexbox #playersHand .card:hover {
   top: -0.5em;
 }
-/* line 354, ../scss/main.scss */
 html.no-flexbox #playersHand .card.selected {
   top: -1em !important;
 }
 @media (min-width: 680px) {
-  /* line 360, ../scss/main.scss */
   html.flexbox #playersHand .cards {
     /* This is a simple vertical-match horizontal-center row-wrapping
      * usage of the "new" CSS Flexbox model for both the current clients
@@ -1071,7 +954,6 @@ html.no-flexbox #playersHand .card.selected {
     -ms-flex-wrap: wrap;
     flex-flow: row wrap;
   }
-  /* line 127, ../scss/_helpers.scss */
   html.flexbox #playersHand .cards .card, html.flexbox #playersHand .cards .client {
     display: block;
     -webkit-flex: none;
@@ -1080,13 +962,11 @@ html.no-flexbox #playersHand .card.selected {
     flex: none;
     float: none;
   }
-  /* line 137, ../scss/_helpers.scss */
   html.flexbox #playersHand .cards .card:last-child, html.flexbox #playersHand .cards .client:last-child {
     margin-right: 0;
   }
 }
 @media (min-width: 680px) {
-  /* line 367, ../scss/main.scss */
   #playersHand .card {
     margin: 1em -1.25em 0 0;
     min-height: 7em;
@@ -1096,11 +976,9 @@ html.no-flexbox #playersHand .card.selected {
     background-position: center 110%;
     background-size: 90% 90%;
   }
-  /* line 381, ../scss/main.scss */
   #playersHand .card:hover {
     margin-top: 0.5em;
   }
-  /* line 383, ../scss/main.scss */
   #playersHand .card.selected {
     margin-top: 0em !important;
     -webkit-transition: all 0.55s;
@@ -1113,13 +991,11 @@ html.no-flexbox #playersHand .card.selected {
     -o-transform: rotate(-5deg) scale(1.1);
     transform: rotate(-5deg) scale(1.1);
   }
-  /* line 392, ../scss/main.scss */
   #playersHand .card-text {
     font-size: 1.5em;
   }
 }
 @media (min-width: 980px) {
-  /* line 396, ../scss/main.scss */
   #playersHand .card {
     margin: 1.5em -1.75em 0 0;
     min-height: 8em;
@@ -1127,21 +1003,17 @@ html.no-flexbox #playersHand .card.selected {
     background-position: center 120%;
     background-size: 95% 95%;
   }
-  /* line 405, ../scss/main.scss */
   #playersHand .card:hover {
     margin-top: 1em;
   }
-  /* line 408, ../scss/main.scss */
   #playersHand .card-text {
     font-size: 1.75em;
   }
 }
 @media (min-width: 1080px) {
-  /* line 412, ../scss/main.scss */
   #playersHand .card {
     margin: 1.75em -1.5em 0 0;
   }
-  /* line 416, ../scss/main.scss */
   #playersHand .card-text {
     font-size: 1.875em;
   }
