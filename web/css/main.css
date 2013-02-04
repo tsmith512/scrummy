@@ -765,6 +765,9 @@ input:hover {
   width: 48%;
 }
 
+/**
+ * The "Clients" display with current players and voting results
+ */
 #clients {
   /* The "non-card" display, for narrow devices. Looks like a
    * vertically stacked scoreboard. */
@@ -900,6 +903,8 @@ input:hover {
     width: 6em;
     padding: 0.25em;
     margin: 0.5em;
+  }
+  html.multiplebgs #clients .client {
     background: url("../gfx/card_art_fk.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
   }
   #clients .nickname {
@@ -957,7 +962,7 @@ input:hover {
 }
 
 /**
- * The Cards
+ * The cards in the players hand that he/she votes with
  */
 #playersHand {
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
@@ -1075,6 +1080,8 @@ html.no-flexbox #playersHand .card.selected {
   }
   #playersHand .card.selected {
     margin-top: 0em !important;
+  }
+  html.cssreflections.csstransforms #playersHand .card.selected {
     -webkit-transition: all 0.55s;
     -moz-transition: all 0.55s;
     -o-transition: all 0.55s;
