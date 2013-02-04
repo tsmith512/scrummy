@@ -28,11 +28,12 @@ $red:    #D71414;
 
 // Setup Breakpoints
 $breakpoints:
-  'handheld' (min-width    480px),
-  'narrow'   (min-width    720px),
-  'medium'   (min-width    980px),
-  'wide'     (min-width   1080px),
-  'portrait' (orientation portrait);
+  // 'handheld'   // Mobile-first: default IS handheld
+  'handheld-only' (max-width    679px), // For styles 
+  'narrow'        (min-width    680px),
+  'medium'        (min-width    980px),
+  'wide'          (min-width   1080px),
+  'portrait'      (orientation portrait);
 
 
 /* Set up basic colors and typefaces */
@@ -279,42 +280,8 @@ input {
       @include text-shadow($dark 1px 1px 0px);
     }
   }
-
   html.flexbox & {
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flex;
-    display: flex;
-
-    -webkit-align-items: stretch;
-    -moz-align-items: stretch;
-    -ms-align-items: stretch;
-    align-items: stretch;
-
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    -ms-flex-pack:justify;
-    -ms-justify-content:center;
-    justify-content:center;
-
-    -webkit-flex-flow: row wrap;
-    -moz-flex-flow: row wrap;
-    -ms-flex-direction: row;
-    -ms-flex-wrap: wrap;
-    flex-flow: row wrap;
-
-    .client {
-      display: block;
-
-      -webkit-flex: none;
-      -moz-flex:    none;
-      -ms-flex:     none;
-      flex:         none;
-
-      float: none;
-
-      &:first-child { margin-left: 0; }
-    }
+    @include scrummyFlexbox;
   }
 }
 
@@ -322,81 +289,111 @@ input {
  * The Cards
  */
 #playersHand {
-  display: flex;
 
   .card {
     position: relative;
 
     float: left;
 
+    padding: 0.25em 0.5em;
+
     border: 1px solid darken($light, 5%);
     @include border-radius(8px);
 
-    background: $bright url('../gfx/card_art_science.svg') center 70% no-repeat;
+    background: $bright;
     @include box-shadow($low 0px 0px 10px);
 
-    padding: 0.25em 0.5em;
-    margin: 2em -2em 0 0;
 
-    min-height: 8em;
-    min-width: 6em;
 
     @include transition(all 0.25s);
 
-    &:hover {
-      margin-top: 1.5em;
+    &:hover, &.selected {
+      // margin-top: 1.5em;
       .card-text { color: $red; }
-    }
-
-    &.selected {
-      margin-top: 0em;
-      .card-text { color: $red; }
-
-      @include transition(all 0.55s);
-      @include transform( rotate(-5deg) scale(1.1) );
     }
   }
 
   .card-text {
-    font-size: 1.75em;
+    font-size: 1em;
     color: $dark;
     @include stint;
   }
 
-  html.flexbox & .cards {
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flex;
-    display: flex;
-
-    -webkit-align-items: center;
-    -moz-align-items:    center;
-    -ms-align-items:     center;
-    align-items:         center;
-
-    -webkit-justify-content: center;
-    -moz-justify-content:    center;
-    -ms-flex-pack:           justify;
-    -ms-justify-content:     center;
-    justify-content          :center;
-
-    -webkit-flex-flow:  row wrap;
-    -moz-flex-flow:     row wrap;
-    -ms-flex-direction: row;
-    -ms-flex-wrap:      wrap;
-    flex-flow:          row wrap;
+  @include respond-to('handheld-only') {
+    .cards {
+      text-align: center;
+    }
 
     .card {
-      display: block;
-
-      -webkit-flex: none;
-      -moz-flex:    none;
-      -ms-flex:     none;
-      flex:         none;
-
       float: none;
+      display: inline-block;
 
-      &:last-child { margin-right: 0; }
+      padding: 0.5em 0.75em;
+      margin: 0.5em;
+
+      &.selected {
+        background: $orange;
+        border-color: darken($orange, 20%);
+        .card-text { color: $bright; }
+      }
+    }
+  }
+
+  /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
+   * class first. */
+  html.flexbox & {
+    @include respond-to('narrow') {
+      .cards { @include scrummyFlexbox; }
+
+      .card {
+        
+        margin: 1em -1.25em 0 0;
+
+        min-height: 7em;
+        min-width: 4.5em;
+
+        background: {
+          image: url('../gfx/card_art_science.svg');
+          repeat: no-repeat;
+          position: center 110%;
+          size: 90% 90%;
+        };
+
+        &:hover { margin-top: 0.5em; }
+
+        &.selected {
+          margin-top: 0em;
+
+          @include transition(all 0.55s);
+          @include transform( rotate(-5deg) scale(1.1) );
+        }
+      }
+
+      .card-text { font-size: 1.5em; }
+    }
+
+    @include respond-to('medium') {
+      .card {
+        margin: 1.5em -1.75em 0 0;
+
+        min-height: 8em;
+        min-width: 6em;
+
+        background-position: center 120%;
+        background-size: 95% 95%;
+
+        &:hover { margin-top: 1em; }
+      }
+
+      .card-text { font-size: 1.75em; }
+    }
+
+    @include respond-to('wide') {
+      .card {
+        margin: 1.75em -1.5em 0 0;
+      }
+
+      .card-text { font-size: 1.875em; }
     }
   }
 }
