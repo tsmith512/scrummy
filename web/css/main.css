@@ -765,11 +765,13 @@ input:hover {
   width: 48%;
 }
 
+#clients {
+  /* The "non-card" display, for narrow devices. Looks like a
+   * vertically stacked scoreboard. */
+  /* Set up the flexbox or flexbox-approximate for larger screens */
+  /* Build the card display styles and spacing */
+}
 #clients .client {
-  width: 8em;
-  float: left;
-  padding: 0.5em;
-  margin: 0.5em;
   overflow: hidden;
   border: 4px solid #e5e5e5;
   -webkit-border-radius: 10px;
@@ -777,7 +779,7 @@ input:hover {
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  background: url("../gfx/card_art_fk.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  background: url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
   -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
@@ -808,58 +810,150 @@ input:hover {
 }
 #clients .nickname {
   text-transform: uppercase;
-  font-size: 1.125em;
-  letter-spacing: 3px;
   color: #e3dfe3;
   text-shadow: #1f1a19 1px 1px 0;
-  padding: 0.25em 0.125em 0.25em 0.125em;
-  margin-bottom: 0.25em;
 }
 #clients .vote-wrap {
-  min-height: 8.75em;
   text-align: center;
 }
 #clients .vote-wrap .vote {
-  padding: 0.5em 0;
-  font-size: 4em;
   color: #d71414;
   font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
   text-shadow: #1f1a19 1px 1px 0px;
 }
-html.flexbox #clients {
-  /* This is a simple vertical-match horizontal-center row-wrapping
-   * usage of the "new" CSS Flexbox model for both the current clients
-   * and the player's hand. */
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-flex-pack: justify;
-  -ms-justify-content: center;
-  justify-content: center;
-  -webkit-flex-flow: row wrap;
-  -moz-flex-flow: row wrap;
-  -ms-flex-direction: row;
-  -ms-flex-wrap: wrap;
-  flex-flow: row wrap;
+@media (max-width: 679px) {
+  #clients .client {
+    width: auto;
+    display: block;
+    float: none;
+    padding: 0.25em;
+    margin: 0.5em auto;
+  }
+  #clients .nickname, #clients .vote-wrap {
+    display: block;
+  }
+  #clients .nickname {
+    float: left;
+    width: 70%;
+    text-align: left;
+    font-size: 1.125em;
+    letter-spacing: 2px;
+    padding: 0.375em 0 0.375em 0.25em;
+  }
+  #clients .vote-wrap {
+    float: right;
+    width: 25%;
+    text-align: right;
+    padding: 0.125em 0.25em 0 0;
+  }
+  #clients .vote-wrap .vote {
+    font-size: 1.75em;
+  }
 }
-html.flexbox #clients .card, html.flexbox #clients .client {
-  display: block;
-  -webkit-flex: none;
-  -moz-flex: none;
-  -ms-flex: none;
-  flex: none;
-  float: none;
+@media (min-width: 680px) {
+  html.no-flexbox #clients {
+    text-align: center;
+  }
+  html.no-flexbox #clients .client {
+    display: inline-block;
+    float: none;
+    text-align: left;
+  }
+  html.flexbox #clients {
+    /* This is a simple vertical-match horizontal-center row-wrapping
+     * usage of the "new" CSS Flexbox model for both the current clients
+     * and the player's hand. */
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-flex-pack: justify;
+    -ms-justify-content: center;
+    justify-content: center;
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-flow: row wrap;
+  }
+  html.flexbox #clients .card, html.flexbox #clients .client {
+    display: block;
+    -webkit-flex: none;
+    -moz-flex: none;
+    -ms-flex: none;
+    flex: none;
+    float: none;
+  }
+  html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child {
+    margin-right: 0;
+  }
 }
-html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child {
-  margin-right: 0;
+@media (min-width: 680px) {
+  #clients .client {
+    width: 6em;
+    padding: 0.25em;
+    margin: 0.5em;
+    background: url("../gfx/card_art_fk.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  }
+  #clients .nickname {
+    font-size: 0.875em;
+    letter-spacing: 1px;
+    padding: 0.25em 0.125em;
+  }
+  #clients .vote-wrap {
+    min-height: 5.5em;
+  }
+  #clients .vote-wrap .vote {
+    padding: 0.375em 0;
+    font-size: 2em;
+  }
+}
+@media (min-width: 980px) {
+  #clients .client {
+    width: 7em;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+  #clients .nickname {
+    font-size: 1em;
+    letter-spacing: 2px;
+    padding: 0.25em 0.125em;
+    margin-bottom: 0.125em;
+  }
+  #clients .vote-wrap {
+    min-height: 7.5em;
+  }
+  #clients .vote-wrap .vote {
+    padding: 0.375em 0;
+    font-size: 3em;
+  }
+}
+@media (min-width: 1080px) {
+  #clients .client {
+    width: 8em;
+    padding: 0.5em;
+    margin: 0.5em;
+  }
+  #clients .nickname {
+    font-size: 1.125em;
+    letter-spacing: 3px;
+    padding: 0.25em 0.125em;
+    margin-bottom: 0.25em;
+  }
+  #clients .vote-wrap {
+    min-height: 8.75em;
+  }
+  #clients .vote-wrap .vote {
+    padding: 0.5em 0;
+    font-size: 4em;
+  }
 }
 
 /**
