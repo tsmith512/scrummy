@@ -78,7 +78,7 @@ function showCards() {
 function vote(card){
   $('.card').removeClass('selected');
   var number = $(card).children('.card-text').text();
-  cli.send('vote',{ 'sid' : mySid, 'number' : number }, function(res,msg){
+  cli.send('vote',{ 'number' : number }, function(res,msg){
     if(!res){ alert(msg); return false; }
     $(card).addClass('selected');
   });

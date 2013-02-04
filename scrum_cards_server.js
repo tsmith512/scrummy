@@ -41,10 +41,13 @@ io.sockets.on('connection',function(socket){
     if ( config.points.indexOf(data.number) < 0 ) {
       fn(false, 'Invalid vote');
       return false;
-    } else {
-      fn(true);
-      io.sockets.emit('voteOccured', data);
     }
+
+    /* Broadcast the vote and our socket.id to everyone */
+    io.sockets.emit('voteOccured', { "sid": socket.id, "number": data.number } );
+
+    /* Tell this client the vote was accepted. */
+    fn(true);
   });
 
   socket.on('reset',function(){
@@ -65,6 +68,8 @@ io.sockets.on('connection',function(socket){
         var client = bucket[i];
         bucket.splice(i, 1);
 
+        /* This data is safe to send out, it's coming from the stored bucket,
+         * not the incoming socket data. */
         socket.broadcast.emit('clientDisconnect', {'nickname' : client.nickname, 'sid' : client.sid });
         console.log("Client %s disconnected. %d remaining.", client.nickname, bucket.length);
       }
