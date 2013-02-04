@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>Scrummy</title>
+  <title>scrummy</title>
   <meta name="viewport" content="width=device-width" />
 
   <link href='http://fonts.googleapis.com/css?family=Fjalla+One|Stint+Ultra+Expanded' rel='stylesheet' type='text/css' />
@@ -20,23 +20,23 @@
 
   <div id="logo">
     <!-- Okay, so not logo really, but we'll get there -->
-    <h1>Scrummy</h1>
+    <h1>scrummy</h1>
   </div>
 
   <div id="container">
     <section id="top"></section>
     <section id="dSignIn" class="signin-form">
       <h2>Log In</h2>
-      <div id="loginActions"><form onsubmit="signIn(); return false;">
-        <input type="text" id="txtName" />
+      <div id="loginActions"><form>
+        <input type="text" id="txtNickname" />
         <input type="submit" value="Go" id="btnSignIn" />
       </form></div><!--/#loginActions-->
     </section><!--#/dSignIn-->
 
     <section id="votingResult" style="display:none">
       <div id="votingActions">
-        <input type="button" id="btnRevealVotes" onclick="revealVotes()" value="Reveal votes" />
-        <input type="button" id="btnReset" onclick="resetVote()" value="Reset voting" />
+        <input type="button" id="btnReveal" value="Reveal" />
+        <input type="button" id="btnReset" value="Reset" />
       </div><!--/#votingActions-->
       <div id="clients"></div>
     </section><!--/#votingResult-->

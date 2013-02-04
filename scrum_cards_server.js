@@ -12,23 +12,42 @@ server.listen(config.port);
 io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
+    // Nicknames should be unique, are displayed in uppercase, and should only
+    // contain a small set of characters.
+    var requestedNick = data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'');
+
     for ( client in bucket ) {
-      if (client.nickname == data.nickname) {
+      if (requestedNick == bucket[client].nickname.toLowerCase() ) {
         fn( false, 'Nickname already in use.' );
         return;
       }
     }
 
-    client = {sid: socket.id, nickname: data.nickname}
-    console.log("Client %s connected", data.nickname);
+    client = {sid: socket.id, nickname: requestedNick}
+    console.log("Client %s connected", requestedNick);
 
     bucket.push(client);
     socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
-    fn(true,{ 'sid' : client.sid, 'points' : config.points, 'users' : bucket} );
+    fn(true,{
+      'sid' : client.sid,
+      'nick' : requestedNick,
+      'points' : config.points,
+      'users' : bucket
+    });
   });
 
-  socket.on('vote',function(data){
-    io.sockets.emit('voteOccured', data);
+  socket.on('vote',function(data, fn){
+    /* Check to make sure the vote provided is in the array of possible responses */
+    if ( config.points.indexOf(data.number) < 0 ) {
+      fn(false, 'Invalid vote');
+      return false;
+    }
+
+    /* Broadcast the vote and our socket.id to everyone */
+    io.sockets.emit('voteOccured', { "sid": socket.id, "number": data.number } );
+
+    /* Tell this client the vote was accepted. */
+    fn(true);
   });
 
   socket.on('reset',function(){
@@ -49,6 +68,8 @@ io.sockets.on('connection',function(socket){
         var client = bucket[i];
         bucket.splice(i, 1);
 
+        /* This data is safe to send out, it's coming from the stored bucket,
+         * not the incoming socket data. */
         socket.broadcast.emit('clientDisconnect', {'nickname' : client.nickname, 'sid' : client.sid });
         console.log("Client %s disconnected. %d remaining.", client.nickname, bucket.length);
       }

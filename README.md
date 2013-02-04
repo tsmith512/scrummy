@@ -1,4 +1,4 @@
-# Scrummy &ndash; A Scrum Planning Game
+# scrummy &ndash; A Scrum Planning Game
 
 This application is used during planning and estimation meetings and is useful when the team isn't at the same location.
 

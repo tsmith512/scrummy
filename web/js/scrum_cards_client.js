@@ -12,31 +12,50 @@ $(document).ready(function(){
   document.addEventListener('clientDisconnected',clientDisconnected,true);
   document.addEventListener('clientReset',clientReset,false);
   document.addEventListener('clientReveal',clientReveal,false);
+
+  /* On form submit, execute signIn() but don't actually post/get or reload */
+  $("#loginActions form").submit(function(){ signIn(); return false; })
+
+  /* Setup the reveal and restore buttons in #votingActions */
+  $("#btnReveal").click(function(){ revealVotes(); });
+  $("#btnReset").click(function(){ resetVotes(); });
 });
 
 function signIn(){
   cli = new client();
-  myNick = $('#txtName').val();
+  myNick = $('#txtNickname').val();
 
   cli.send('signIn',{ 'nickname' : myNick }, function(res,msg){
-    if(!res){
-      alert(msg);
-    } else {
-      voteValues = msg.points;
-      $(voteValues).each(function(index,item){
-        $('.cards')
-          .append('<div style="display:none" class="card" onclick="vote(this)"><span class="card-text">'+ item + '</span></div>');
-      });
+    /* Server returned false; alert with message and bail */
+    if(!res){ alert(msg); return false; }
+      
+    /* Create cards for each item in the Points object */
+    voteValues = msg.points;
+    $(voteValues).each(function(index,item){
+      $('<div />')
+        .hide() /* Hidden for now, showCards() reveals them in sequence */
+        .addClass('card')
+        .click(function(){ vote(this); })
+        .append( $('<span />').addClass('card-text').text(item) )
+        .appendTo('.cards');
+    });
 
-      currentUsers = msg.users;
-      mySid = msg.sid; // Set "my" Socket ID
-      $(currentUsers).each(function(i,e){ addUserToDiv(e.sid, e.nickname); })
+    /* Set client Socket ID for later; it's our identifier server-side */
+    mySid = msg.sid;
 
-      $('#dSignIn').slideUp();
-      $('#nickname-display').text(myNick);
-      $('#votingResult, #playersHand').slideDown();
-      showCards();
-    }
+    /* Use the sanitized nickname from the server so it appears
+     * consistently among clients. */
+    myNick = msg.nickname;
+
+    /* Server should respond with users already in the game, display them */
+    currentUsers = msg.users;
+    $(currentUsers).each(function(i,e){ displayClient(e.sid, e.nickname); })
+
+    /* Hide the sign-in form, reveal the results panel and the "hand" */
+    $('#nickname-display').text(myNick);
+    $('#dSignIn').slideUp();
+    $('#votingResult, #playersHand').slideDown();
+    showCards();
   });
 }
 function clientReset(e){
@@ -56,19 +75,16 @@ function showCards() {
   });
 }
 
-function vote(sender){
+function vote(card){
   $('.card').removeClass('selected');
-  var number = $(sender).children('.card-text').text();
-  cli.send('vote',{ 'sid' : mySid, 'number' : number },null);
-  $(sender).addClass('selected');
-  $('#btnVote').attr('disabled','disabled');
+  var number = $(card).children('.card-text').text();
+  cli.send('vote',{ 'number' : number }, function(res,msg){
+    if(!res){ alert(msg); return false; }
+    $(card).addClass('selected');
+  });
 }
 
-/**
- * Functions from Admin script before it was merged into the client/admin interface
- */
-
-function addUserToDiv(sid, nickname){
+function displayClient(sid, nickname){
   $('<div />')
     .attr('id', sid)
     .addClass('client')
@@ -82,7 +98,8 @@ function addVote(sid,vote){
   $('#'+sid+' .vote').text(vote);
   $('#'+sid).addClass('voted');
 }
-function resetVote(){
+
+function resetVotes(){
   cli.send('reset',null,null);
 }
 
@@ -94,7 +111,7 @@ function voteOccured(e){
     addVote(e.sid,e.number);
 }
 function userSignedIn(e){
-    addUserToDiv(e.sid, e.nickname);
+    displayClient(e.sid, e.nickname);
 }
 function clientDisconnected(e){
     $('#'+e.sid).remove();
