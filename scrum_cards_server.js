@@ -30,7 +30,7 @@ io.sockets.on('connection',function(socket){
     socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
     fn(true,{
       'sid' : client.sid,
-      'nick' : requestedNick,
+      'nickname' : requestedNick,
       'points' : config.points,
       'users' : bucket
     });
