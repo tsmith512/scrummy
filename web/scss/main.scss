@@ -308,7 +308,6 @@ input {
     @include transition(all 0.25s);
 
     &:hover, &.selected {
-      // margin-top: 1.5em;
       .card-text { color: $red; }
     }
   }
@@ -352,7 +351,7 @@ input {
       text-align: left;
 
       &:hover { top: -0.5em; }
-      &.selected { top: -1em; }
+      &.selected { top: -1em !important; }
     }
   }
 
@@ -382,7 +381,8 @@ input {
       &:hover { margin-top: 0.5em; }
 
       &.selected {
-        margin-top: 0em;
+        // To override the hover
+        margin-top: 0em !important;
 
         @include transition(all 0.55s);
         @include transform( rotate(-5deg) scale(1.1) );
