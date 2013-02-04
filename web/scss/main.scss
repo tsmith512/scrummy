@@ -23,6 +23,16 @@ $red:    #D71414;
 
 // Include Compass Helpers
 @import "compass/css3";
+@import "breakpoint";
+@import "respond-to";
+
+// Setup Breakpoints
+$breakpoints:
+  'handheld' (min-width    480px),
+  'narrow'   (min-width    720px),
+  'medium'   (min-width    980px),
+  'wide'     (min-width   1060px),
+  'portrait' (orientation portrait);
 
 
 /* Set up basic colors and typefaces */
