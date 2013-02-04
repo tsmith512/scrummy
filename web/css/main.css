@@ -668,23 +668,36 @@ a {
 /* Layout */
 /* line 63, ../scss/main.scss */
 #logo {
-  width: 90%;
+  width: 96%;
   max-width: 1000px;
-  margin: 2em auto;
+  margin: 0.75em auto;
 }
-/* line 68, ../scss/main.scss */
+/* line 69, ../scss/main.scss */
 #logo h1 {
   color: #e3dfe3;
   text-shadow: #1f1a19 1px 1px 0;
   text-align: center;
+  margin: 0;
+}
+@media (min-width: 720px) {
+  /* line 63, ../scss/main.scss */
+  #logo {
+    margin: 1em auto;
+  }
+}
+@media (min-width: 1080px) {
+  /* line 63, ../scss/main.scss */
+  #logo {
+    margin: 2em auto;
+  }
 }
 
-/* line 75, ../scss/main.scss */
+/* line 85, ../scss/main.scss */
 #container {
-  width: 90%;
+  width: 96%;
   max-width: 1000px;
-  margin: 2em auto;
-  padding: 1em;
+  margin: 0.5em auto;
+  padding: 0.5em;
   border: 1px solid #151211;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -696,28 +709,60 @@ a {
   box-shadow: #1f1a19 0px 0px 25px inset;
   background: #312928 url("../gfx/pit_bg_wood.jpg") center center repeat;
 }
+@media (min-width: 980px) {
+  /* line 85, ../scss/main.scss */
+  #container {
+    margin: 1em auto;
+    padding: 1em;
+  }
+}
+@media (min-width: 1080px) {
+  /* line 85, ../scss/main.scss */
+  #container {
+    margin: 2em auto;
+    padding: 1em;
+  }
+}
 
-/* line 89, ../scss/main.scss */
+/* line 114, ../scss/main.scss */
 section {
-  padding: 1em;
+  padding: 0.25em;
   border-top: 1px solid #4d403f;
   border-bottom: 1px solid #151211;
   /* Hide outermost borders on these adjustment sections */
 }
-/* line 96, ../scss/main.scss */
+/* line 121, ../scss/main.scss */
 section#top {
   border-top: 0;
 }
-/* line 97, ../scss/main.scss */
+/* line 122, ../scss/main.scss */
 section#bottom {
   border-bottom: 0;
 }
-/* line 98, ../scss/main.scss */
+/* line 123, ../scss/main.scss */
 section#top, section#bottom {
   padding: 0;
 }
+@media (min-width: 720px) {
+  /* line 114, ../scss/main.scss */
+  section {
+    padding: 0.5em;
+  }
+}
+@media (min-width: 980px) {
+  /* line 114, ../scss/main.scss */
+  section {
+    padding: 0.75em;
+  }
+}
+@media (min-width: 1080px) {
+  /* line 114, ../scss/main.scss */
+  section {
+    padding: 1em;
+  }
+}
 
-/* line 101, ../scss/main.scss */
+/* line 138, ../scss/main.scss */
 input {
   background: #f2f2f2;
   color: #312928;
@@ -732,7 +777,7 @@ input {
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
 }
-/* line 103, ../scss/main.scss */
+/* line 140, ../scss/main.scss */
 input:hover {
   background: white;
 }
@@ -740,7 +785,7 @@ input:hover {
 /**
  * Shared Login and Voting Form Styles
  */
-/* line 118, ../scss/main.scss */
+/* line 155, ../scss/main.scss */
 #loginActions, #votingActions {
   width: 90%;
   max-width: 400px;
@@ -758,15 +803,15 @@ input:hover {
   -moz-box-shadow: #1f1a19 0px 0px 5px inset;
   box-shadow: #1f1a19 0px 0px 5px inset;
 }
-/* line 133, ../scss/main.scss */
+/* line 170, ../scss/main.scss */
 #loginActions input, #votingActions input {
   margin: 6px 0;
 }
-/* line 135, ../scss/main.scss */
+/* line 172, ../scss/main.scss */
 #loginActions input:first-child, #votingActions input:first-child {
   margin-right: 2%;
 }
-/* line 138, ../scss/main.scss */
+/* line 175, ../scss/main.scss */
 #loginActions input[type="button"], #loginActions input[type="submit"], #votingActions input[type="button"], #votingActions input[type="submit"] {
   color: #e3dfe3;
   text-shadow: black 1px 1px 0;
@@ -778,7 +823,7 @@ input:hover {
   background-image: linear-gradient(#0e536e, #083141);
   border: 1px solid #083141;
 }
-/* line 147, ../scss/main.scss */
+/* line 184, ../scss/main.scss */
 #loginActions input[type="button"]:hover, #loginActions input[type="submit"]:hover, #votingActions input[type="button"]:hover, #votingActions input[type="submit"]:hover {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
@@ -793,11 +838,11 @@ input:hover {
 /**
  * Login Form
  */
-/* line 162, ../scss/main.scss */
+/* line 199, ../scss/main.scss */
 #loginActions input[type="text"] {
   width: 72%;
 }
-/* line 166, ../scss/main.scss */
+/* line 203, ../scss/main.scss */
 #loginActions input[type="button"], #loginActions input[type="submit"] {
   width: 24%;
 }
@@ -805,12 +850,12 @@ input:hover {
 /**
  * Voting Actions & Results Section
  */
-/* line 176, ../scss/main.scss */
+/* line 213, ../scss/main.scss */
 #votingActions input {
   width: 48%;
 }
 
-/* line 183, ../scss/main.scss */
+/* line 220, ../scss/main.scss */
 #clients .client {
   width: 8em;
   float: left;
@@ -828,38 +873,38 @@ input:hover {
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
 }
-/* line 201, ../scss/main.scss */
+/* line 238, ../scss/main.scss */
 #clients .client.voted {
   -webkit-box-shadow: #1f1a19 0px 0px 15px;
   -moz-box-shadow: #1f1a19 0px 0px 15px;
   box-shadow: #1f1a19 0px 0px 15px;
 }
-/* line 202, ../scss/main.scss */
+/* line 239, ../scss/main.scss */
 #clients .client.voted .nickname:first-letter {
   color: #fc5426;
 }
-/* line 206, ../scss/main.scss */
+/* line 243, ../scss/main.scss */
 #clients .client .vote {
   display: none;
 }
-/* line 208, ../scss/main.scss */
+/* line 245, ../scss/main.scss */
 #votingResult.reveal #clients .client {
   background-image: none;
 }
-/* line 210, ../scss/main.scss */
+/* line 247, ../scss/main.scss */
 #votingResult.reveal #clients .client .vote {
   display: block;
 }
-/* line 212, ../scss/main.scss */
+/* line 249, ../scss/main.scss */
 #votingResult.reveal #clients .client .nickname {
   color: #1f1a19;
   text-shadow: none;
 }
-/* line 214, ../scss/main.scss */
+/* line 251, ../scss/main.scss */
 #votingResult.reveal #clients .client .nickname:first-letter {
   color: #d71414;
 }
-/* line 221, ../scss/main.scss */
+/* line 258, ../scss/main.scss */
 #clients .nickname {
   text-transform: uppercase;
   font-size: 1.125em;
@@ -869,12 +914,12 @@ input:hover {
   padding: 0.25em 0.125em 0.25em 0.125em;
   margin-bottom: 0.25em;
 }
-/* line 233, ../scss/main.scss */
+/* line 270, ../scss/main.scss */
 #clients .vote-wrap {
   min-height: 8.75em;
   text-align: center;
 }
-/* line 237, ../scss/main.scss */
+/* line 274, ../scss/main.scss */
 #clients .vote-wrap .vote {
   padding: 0.5em 0;
   font-size: 4em;
@@ -883,7 +928,7 @@ input:hover {
   font-weight: 400;
   text-shadow: #1f1a19 1px 1px 0px;
 }
-/* line 246, ../scss/main.scss */
+/* line 283, ../scss/main.scss */
 html.flexbox #clients {
   display: -webkit-flex;
   display: -moz-flex;
@@ -904,7 +949,7 @@ html.flexbox #clients {
   -ms-flex-wrap: wrap;
   flex-flow: row wrap;
 }
-/* line 269, ../scss/main.scss */
+/* line 306, ../scss/main.scss */
 html.flexbox #clients .client {
   display: block;
   -webkit-flex: none;
@@ -913,7 +958,7 @@ html.flexbox #clients .client {
   flex: none;
   float: none;
 }
-/* line 279, ../scss/main.scss */
+/* line 316, ../scss/main.scss */
 html.flexbox #clients .client:first-child {
   margin-left: 0;
 }
@@ -921,11 +966,11 @@ html.flexbox #clients .client:first-child {
 /**
  * The Cards
  */
-/* line 287, ../scss/main.scss */
+/* line 324, ../scss/main.scss */
 #playersHand {
   display: flex;
 }
-/* line 290, ../scss/main.scss */
+/* line 327, ../scss/main.scss */
 #playersHand .card {
   position: relative;
   float: left;
@@ -948,15 +993,15 @@ html.flexbox #clients .client:first-child {
   -o-transition: all 0.25s;
   transition: all 0.25s;
 }
-/* line 309, ../scss/main.scss */
+/* line 346, ../scss/main.scss */
 #playersHand .card:hover {
   margin-top: 1.5em;
 }
-/* line 311, ../scss/main.scss */
+/* line 348, ../scss/main.scss */
 #playersHand .card:hover .card-text {
   color: #d71414;
 }
-/* line 314, ../scss/main.scss */
+/* line 351, ../scss/main.scss */
 #playersHand .card.selected {
   margin-top: 0em;
   -webkit-transition: all 0.55s;
@@ -969,18 +1014,18 @@ html.flexbox #clients .client:first-child {
   -o-transform: rotate(-5deg) scale(1.1);
   transform: rotate(-5deg) scale(1.1);
 }
-/* line 316, ../scss/main.scss */
+/* line 353, ../scss/main.scss */
 #playersHand .card.selected .card-text {
   color: #d71414;
 }
-/* line 323, ../scss/main.scss */
+/* line 360, ../scss/main.scss */
 #playersHand .card-text {
   font-size: 1.75em;
   color: #1f1a19;
   font-family: 'Stint Ultra Expanded', cursive;
   font-weight: 400;
 }
-/* line 329, ../scss/main.scss */
+/* line 366, ../scss/main.scss */
 html.flexbox #playersHand .cards {
   display: -webkit-flex;
   display: -moz-flex;
@@ -1001,7 +1046,7 @@ html.flexbox #playersHand .cards {
   -ms-flex-wrap: wrap;
   flex-flow: row wrap;
 }
-/* line 352, ../scss/main.scss */
+/* line 389, ../scss/main.scss */
 html.flexbox #playersHand .cards .card {
   display: block;
   -webkit-flex: none;
@@ -1010,7 +1055,7 @@ html.flexbox #playersHand .cards .card {
   flex: none;
   float: none;
 }
-/* line 362, ../scss/main.scss */
+/* line 399, ../scss/main.scss */
 html.flexbox #playersHand .cards .card:last-child {
   margin-right: 0;
 }

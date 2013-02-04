@@ -31,7 +31,7 @@ $breakpoints:
   'handheld' (min-width    480px),
   'narrow'   (min-width    720px),
   'medium'   (min-width    980px),
-  'wide'     (min-width   1060px),
+  'wide'     (min-width   1080px),
   'portrait' (orientation portrait);
 
 
@@ -61,34 +61,59 @@ a {
 
 /* Layout */
 #logo {
-  width: 90%;
+  width: 96%;
   max-width: 1000px;
-  margin: 2em auto;
+
+  margin: 0.75em auto;
 
   h1 {
     color: $light;
     @include text-shadow($dark 1px 1px 0);
     text-align: center;
+    margin: 0; // We have a margin on the container
+  }
+
+  @include respond-to('narrow') {
+    margin: 1em auto;
+  }
+
+  @include respond-to('wide') {
+    margin: 2em auto;
   }
 }
 
 #container {
   @extend .clearfix;
-  width: 90%;
+  width: 96%;
   max-width: 1000px;
 
-  margin: 2em auto;
-  padding: 1em;
+  margin: 0.5em auto;
+  padding: 0.5em;
 
   border: 1px solid darken($low, 10%);
   @include border-radius(10px);
   @include box-shadow($dark 0px 0px 25px inset);
   background: $low url('../gfx/pit_bg_wood.jpg') center center repeat;
+
+  @include respond-to('small') {
+    margin: 1em auto;
+    padding: 0.5em;
+  }
+
+  @include respond-to('medium') {
+    margin: 1em auto;
+    padding: 1em;
+  }
+
+  @include respond-to('wide') {
+    margin: 2em auto;
+    padding: 1em;
+  }
 }
 
 section {
   @extend .clearfix;
-  padding: 1em;
+  padding: 0.25em;
   border-top: 1px solid lighten($low, 10%);
   border-bottom: 1px solid darken($low, 10%);
 
@@ -96,6 +121,18 @@ section {
   &#top { border-top: 0; }
   &#bottom { border-bottom: 0; }
   &#top, &#bottom { padding: 0; }
+
+  @include respond-to('narrow') {
+    padding: 0.5em;
+  }
+
+  @include respond-to('medium') {
+    padding: 0.75em;
+  }
+
+  @include respond-to('wide') {
+    padding: 1em;
+  }
 }
 
 input {
