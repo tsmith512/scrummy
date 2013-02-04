@@ -67,7 +67,7 @@ io.sockets.on('connection',function(socket){
 
     fn(true,{
       'sid' : client.sid,
-      'nick' : requestedNick,
+      'nickname' : requestedNick,
       'points' : config.points,
       'users' : bucket[requestedGame],
       'game' : requestedGame
