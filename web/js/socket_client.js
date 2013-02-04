@@ -25,11 +25,15 @@ var client = function(){
     evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
-
   this.socket.on('voteOccured', function(data){
     var evt = createEvent('voteOccured');
     evt.sid = data.sid;
     evt.number = data.number;
+    document.dispatchEvent(evt);
+  });
+  this.socket.on('clientRevoke', function(data){
+    var evt = createEvent('clientRevoke');
+    evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
 

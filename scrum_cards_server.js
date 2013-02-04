@@ -50,6 +50,13 @@ io.sockets.on('connection',function(socket){
     fn(true);
   });
 
+  socket.on('voteRevoke',function(data, fn){
+    io.sockets.emit('clientRevoke', { "sid": socket.id } );
+
+    /* Tell this client the vote was accepted. */
+    fn(true);
+  });
+
   socket.on('reset',function(){
     io.sockets.emit('reset');
   });
