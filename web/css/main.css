@@ -973,6 +973,7 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
 #playersHand {
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
    * class first. */
+  /* Set up the cards */
 }
 /* line 293, ../scss/main.scss */
 #playersHand .card {
@@ -1027,8 +1028,26 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
     color: #f2f2f2;
   }
 }
+/* line 345, ../scss/main.scss */
+html.no-flexbox #playersHand .cards {
+  text-align: center;
+}
+/* line 349, ../scss/main.scss */
+html.no-flexbox #playersHand .card {
+  display: inline-block;
+  float: none;
+  text-align: left;
+}
+/* line 354, ../scss/main.scss */
+html.no-flexbox #playersHand .card:hover {
+  top: -0.5em;
+}
+/* line 355, ../scss/main.scss */
+html.no-flexbox #playersHand .card.selected {
+  top: -1em;
+}
 @media (min-width: 680px) {
-  /* line 346, ../scss/main.scss */
+  /* line 361, ../scss/main.scss */
   html.flexbox #playersHand .cards {
     /* This is a simple vertical-match horizontal-center row-wrapping
      * usage of the "new" CSS Flexbox model for both the current clients
@@ -1065,8 +1084,10 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
   html.flexbox #playersHand .cards .card:last-child, html.flexbox #playersHand .cards .client:last-child {
     margin-right: 0;
   }
-  /* line 348, ../scss/main.scss */
-  html.flexbox #playersHand .card {
+}
+@media (min-width: 680px) {
+  /* line 368, ../scss/main.scss */
+  #playersHand .card {
     margin: 1em -1.25em 0 0;
     min-height: 7em;
     min-width: 4.5em;
@@ -1075,12 +1096,12 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
     background-position: center 110%;
     background-size: 90% 90%;
   }
-  /* line 362, ../scss/main.scss */
-  html.flexbox #playersHand .card:hover {
+  /* line 382, ../scss/main.scss */
+  #playersHand .card:hover {
     margin-top: 0.5em;
   }
-  /* line 364, ../scss/main.scss */
-  html.flexbox #playersHand .card.selected {
+  /* line 384, ../scss/main.scss */
+  #playersHand .card.selected {
     margin-top: 0em;
     -webkit-transition: all 0.55s;
     -moz-transition: all 0.55s;
@@ -1092,36 +1113,36 @@ html.flexbox #clients .card:last-child, html.flexbox #clients .client:last-child
     -o-transform: rotate(-5deg) scale(1.1);
     transform: rotate(-5deg) scale(1.1);
   }
-  /* line 372, ../scss/main.scss */
-  html.flexbox #playersHand .card-text {
+  /* line 392, ../scss/main.scss */
+  #playersHand .card-text {
     font-size: 1.5em;
   }
 }
 @media (min-width: 980px) {
-  /* line 376, ../scss/main.scss */
-  html.flexbox #playersHand .card {
+  /* line 396, ../scss/main.scss */
+  #playersHand .card {
     margin: 1.5em -1.75em 0 0;
     min-height: 8em;
     min-width: 6em;
     background-position: center 120%;
     background-size: 95% 95%;
   }
-  /* line 385, ../scss/main.scss */
-  html.flexbox #playersHand .card:hover {
+  /* line 405, ../scss/main.scss */
+  #playersHand .card:hover {
     margin-top: 1em;
   }
-  /* line 388, ../scss/main.scss */
-  html.flexbox #playersHand .card-text {
+  /* line 408, ../scss/main.scss */
+  #playersHand .card-text {
     font-size: 1.75em;
   }
 }
 @media (min-width: 1080px) {
-  /* line 392, ../scss/main.scss */
-  html.flexbox #playersHand .card {
+  /* line 412, ../scss/main.scss */
+  #playersHand .card {
     margin: 1.75em -1.5em 0 0;
   }
-  /* line 396, ../scss/main.scss */
-  html.flexbox #playersHand .card-text {
+  /* line 416, ../scss/main.scss */
+  #playersHand .card-text {
     font-size: 1.875em;
   }
 }

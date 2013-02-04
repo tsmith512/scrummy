@@ -341,60 +341,79 @@ input {
 
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
    * class first. */
+  html.no-flexbox & {
+    .cards {
+      text-align: center;
+    }
+
+    .card {
+      display: inline-block;
+      float: none;
+      text-align: left;
+
+      &:hover { top: -0.5em; }
+      &.selected { top: -1em; }
+    }
+  }
+
   html.flexbox & {
     @include respond-to('narrow') {
       .cards { @include scrummyFlexbox; }
+    }
+  }
 
-      .card {
-        
-        margin: 1em -1.25em 0 0;
+  /* Set up the cards */
 
-        min-height: 7em;
-        min-width: 4.5em;
+  @include respond-to('narrow') {
+    .card {
+      
+      margin: 1em -1.25em 0 0;
 
-        background: {
-          image: url('../gfx/card_art_science.svg');
-          repeat: no-repeat;
-          position: center 110%;
-          size: 90% 90%;
-        };
+      min-height: 7em;
+      min-width: 4.5em;
 
-        &:hover { margin-top: 0.5em; }
+      background: {
+        image: url('../gfx/card_art_science.svg');
+        repeat: no-repeat;
+        position: center 110%;
+        size: 90% 90%;
+      };
 
-        &.selected {
-          margin-top: 0em;
+      &:hover { margin-top: 0.5em; }
 
-          @include transition(all 0.55s);
-          @include transform( rotate(-5deg) scale(1.1) );
-        }
+      &.selected {
+        margin-top: 0em;
+
+        @include transition(all 0.55s);
+        @include transform( rotate(-5deg) scale(1.1) );
       }
-
-      .card-text { font-size: 1.5em; }
     }
 
-    @include respond-to('medium') {
-      .card {
-        margin: 1.5em -1.75em 0 0;
+    .card-text { font-size: 1.5em; }
+  }
 
-        min-height: 8em;
-        min-width: 6em;
+  @include respond-to('medium') {
+    .card {
+      margin: 1.5em -1.75em 0 0;
 
-        background-position: center 120%;
-        background-size: 95% 95%;
+      min-height: 8em;
+      min-width: 6em;
 
-        &:hover { margin-top: 1em; }
-      }
+      background-position: center 120%;
+      background-size: 95% 95%;
 
-      .card-text { font-size: 1.75em; }
+      &:hover { margin-top: 1em; }
     }
 
-    @include respond-to('wide') {
-      .card {
-        margin: 1.75em -1.5em 0 0;
-      }
+    .card-text { font-size: 1.75em; }
+  }
 
-      .card-text { font-size: 1.875em; }
+  @include respond-to('wide') {
+    .card {
+      margin: 1.75em -1.5em 0 0;
     }
+
+    .card-text { font-size: 1.875em; }
   }
 }
 
