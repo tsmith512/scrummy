@@ -98,3 +98,42 @@
   -ms-interpolation-mode: bicubic;
 }
 
+@mixin scrummyFlexbox {
+  /* This is a simple vertical-match horizontal-center row-wrapping
+   * usage of the "new" CSS Flexbox model for both the current clients
+   * and the player's hand. */
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+
+  -webkit-align-items: center;
+  -moz-align-items:    center;
+  -ms-align-items:     center;
+  align-items:         center;
+
+  -webkit-justify-content: center;
+  -moz-justify-content:    center;
+  -ms-flex-pack:           justify;
+  -ms-justify-content:     center;
+  justify-content          :center;
+
+  -webkit-flex-flow:  row wrap;
+  -moz-flex-flow:     row wrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap:      wrap;
+  flex-flow:          row wrap;
+
+  .card, .client {
+    display: block;
+
+    -webkit-flex: none;
+    -moz-flex:    none;
+    -ms-flex:     none;
+    flex:         none;
+
+    float: none;
+
+    &:last-child { margin-right: 0; }
+  }
+}

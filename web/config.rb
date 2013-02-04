@@ -1,4 +1,6 @@
 # Require any additional compass plugins here.
+require 'breakpoint'
+require 'respond-to'
 
 # Set this to the root of your project when deployed:
 http_path = "/"
@@ -14,7 +16,7 @@ javascripts_dir = "js"
 # relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
-# line_comments = false
+line_comments = false
 
 
 # If you prefer the indented syntax, you might want to regenerate this
