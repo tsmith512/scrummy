@@ -14,10 +14,11 @@ io.sockets.on('connection',function(socket){
   socket.on('signIn',function(data,fn){
     // Nicknames should be unique, are displayed in uppercase, and should only
     // contain a small set of characters.
-    var requestedNick = data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'');
-
+    var requestedNick = (data.nickname) ? data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'') : false;
+    var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
+    
     // Join the requested active game.
-    var requestedGame = data.game.toLowerCase().replace(/[^\d\w]+/gi,'');
+    if ( !requestedGame ) { fn(false, 'Must supply game string hash'); return }
 
     for ( client in bucket ) {
       if (requestedNick == bucket[client].nickname.toLowerCase() ) {
