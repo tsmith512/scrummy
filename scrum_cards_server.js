@@ -20,24 +20,35 @@ io.sockets.on('connection',function(socket){
     // Join the requested active game.
     if ( !requestedGame ) { fn(false, 'Must supply game string hash'); return }
 
-    for ( client in bucket ) {
-      if (requestedNick == bucket[client].nickname.toLowerCase() ) {
-        fn( false, 'Nickname already in use.' );
-        return;
+    if ( typeof(bucket[requestedGame]) === "undefined" ) {
+      // This game is new, create the array in the bucket.
+      bucket[requestedGame] = [];
+    } else {
+      // This game exists, check for duplicate names
+      for ( client in bucket[requestedGame] ) {
+        if (requestedNick == bucket[requestedGame][client].nickname.toLowerCase() ) {
+          fn( false, 'Nickname already in use.' );
+          return;
+        }
       }
     }
 
     client = {sid: socket.id, nickname: requestedNick, game: requestedGame};
     console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
 
-    bucket.push(client);
-    socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
+    bucket[requestedGame].push(client);
+
     socket.join(requestedGame);
+
+    socket.broadcast.in(requestedGame).emit('userSignedIn',
+      {'nickname' : client.nickname, 'sid' : client.sid}
+    );
+
     fn(true,{
       'sid' : client.sid,
       'nick' : requestedNick,
       'points' : config.points,
-      'users' : bucket,
+      'users' : bucket[requestedGame],
       'game' : requestedGame
     });
   });
