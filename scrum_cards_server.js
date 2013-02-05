@@ -27,16 +27,18 @@ io.sockets.on('connection',function(socket){
       }
     }
 
-    client = {sid: socket.id, nickname: requestedNick}
+    client = {sid: socket.id, nickname: requestedNick, game: requestedGame};
     console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
 
     bucket.push(client);
     socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
+    socket.join(requestedGame);
     fn(true,{
       'sid' : client.sid,
       'nick' : requestedNick,
       'points' : config.points,
-      'users' : bucket
+      'users' : bucket,
+      'game' : requestedGame
     });
   });
 

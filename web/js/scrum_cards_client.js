@@ -39,9 +39,13 @@ function signIn(){
     data.game = window.location.hash.substring(1);
   }
 
+  console.log(data);
+
   cli.send('signIn', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
+
+    console.log(msg);
       
     /* Create cards for each item in the Points object */
     voteValues = msg.points;
@@ -60,6 +64,9 @@ function signIn(){
     /* Use the sanitized nickname from the server so it appears
      * consistently among clients. */
     myNick = msg.nickname;
+
+    /* Use the sanitized game from the server so we can send the link to others */
+    myGame = msg.game;
 
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
