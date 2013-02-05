@@ -16,6 +16,9 @@ io.sockets.on('connection',function(socket){
     // contain a small set of characters.
     var requestedNick = data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'');
 
+    // Join the requested active game.
+    var requestedGame = data.game.toLowerCase().replace(/[^\d\w]+/gi,'');
+
     for ( client in bucket ) {
       if (requestedNick == bucket[client].nickname.toLowerCase() ) {
         fn( false, 'Nickname already in use.' );
@@ -24,7 +27,7 @@ io.sockets.on('connection',function(socket){
     }
 
     client = {sid: socket.id, nickname: requestedNick}
-    console.log("Client %s connected", requestedNick);
+    console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
 
     bucket.push(client);
     socket.broadcast.emit('userSignedIn',{'nickname' : client.nickname, 'sid' : client.sid});
