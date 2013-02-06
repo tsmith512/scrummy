@@ -132,16 +132,16 @@ io.sockets.on('connection',function(socket){
     
     /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
      * client having to recalculate the length (as you would in a for loop) */
-    var i = bucket.length;
+    var i = bucket[game].length;
     while (i--) {
-      if (bucket[i].sid == socket.id) {
-        var client = bucket[i];
-        bucket.splice(i, 1);
+      if (bucket[game][i].sid == socket.id) {
+        var client = bucket[game][i];
+        bucket[game].splice(i, 1);
 
         /* This data is safe to send out, it's coming from the stored bucket,
          * not the incoming socket data. */
         socket.broadcast.emit('clientDisconnect', {'nickname' : client.nickname, 'sid' : client.sid });
-        console.log("Client %s disconnected. %d remaining.", client.nickname, bucket.length);
+        console.log("Client %s disconnected. %d remaining in room.", client.nickname, bucket[game].length);
       }
     }
   });
