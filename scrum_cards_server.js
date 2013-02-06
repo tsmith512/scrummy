@@ -33,9 +33,16 @@ io.sockets.on('connection',function(socket){
       }
     }
 
-    client = {sid: socket.id, nickname: requestedNick, game: requestedGame};
+    /*
+     * We need an easy way to know what game a client is playing, and the lookup
+     * alternative appears to be `io.sockets.manager.roomClients[socket.id]` so
+     * for the time being, I'm just gonna store it as a socket variable also.
+     */
+    socket.set('game', requestedGame, null);
+
     console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
 
+    client = {sid: socket.id, nickname: requestedNick, game: requestedGame};
     bucket[requestedGame].push(client);
 
     socket.join(requestedGame);
@@ -60,11 +67,21 @@ io.sockets.on('connection',function(socket){
       return false;
     }
 
-    /* Broadcast the vote and our socket.id to everyone */
-    io.sockets.emit('voteOccured', { "sid": socket.id, "number": data.number } );
+    /* What's our current game? */
+    socket.get('game', function(err, game){
+      console.log(err);
+      console.log(game);
+      if ( err || !game ) {
+        fn(false, 'Could not determine active game. Please reload.');
+        return false;
+      }
+      
+      /* Broadcast the vote and our socket.id to everyone */
+      io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
 
-    /* Tell this client the vote was accepted. */
-    fn(true);
+      /* Tell this client the vote was accepted. */
+      fn(true);
+    });
   });
 
   socket.on('voteRevoke',function(data, fn){
