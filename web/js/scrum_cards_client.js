@@ -144,11 +144,17 @@ function addVote(sid,vote){
 }
 
 function resetVotes(){
-  cli.send('reset',null,null);
+  cli.send('reset',null, function(res,msg){
+    /* Server returned false; alert with message and bail */
+    if(!res){ alert(msg); return false; }
+  });
 }
 
 function revealVotes(){
-  cli.send('reveal',null,null);
+  cli.send('reveal',null, function(res,msg){
+    /* Server returned false; alert with message and bail */
+    if(!res){ alert(msg); return false; }
+  });
 }
 
 function voteOccured(e){

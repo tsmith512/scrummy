@@ -68,39 +68,68 @@ io.sockets.on('connection',function(socket){
     }
 
     /* What's our current game? */
-    socket.get('game', function(err, game){
-      console.log(err);
-      console.log(game);
-      if ( err || !game ) {
-        fn(false, 'Could not determine active game. Please reload.');
-        return false;
-      }
-      
-      /* Broadcast the vote and our socket.id to everyone */
-      io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
+    game = socket.store.data.game;
 
-      /* Tell this client the vote was accepted. */
-      fn(true);
-    });
-  });
-
-  socket.on('voteRevoke',function(data, fn){
-    io.sockets.emit('clientRevoke', { "sid": socket.id } );
+    if ( !game ) {
+      fn(false, 'Could not determine active game. Please reload.');
+      return false;
+    }
+    
+    /* Broadcast the vote and our socket.id to everyone */
+    io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
 
     /* Tell this client the vote was accepted. */
     fn(true);
   });
 
-  socket.on('reset',function(){
-    io.sockets.emit('reset');
+  socket.on('voteRevoke',function(data, fn){
+    /* What's our current game? */
+    game = socket.store.data.game;
+
+    if ( !game ) {
+      fn(false, 'Could not determine active game. Please reload.');
+      return false;
+    }
+    
+    io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
+
+    /* Tell this client the vote was accepted. */
+    fn(true);
   });
 
-  socket.on('reveal',function(){
-    io.sockets.emit('reveal');
+  socket.on('reset',function(data, fn){
+    /* What's our current game? */
+    game = socket.store.data.game;
+
+    if ( !game ) {
+      fn(false, 'Could not determine active game. Please reload.');
+      return false;
+    }
+    
+    io.sockets.in(game).emit('reset');
   });
 
-  socket.on('disconnect',function(){
+  socket.on('reveal',function(data, fn){
+    /* What's our current game? */
+    game = socket.store.data.game;
 
+    if ( !game ) {
+      fn(false, 'Could not determine active game. Please reload.');
+      return false;
+    }
+    
+    io.sockets.in(game).emit('reveal');
+  });
+
+  socket.on('disconnect',function(data, fn){
+    /* What's our current game? */
+    game = socket.store.data.game;
+
+    if ( !game ) {
+      fn(false, 'Could not determine active game. Please reload.');
+      return false;
+    }
+    
     /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
      * client having to recalculate the length (as you would in a for loop) */
     var i = bucket.length;
