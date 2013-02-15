@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Hook server-dispatched socket events to document events                     *
+ *******************************************************************************/
+
 var client = function(){
   var conStr = window.location.origin;
   this.socket = io.connect(conStr);
