@@ -625,7 +625,7 @@ a {
 #container {
   width: 96%;
   max-width: 1000px;
-  margin: 0.5em auto;
+  margin: 0.25em auto;
   padding: 0.5em;
   border: 1px solid #151211;
   -webkit-border-radius: 10px;
@@ -640,13 +640,13 @@ a {
 }
 @media (min-width: 980px) {
   #container {
-    margin: 1em auto;
+    margin: 0.75em auto;
     padding: 1em;
   }
 }
 @media (min-width: 1080px) {
   #container {
-    margin: 2em auto;
+    margin: 1.5em auto 1em auto;
     padding: 1em;
   }
 }
@@ -1138,5 +1138,36 @@ html.no-flexbox #playersHand .card.selected {
   }
   #playersHand .card-text {
     font-size: 1.875em;
+  }
+}
+
+footer {
+  width: 96%;
+  max-width: 1000px;
+  margin: 0.5em auto 1em auto;
+  font-size: 0.625em;
+  text-align: center;
+  color: #11341c;
+  font-family: Helvetica, Arial, sans-serif;
+}
+footer a {
+  color: black;
+}
+@media (min-width: 680px) {
+  footer {
+    font-size: 0.75em;
+  }
+}
+@media (min-width: 980px) {
+  footer {
+    font-size: 0.875em;
+    text-shadow: 1px 1px 0 #38a65a;
+    font-family: 'Fjalla One', sans-serif;
+    font-weight: 400;
+  }
+}
+@media (min-width: 1080px) {
+  footer {
+    font-size: 1em;
   }
 }
