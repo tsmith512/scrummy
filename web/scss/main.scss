@@ -181,7 +181,7 @@ input {
 
     border: 1px solid darken($blue, 10%);
 
-    &:hover {
+    &:hover, &.active {
       @include text-shadow( darken($orange, 50%) 1px 1px 0 );
 
       background: $orange;
@@ -223,7 +223,7 @@ input {
  */
 #gameLink {
   display: none;
-  
+
   width: 100%;
   margin-top: 3px;
   border-top: 1px solid lighten($low, 8%);
