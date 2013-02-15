@@ -69,6 +69,9 @@ function signIn(){
     myGame = msg.game;
     window.location.hash = ('#' + myGame);
 
+    /* Populate the Game URL field */
+    $('#txtUrl').val( window.location.href );
+
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
     $(currentUsers).each(function(i,e){ displayClient(e.sid, e.nickname); })
