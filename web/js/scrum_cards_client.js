@@ -75,6 +75,8 @@ function signIn(mode){
           .append( $('<span />').addClass('card-text').text(item) )
           .appendTo('.cards');
       });
+    } else {
+      $('<h3 />').text('Observing. Reload to participate.').appendTo('#playersHand');
     }
 
     /* Set client Socket ID for later; it's our identifier server-side */
