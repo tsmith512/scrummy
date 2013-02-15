@@ -170,7 +170,6 @@ input {
 
   input {
     margin: 6px 0;
-    &:first-child { margin-right: 2%; }
   }
 
   input[type="button"], input[type="submit"] {
@@ -182,7 +181,7 @@ input {
 
     border: 1px solid darken($blue, 10%);
 
-    &:hover {
+    &:hover, &.active {
       @include text-shadow( darken($orange, 50%) 1px 1px 0 );
 
       background: $orange;
@@ -199,6 +198,7 @@ input {
 #loginActions {
   input[type="text"] {
     width: 72%;
+    margin-right: 2%;
   }
 
   input[type="button"], input[type="submit"] {
@@ -212,9 +212,27 @@ input {
  */
 #votingActions {
   input {
-    width: 48%;
+    width: 32%;
+    margin-left: 1%;
+    &#btnReveal { margin-left: 0; }
   }
 }
 
+/**
+ * The shared game link box (inside the Voting actions box)
+ */
+#gameLink {
+  display: none;
+
+  width: 100%;
+  margin-top: 3px;
+  border-top: 1px solid lighten($low, 8%);
+  padding-top: 3px;
+
+  input {
+    width: 99%;
+    margin-left: 0;
+  }
+}
 
 @import 'clients', 'hand';

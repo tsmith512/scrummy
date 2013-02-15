@@ -723,9 +723,6 @@ input:hover {
 #loginActions input, #votingActions input {
   margin: 6px 0;
 }
-#loginActions input:first-child, #votingActions input:first-child {
-  margin-right: 2%;
-}
 #loginActions input[type="button"], #loginActions input[type="submit"], #votingActions input[type="button"], #votingActions input[type="submit"] {
   color: #e3dfe3;
   text-shadow: black 1px 1px 0;
@@ -737,7 +734,7 @@ input:hover {
   background-image: linear-gradient(#0e536e, #083141);
   border: 1px solid #083141;
 }
-#loginActions input[type="button"]:hover, #loginActions input[type="submit"]:hover, #votingActions input[type="button"]:hover, #votingActions input[type="submit"]:hover {
+#loginActions input[type="button"]:hover, #loginActions input[type="button"].active, #loginActions input[type="submit"]:hover, #loginActions input[type="submit"].active, #votingActions input[type="button"]:hover, #votingActions input[type="button"].active, #votingActions input[type="submit"]:hover, #votingActions input[type="submit"].active {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ec3503), color-stop(100%, #871f02));
@@ -753,6 +750,7 @@ input:hover {
  */
 #loginActions input[type="text"] {
   width: 72%;
+  margin-right: 2%;
 }
 #loginActions input[type="button"], #loginActions input[type="submit"] {
   width: 24%;
@@ -762,7 +760,26 @@ input:hover {
  * Voting Actions & Results Section
  */
 #votingActions input {
-  width: 48%;
+  width: 32%;
+  margin-left: 1%;
+}
+#votingActions input#btnReveal {
+  margin-left: 0;
+}
+
+/**
+ * The shared game link box (inside the Voting actions box)
+ */
+#gameLink {
+  display: none;
+  width: 100%;
+  margin-top: 3px;
+  border-top: 1px solid #473c3a;
+  padding-top: 3px;
+}
+#gameLink input {
+  width: 99%;
+  margin-left: 0;
 }
 
 /**

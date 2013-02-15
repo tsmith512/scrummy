@@ -26,6 +26,21 @@ $(document).ready(function(){
   /* Setup the reveal and restore buttons in #votingActions */
   $("#btnReveal").click(function(){ revealVotes(); });
   $("#btnReset").click(function(){ resetVotes(); });
+
+  /* Set up the button to display the game link in voting actions */
+  $("#btnLink").click(function(){
+    if ( $(this).hasClass('active') ) {
+      $('#gameLink').slideUp();
+      $(this).removeClass('active');
+    } else {
+      $('#gameLink').slideDown();
+      $(this).addClass('active');      
+    }
+  });
+
+  /* I don't want to overwrite someone's clipboard without asking, but we will
+   * select the whole thing when they click on the URL. */
+  $("#txtUrl").click(function(){ $(this).select(); });
 });
 
 function signIn(){
@@ -68,6 +83,9 @@ function signIn(){
     /* Use the sanitized game from the server so we can send the link to others */
     myGame = msg.game;
     window.location.hash = ('#' + myGame);
+
+    /* Populate the Game URL field */
+    $('#txtUrl').val( window.location.href );
 
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
