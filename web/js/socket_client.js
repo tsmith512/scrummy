@@ -23,6 +23,7 @@ var client = function(){
     var evt = createEvent('userSignedIn');
     evt.nickname = data.nickname;
     evt.sid = data.sid;
+    evt.mode = data.mode;
     document.dispatchEvent(evt);
   });
   this.socket.on('voteOccured', function(data){

@@ -16,7 +16,8 @@ $(document).ready(function(){
   document.addEventListener('clientReveal',clientReveal,false);
 
   /* On form submit, execute signIn() but don't actually post/get or reload */
-  $("#loginActions form").submit(function(){ signIn(); return false; })
+  $("#loginActions form").submit(function(){ signIn(1); return false; })
+  $("#btnObserve").click(function(){ signIn(0); return false; })
 
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
@@ -43,35 +44,38 @@ $(document).ready(function(){
   $("#txtUrl").click(function(){ $(this).select(); });
 });
 
-function signIn(){
+/**
+ * Handle the sign in. The 'playing' argument is 1/0 and determines whether
+ * this client is a pig (committed player) or a chicken (invested observer).
+ */
+
+function signIn(mode){
   cli = new client();
   myNick = $('#txtNickname').val();
 
-  var data = {'nickname' : myNick};
+  var data = {'nickname' : myNick, 'mode' : mode};
 
   /* Have we requested to join a specific game? */
   if ( window.location.hash.substring(1).length ) {
     data.game = window.location.hash.substring(1);
   }
 
-  console.log(data);
-
   cli.send('signIn', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
-
-    console.log(msg);
-      
-    /* Create cards for each item in the Points object */
-    voteValues = msg.points;
-    $(voteValues).each(function(index,item){
-      $('<div />')
-        .hide() /* Hidden for now, showCards() reveals them in sequence */
-        .addClass('card')
-        .click(function(){ vote(this); })
-        .append( $('<span />').addClass('card-text').text(item) )
-        .appendTo('.cards');
-    });
+    
+    if (mode) {
+      /* Create cards for each item in the Points object */
+      voteValues = msg.points;
+      $(voteValues).each(function(index,item){
+        $('<div />')
+          .hide() /* Hidden for now, showCards() reveals them in sequence */
+          .addClass('card')
+          .click(function(){ vote(this); })
+          .append( $('<span />').addClass('card-text').text(item) )
+          .appendTo('.cards');
+      });
+    }
 
     /* Set client Socket ID for later; it's our identifier server-side */
     mySid = msg.sid;
@@ -89,7 +93,10 @@ function signIn(){
 
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
-    $(currentUsers).each(function(i,e){ displayClient(e.sid, e.nickname); })
+    $(currentUsers).each(function(i,e){
+      // Only display them if they're playing
+      if ( e.mode ) { displayClient(e.sid, e.nickname); }
+    })
 
     /* Hide the sign-in form, reveal the results panel and the "hand" */
     $('#nickname-display').text(myNick);
@@ -180,7 +187,9 @@ function voteOccured(e){
     addVote(e.sid,e.number);
 }
 function userSignedIn(e){
+  if (e.mode) {
     displayClient(e.sid, e.nickname);
+  }
 }
 function clientDisconnected(e){
     $('#'+e.sid).remove();
