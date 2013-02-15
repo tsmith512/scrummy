@@ -26,6 +26,7 @@ $(document).ready(function(){
   /* Setup the reveal and restore buttons in #votingActions */
   $("#btnReveal").click(function(){ revealVotes(); });
   $("#btnReset").click(function(){ resetVotes(); });
+  $("#btnLink").click(function(){ $('#gameLink').slideToggle(); });
 });
 
 function signIn(){
