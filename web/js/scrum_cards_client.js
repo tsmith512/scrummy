@@ -4,6 +4,7 @@ require(['js/socket_client.js'],function(cl){
 var cli = null;
 var mySid = null;
 var myNick = null;
+var myGame = null;
 var voteValues = null;
 
 $(document).ready(function(){
@@ -17,6 +18,11 @@ $(document).ready(function(){
   /* On form submit, execute signIn() but don't actually post/get or reload */
   $("#loginActions form").submit(function(){ signIn(); return false; })
 
+  /* If we have a game hash, put it in the "game" text field */
+  if ( window.location.hash.length ) {
+    $("#loginActions #txtGame").val( window.location.hash.substring(1) );
+  }
+
   /* Setup the reveal and restore buttons in #votingActions */
   $("#btnReveal").click(function(){ revealVotes(); });
   $("#btnReset").click(function(){ resetVotes(); });
@@ -26,9 +32,20 @@ function signIn(){
   cli = new client();
   myNick = $('#txtNickname').val();
 
-  cli.send('signIn',{ 'nickname' : myNick }, function(res,msg){
+  var data = {'nickname' : myNick};
+
+  /* Have we requested to join a specific game? */
+  if ( window.location.hash.substring(1).length ) {
+    data.game = window.location.hash.substring(1);
+  }
+
+  console.log(data);
+
+  cli.send('signIn', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
+
+    console.log(msg);
       
     /* Create cards for each item in the Points object */
     voteValues = msg.points;
@@ -47,6 +64,10 @@ function signIn(){
     /* Use the sanitized nickname from the server so it appears
      * consistently among clients. */
     myNick = msg.nickname;
+
+    /* Use the sanitized game from the server so we can send the link to others */
+    myGame = msg.game;
+    window.location.hash = ('#' + myGame);
 
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
@@ -124,11 +145,17 @@ function addVote(sid,vote){
 }
 
 function resetVotes(){
-  cli.send('reset',null,null);
+  cli.send('reset',null, function(res,msg){
+    /* Server returned false; alert with message and bail */
+    if(!res){ alert(msg); return false; }
+  });
 }
 
 function revealVotes(){
-  cli.send('reveal',null,null);
+  cli.send('reveal',null, function(res,msg){
+    /* Server returned false; alert with message and bail */
+    if(!res){ alert(msg); return false; }
+  });
 }
 
 function voteOccured(e){
