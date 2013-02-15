@@ -50,13 +50,19 @@ io.sockets.on('connection',function(socket){
 
     console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
 
-    client = {sid: socket.id, nickname: requestedNick, game: requestedGame};
+    client = {
+      sid: socket.id,
+      nickname: requestedNick,
+      game: requestedGame,
+      mode: parseInt( data.mode )
+    };
+
     bucket[requestedGame].push(client);
 
     socket.join(requestedGame);
 
     socket.broadcast.in(requestedGame).emit('userSignedIn',
-      {'nickname' : client.nickname, 'sid' : client.sid}
+      {'nickname' : client.nickname, 'sid' : client.sid, 'mode' : client.mode}
     );
 
     fn(true,{

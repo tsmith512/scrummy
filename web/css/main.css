@@ -749,10 +749,14 @@ input:hover {
  * Login Form
  */
 #loginActions input[type="text"] {
-  width: 72%;
-  margin-right: 2%;
+  width: 47%;
+  margin-right: 1%;
 }
-#loginActions input[type="button"], #loginActions input[type="submit"] {
+#loginActions #btnSignIn {
+  width: 24%;
+  margin-right: 1%;
+}
+#loginActions #btnObserve {
   width: 24%;
 }
 
