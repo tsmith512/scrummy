@@ -25,18 +25,23 @@
 
   <div id="container">
     <section id="top"></section>
-    <section id="dSignIn" class="signin-form">
-      <h2>Log In</h2>
+    <section id="login" class="signin-form">
+      <h2>Welcome</h2>
       <div id="loginActions"><form>
-        <input type="text" id="txtNickname" />
-        <input type="submit" value="Go" id="btnSignIn" />
+        <input type="text" id="txtNickname" placeholder="Nickname?" />
+        <input type="submit" value="Play" id="btnSignIn" />
+        <input type="button" value="Watch" id="btnObserve" />
       </form></div><!--/#loginActions-->
-    </section><!--#/dSignIn-->
+    </section><!--#/login-->
 
     <section id="votingResult" style="display:none">
       <div id="votingActions">
         <input type="button" id="btnReveal" value="Reveal" />
         <input type="button" id="btnReset" value="Reset" />
+        <input type="button" id="btnLink" value="Game Link" />
+        <div id="gameLink">
+          <input type="text" id="txtUrl" readonly />
+        </div>
       </div><!--/#votingActions-->
       <div id="clients"></div>
     </section><!--/#votingResult-->
@@ -47,6 +52,11 @@
     </section><!--/#dVote-->
     <section id="bottom"></section>
   </div><!--/#container-->
+
+  <footer>
+    Scrummy is a creation of the Web Chefs at
+    <a href="http://www.fourkitchens.com">Four Kitchens</a>.
+  </footer>
 
 </body>
 </html>

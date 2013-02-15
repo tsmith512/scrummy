@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * Hook server-dispatched socket events to document events                     *
+ *******************************************************************************/
+
 var client = function(){
   var conStr = window.location.origin;
   this.socket = io.connect(conStr);
@@ -23,6 +27,7 @@ var client = function(){
     var evt = createEvent('userSignedIn');
     evt.nickname = data.nickname;
     evt.sid = data.sid;
+    evt.mode = data.mode;
     document.dispatchEvent(evt);
   });
   this.socket.on('voteOccured', function(data){

@@ -88,7 +88,7 @@ a {
   width: 96%;
   max-width: 1000px;
 
-  margin: 0.5em auto;
+  margin: 0.25em auto;
   padding: 0.5em;
 
   border: 1px solid darken($low, 10%);
@@ -97,17 +97,17 @@ a {
   background: $low url('../gfx/pit_bg_wood.jpg') center center repeat;
 
   @include respond-to('small') {
-    margin: 1em auto;
+    margin: 0.5em auto;
     padding: 0.5em;
   }
 
   @include respond-to('medium') {
-    margin: 1em auto;
+    margin: 0.75em auto;
     padding: 1em;
   }
 
   @include respond-to('wide') {
-    margin: 2em auto;
+    margin: 1.5em auto 1em auto;
     padding: 1em;
   }
 }
@@ -170,7 +170,6 @@ input {
 
   input {
     margin: 6px 0;
-    &:first-child { margin-right: 2%; }
   }
 
   input[type="button"], input[type="submit"] {
@@ -182,7 +181,7 @@ input {
 
     border: 1px solid darken($blue, 10%);
 
-    &:hover {
+    &:hover, &.active {
       @include text-shadow( darken($orange, 50%) 1px 1px 0 );
 
       background: $orange;
@@ -198,10 +197,16 @@ input {
  */
 #loginActions {
   input[type="text"] {
-    width: 72%;
+    width: 47%;
+    margin-right: 1%;
   }
 
-  input[type="button"], input[type="submit"] {
+  #btnSignIn {
+    width: 24%;
+    margin-right: 1%;
+  }
+
+  #btnObserve {
     width: 24%;
   }
 
@@ -212,9 +217,56 @@ input {
  */
 #votingActions {
   input {
-    width: 48%;
+    width: 32%;
+    margin-left: 1%;
+    &#btnReveal { margin-left: 0; }
   }
 }
 
+/**
+ * The shared game link box (inside the Voting actions box)
+ */
+#gameLink {
+  display: none;
+
+  width: 100%;
+  margin-top: 3px;
+  border-top: 1px solid lighten($low, 8%);
+  padding-top: 3px;
+
+  input {
+    width: 99%;
+    margin-left: 0;
+  }
+}
 
 @import 'clients', 'hand';
+
+footer {
+  width: 96%;
+  max-width: 1000px;
+  margin: 0.5em auto 1em auto;
+
+  font-size: 0.625em;
+  text-align: center;
+
+  color: darken($green, 20%);
+  font-family: Helvetica, Arial, sans-serif;
+  
+
+  a { color: darken($green, 35%); }
+
+  @include respond-to('narrow') {
+    font-size: 0.75em;
+  }
+
+  @include respond-to('medium') {
+    font-size: 0.875em;
+    @include text-shadow( 1px 1px 0 lighten($green, 10%) );
+    @include fjalla;
+  }
+
+  @include respond-to('wide') {
+    font-size: 1em;
+  }
+}
