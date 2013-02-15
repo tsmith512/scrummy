@@ -7,6 +7,10 @@ var myNick = null;
 var myGame = null;
 var voteValues = null;
 
+/*******************************************************************************
+ * BASIC SETUP, READY FUNCTIONS, AND THE SIGN IN FUNCTION                      *
+ *******************************************************************************/
+
 $(document).ready(function(){
   document.addEventListener('voteOccured',voteOccured,true);
   document.addEventListener('userSignedIn',userSignedIn,true);
@@ -60,10 +64,14 @@ function signIn(mode){
     data.game = window.location.hash.substring(1);
   }
 
+  /**
+   * Handle the login action and set up local variables
+   */
   cli.send('signIn', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
     
+    /* Show our hand if we're a playing client, not if we're observing */
     if (mode) {
       /* Create cards for each item in the Points object */
       voteValues = msg.points;
@@ -102,29 +110,19 @@ function signIn(mode){
 
     /* Hide the sign-in form, reveal the results panel and the "hand" */
     $('#nickname-display').text(myNick);
-    $('#dSignIn').slideUp();
+    $('#login').slideUp();
     $('#votingResult, #playersHand').slideDown();
     showCards();
   });
 }
 
-function clientReset(e){
-  $('#playersHand .card').removeClass('selected');
-  $('#votingResult .vote').text('');
-  $('#votingResult .client').removeClass('voted');
-  $('#votingResult').removeClass('reveal');
-}
+/*******************************************************************************
+ * FRONT-END UTILITY FUNCTIONS                                                 *
+ *******************************************************************************/
 
-function clientRevoke(e){
-  $('#votingResult .card-text');
-  $('#' + e.sid + ' .vote').text('');
-  $('#' + e.sid ).removeClass('voted');
-}
-
-function clientReveal(e){
-  $('#votingResult').addClass('reveal');
-}
-
+/**
+ * Animate reveal the hand of cards
+ */
 function showCards() {
   var newCards = $('.card:hidden');
   newCards.each(function(i){
@@ -132,6 +130,100 @@ function showCards() {
   });
 }
 
+/**
+ * Create a vote card for a given user
+ */
+function displayClient(sid, nickname){
+  $('<div />')
+    .attr('id', sid)
+    .addClass('client')
+    .append('<div class="nickname">'+nickname+'</div>')
+    .append('<div class="vote-wrap"><span class="vote"></span></div>')
+    .appendTo('#clients');
+}
+
+/**
+ * Add a vote number to a client voting card and highlight it.
+ */
+function addVote(sid,vote){
+  $('#votingResult .card-text');
+  $('#' + sid + ' .vote').text(vote);
+  $('#' + sid ).addClass('voted');
+}
+
+
+/*******************************************************************************
+ * SERVER SAYS...                                                              *
+ *******************************************************************************/
+
+/**
+ * The server has ordered clients to reset all votes
+ */
+function clientReset(e){
+  $('#playersHand .card').removeClass('selected');
+  $('#votingResult .vote').text('');
+  $('#votingResult .client').removeClass('voted');
+  $('#votingResult').removeClass('reveal');
+}
+
+/**
+ * The server has indicated that a user has withdrawn his or her vote
+ */
+function clientRevoke(e){
+  $('#votingResult .card-text');
+  $('#' + e.sid + ' .vote').text('');
+  $('#' + e.sid ).removeClass('voted');
+}
+
+/**
+ * The server has ordered clients to reveal all votes
+ */
+function clientReveal(e){
+  $('#votingResult').addClass('reveal');
+}
+
+/**
+ * The server has indicated that a client has voted
+ */
+function voteOccured(e){
+  addVote(e.sid,e.number);
+}
+
+/**
+ * The server has indicated that a user has connected. If they're playing (not
+ * observing), pass it over to displayClient();
+ */
+function userSignedIn(e){
+  if (e.mode) {
+    displayClient(e.sid, e.nickname);
+  }
+
+  /**
+   * Presently, the server doesn't store votes. The easy way to get new clients
+   * caught up on votes that occurred before they connected is just to rebroadcast
+   * the votes.
+   */
+
+  // Get text of the new vote.
+  if ( $('.cards .selected').length ) {
+    var number = $('.cards .selected').children('.card-text').text();
+
+    // Send the vote. No callback actions because this isn't a real voting action.
+    cli.send('vote',{ 'number' : number }, function(res,msg){ return true; });
+  }
+}
+
+function clientDisconnected(e){
+  $('#'+e.sid).remove();
+}
+
+/*******************************************************************************
+ * USER ACTIONS, NOTIFY SERVER                                                 *
+ *******************************************************************************/
+
+/**
+ * User has clicked a card. Send vote to server for broadcasting
+ */
 function vote(card){
   if ( $(card).hasClass('selected') ) {
     /* The "current" vote has been clicked. We should revoke it. */
@@ -156,21 +248,10 @@ function vote(card){
   }
 }
 
-function displayClient(sid, nickname){
-  $('<div />')
-    .attr('id', sid)
-    .addClass('client')
-    .append('<div class="nickname">'+nickname+'</div>')
-    .append('<div class="vote-wrap"><span class="vote"></span></div>')
-    .appendTo('#clients');
-}
-
-function addVote(sid,vote){
-  $('#votingResult .card-text');
-  $('#'+sid+' .vote').text(vote);
-  $('#'+sid).addClass('voted');
-}
-
+/**
+ * User has clicked the "reset" button; tell the server. Reset is actually handled
+ * by the event action so it happens simultaneously with other clients in the game
+ */
 function resetVotes(){
   cli.send('reset',null, function(res,msg){
     /* Server returned false; alert with message and bail */
@@ -178,37 +259,12 @@ function resetVotes(){
   });
 }
 
+/**
+ * Like above, but with the reveal button.
+ */
 function revealVotes(){
   cli.send('reveal',null, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
   });
-}
-
-function voteOccured(e){
-    addVote(e.sid,e.number);
-}
-
-function userSignedIn(e){
-  if (e.mode) {
-    displayClient(e.sid, e.nickname);
-  }
-
-  /**
-   * Presently, the server doesn't store votes. The easy way to get new clients
-   * caught up on votes that occurred before they connected is just to rebroadcast
-   * the votes.
-   */
-
-  // Get text of the new vote.
-  if ( $('.cards .selected').length ) {
-    var number = $('.cards .selected').children('.card-text').text();
-
-    // Send the vote. No callback actions because this isn't a real voting action.
-    cli.send('vote',{ 'number' : number }, function(res,msg){ return true; });
-  }
-}
-
-function clientDisconnected(e){
-    $('#'+e.sid).remove();
 }
