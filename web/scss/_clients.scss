@@ -17,7 +17,7 @@
     @include box-shadow($dark 0px 0px 10px);
 
     &.voted {
-      .nickname:first-letter { color: $orange; }
+      .nickname { color: $orange; }
       @include box-shadow($dark 0px 0px 15px);
     }
 
@@ -29,10 +29,12 @@
 
       .nickname {
         color: $dark;
-        &:first-letter { color: $red; }
         @include text-shadow(none);
       }
 
+      &.voted {
+        .nickname { color: $red; }
+      }
     }
   }
 

@@ -809,7 +809,7 @@ input:hover {
   -moz-box-shadow: #1f1a19 0px 0px 15px;
   box-shadow: #1f1a19 0px 0px 15px;
 }
-#clients .client.voted .nickname:first-letter {
+#clients .client.voted .nickname {
   color: #fc5426;
 }
 #clients .client .vote {
@@ -825,7 +825,7 @@ input:hover {
   color: #1f1a19;
   text-shadow: none;
 }
-#votingResult.reveal #clients .client .nickname:first-letter {
+#votingResult.reveal #clients .client.voted .nickname {
   color: #d71414;
 }
 #clients .nickname {
