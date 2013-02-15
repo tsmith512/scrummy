@@ -17,9 +17,15 @@ io.sockets.on('connection',function(socket){
     var requestedNick = (data.nickname) ? data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'') : false;
     var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
     
-    // Join the requested active game.
-    if ( !requestedGame ) { fn(false, 'Must supply game string hash'); return }
+    // Join the requested active game. If there isn't one, make one!
+    if ( !requestedGame ) {
+      // Generate random strings until we have one that's no in use.
+      while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
+        requestedGame = Math.random().toString(36).substring(2,10);
+      }
+    }
 
+    // Either a game was requested, or we've made a string. Set it up.
     if ( typeof(bucket[requestedGame]) === "undefined" ) {
       // This game is new, create the array in the bucket.
       bucket[requestedGame] = [];
@@ -37,6 +43,8 @@ io.sockets.on('connection',function(socket){
      * We need an easy way to know what game a client is playing, and the lookup
      * alternative appears to be `io.sockets.manager.roomClients[socket.id]` so
      * for the time being, I'm just gonna store it as a socket variable also.
+     * The easy way to get this back is: game = socket.store.data.game;
+     * The socket.get() function is asynchronous, which we don't really need.
      */
     socket.set('game', requestedGame, null);
 

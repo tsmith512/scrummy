@@ -67,6 +67,7 @@ function signIn(){
 
     /* Use the sanitized game from the server so we can send the link to others */
     myGame = msg.game;
+    window.location.hash = ('#' + myGame);
 
     /* Server should respond with users already in the game, display them */
     currentUsers = msg.users;
