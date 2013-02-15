@@ -188,11 +188,27 @@ function revealVotes(){
 function voteOccured(e){
     addVote(e.sid,e.number);
 }
+
 function userSignedIn(e){
   if (e.mode) {
     displayClient(e.sid, e.nickname);
   }
+
+  /**
+   * Presently, the server doesn't store votes. The easy way to get new clients
+   * caught up on votes that occurred before they connected is just to rebroadcast
+   * the votes.
+   */
+
+  // Get text of the new vote.
+  if ( $('.cards .selected').length ) {
+    var number = $('.cards .selected').children('.card-text').text();
+
+    // Send the vote. No callback actions because this isn't a real voting action.
+    cli.send('vote',{ 'number' : number }, function(res,msg){ return true; });
+  }
 }
+
 function clientDisconnected(e){
     $('#'+e.sid).remove();
 }
