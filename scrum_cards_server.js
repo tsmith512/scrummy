@@ -129,12 +129,17 @@ io.sockets.on('connection',function(socket){
     io.sockets.in(game).emit('reveal');
   });
 
-  socket.on('disconnect',function(data, fn){
+  socket.on('disconnect',function(data){
     /* What's our current game? */
     game = socket.store.data.game;
 
     if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
+      /* In testing, I determined that if we don't have a valid game, it's because
+       * the server went down and came back up, so there isn't a game set. For any
+       * other interaction, the player is asked to reload and start again. But in
+       * the case of a disconnect, we can just let him or her go without worrying
+       * about stale memebers in the bucket[game] arrays. In the future, we should
+       * handle reconnections properly, which will fix this problem. */
       return false;
     }
     
