@@ -197,11 +197,16 @@ input {
  */
 #loginActions {
   input[type="text"] {
-    width: 72%;
-    margin-right: 2%;
+    width: 47%;
+    margin-right: 1%;
   }
 
-  input[type="button"], input[type="submit"] {
+  #btnSignIn {
+    width: 24%;
+    margin-right: 1%;
+  }
+
+  #btnObserve {
     width: 24%;
   }
 
