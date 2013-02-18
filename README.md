@@ -1,25 +1,43 @@
 # scrummy &ndash; A Scrum Planning Game
 
-This application is used during planning and estimation meetings and is useful when the team isn't at the same location.
+scrummy is a [card game for scrum story point estimation][poker]. Originally forked from
+[simewn's project][simewn] by [tsmith512][], the Web Chefs of [Four Kitchens][4K]
+have continued development to include several new features and enhancements:
+
+## Features
+
+* Self-contained node.js application, serving static components using [Express][]
+  and leveraging [Socket.io][] for easy websockets and client/server event handling.
+* Multiple game hosting: users may share links to specific games, or be assigned
+  a new game when signing in.
+* Customizable point card strings in server config.
+* [Chickens and Pigs][CP] (observer and player) modes.
+* Shared game control: any client may reveal or reset the vote cards.
+* Playing clients may place and revoke their votes by clicking cards in their hand.
+* Fully responsive front-end design powered by [Sass][] and [Compass][] with
+  [Modernizr][] feature detection. 
 
 ## Requirements
 
-* HTML5 supporting browser that supports websockets.
-* node.js and npm installed
-* socket.io (included in repo)
-* express (npm install express)
-* some kind of webserver, only tested on apache.
+* **Server:** Node.js and npm <br />
+  _Node module dependencies installable with `npm install`_
+* **Client:** HTML5 browser with support for websockets <br />
+  _Currently tested in latest Chrome, Firefox, iOS 5+ Mobile Safari,
+  Android 4.x Browser_
 
 ## Setup
 
-* Copy webdir to a new directory where your webserver can access it.
-* Adjust settings in scripts/settings.js and settings.js.
-* Start the server with node scrum_cards_server.js <admin_nick>
-* Browse to host/admin.html and enter your admin nick as name.
-* All participants should browse to host url and just enter their name to participate in the planning poker.
+* `npm install`
+* Edit `settings.js` as necessary
+* `npm start`
 
-## Credits
-
-* socket.io
-* express
-* node.js
+[poker]: http://en.wikipedia.org/wiki/Planning_poker
+[simewn]: https://github.com/simewn/Web-Planning-Poker
+[tsmith512]: https://github.com/tsmith512
+[4K]: http://www.fourkitchens.com
+[Express]: http://expressjs.com/
+[Socket.io]: http://socket.io/
+[CP]: http://en.wikipedia.org/wiki/The_Chicken_and_the_Pig
+[Sass]: http://sass-lang.com/
+[Compass]: http://compass-style.org/
+[Modernizr]: http://modernizr.com/
