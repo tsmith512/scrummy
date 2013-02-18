@@ -579,6 +579,7 @@ body {
   color: #f2f2f2;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
+  line-height: 1.5;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -586,6 +587,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   color: #fc5426;
   text-align: center;
+  line-height: 1.2;
 }
 
 a {
@@ -650,6 +652,9 @@ a {
     padding: 1em;
   }
 }
+#container a {
+  color: #2b8045;
+}
 
 section {
   padding: 0.25em;
@@ -704,8 +709,8 @@ input:hover {
  * Shared Login and Voting Form Styles
  */
 #loginActions, #votingActions {
-  width: 90%;
-  max-width: 400px;
+  width: auto;
+  max-width: 500px;
   text-align: center;
   padding: 0 4px;
   margin: 0.25em auto;
@@ -784,6 +789,58 @@ input:hover {
 #gameLink input {
   width: 99%;
   margin-left: 0;
+}
+
+#readme p {
+  max-width: 35em;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 1px 1px 0 #070606;
+  -webkit-column-break-inside: avoid;
+  column-break-inside: avoid;
+}
+#readme strong {
+  font-weight: normal;
+  color: #fc5426;
+}
+#readme em {
+  font-style: normal;
+  color: #1786b2;
+}
+#readme a {
+  text-shadow: 1px 1px 0 black;
+}
+@media (min-width: 680px) {
+  html.csscolumns #readme div {
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    -ms-columns: 2;
+    -o-columns: 2;
+    columns: 2;
+    -webkit-column-gap: 2em;
+    -moz-column-gap: 2em;
+    -ms-column-gap: 2em;
+    -o-column-gap: 2em;
+    column-gap: 2em;
+  }
+  html.csscolumns #readme div p {
+    max-width: none;
+    margin-top: 0;
+  }
+}
+@media (min-width: 1080px) {
+  html.csscolumns #readme div {
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    -ms-columns: 3;
+    -o-columns: 3;
+    columns: 3;
+    -webkit-column-gap: 2em;
+    -moz-column-gap: 2em;
+    -ms-column-gap: 2em;
+    -o-column-gap: 2em;
+    column-gap: 2em;
+  }
 }
 
 /**
