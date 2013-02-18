@@ -704,6 +704,10 @@ input {
 input:hover {
   background: white;
 }
+input[type="text"] {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
 
 /**
  * Shared Login and Voting Form Styles
@@ -791,6 +795,11 @@ input:hover {
   margin-left: 0;
 }
 
+#readme .text {
+  font-size: 0.75em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
 #readme p {
   max-width: 35em;
   margin-left: auto;
@@ -811,25 +820,32 @@ input:hover {
   text-shadow: 1px 1px 0 black;
 }
 @media (min-width: 680px) {
-  html.csscolumns #readme div {
+  html.csscolumns #readme .text {
+    font-size: 0.875em;
     -webkit-columns: 2;
     -moz-columns: 2;
     -ms-columns: 2;
     -o-columns: 2;
     columns: 2;
-    -webkit-column-gap: 2em;
-    -moz-column-gap: 2em;
-    -ms-column-gap: 2em;
-    -o-column-gap: 2em;
-    column-gap: 2em;
+    -webkit-column-gap: 2.5em;
+    -moz-column-gap: 2.5em;
+    -ms-column-gap: 2.5em;
+    -o-column-gap: 2.5em;
+    column-gap: 2.5em;
   }
-  html.csscolumns #readme div p {
+  html.csscolumns #readme .text p {
     max-width: none;
     margin-top: 0;
   }
 }
+@media (min-width: 980px) {
+  html.csscolumns #readme .text {
+    font-size: 0.925em;
+  }
+}
 @media (min-width: 1080px) {
-  html.csscolumns #readme div {
+  html.csscolumns #readme .text {
+    font-size: 1em;
     -webkit-columns: 3;
     -moz-columns: 3;
     -ms-columns: 3;
