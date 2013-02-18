@@ -158,6 +158,17 @@ input {
 
   &[type="text"] {
     @include osans;
+    font-size: 0.9em; // Better matching with the Fjalla buttons
+    
+    background: $light;
+    border-color: darken($light, 10%);
+    
+    &:focus {
+      outline: 0;
+      outline-offset: 0;
+      background: $bright;
+      border: 1px solid $orange;
+    }
   }
 }
 

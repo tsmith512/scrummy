@@ -707,6 +707,15 @@ input:hover {
 input[type="text"] {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
+  font-size: 0.9em;
+  background: #e3dfe3;
+  border-color: #cbc4cb;
+}
+input[type="text"]:focus {
+  outline: 0;
+  outline-offset: 0;
+  background: #f2f2f2;
+  border: 1px solid #fc5426;
 }
 
 /**
