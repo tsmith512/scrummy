@@ -796,6 +796,7 @@ input:hover {
   /* Build the card display styles and spacing */
 }
 #clients .client {
+  position: relative;
   overflow: hidden;
   border: 4px solid #e5e5e5;
   -webkit-border-radius: 10px;
@@ -803,34 +804,36 @@ input:hover {
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  background: url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
   -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
+}
+#clients .client .card-back {
+  background: #f2f2f2 url("../gfx/card_back_bg_greenplaid_small.png") center center repeat;
+}
+#clients .client .card-back .nickname {
+  color: #f2f2f2;
+}
+#clients .client .card-front .nickname {
+  color: #1f1a19;
+  text-shadow: none;
 }
 #clients .client.voted {
   -webkit-box-shadow: #1f1a19 0px 0px 15px;
   -moz-box-shadow: #1f1a19 0px 0px 15px;
   box-shadow: #1f1a19 0px 0px 15px;
 }
-#clients .client.voted .nickname {
+#clients .client.voted .card-back .nickname {
   color: #fc5426;
 }
-#clients .client .vote {
-  display: none;
+#clients .client.voted .card-front .nickname {
+  color: #d71414;
 }
-#votingResult.reveal #clients .client {
-  background-image: none;
-}
-#votingResult.reveal #clients .client .vote {
+#votingResult.reveal #clients .client .card-back {
   display: block;
 }
-#votingResult.reveal #clients .client .nickname {
-  color: #1f1a19;
-  text-shadow: none;
-}
-#votingResult.reveal #clients .client.voted .nickname {
-  color: #d71414;
+#votingResult.reveal #clients .client .card-front {
+  display: none;
 }
 #clients .nickname {
   text-transform: uppercase;
@@ -920,13 +923,66 @@ input:hover {
   }
 }
 @media (min-width: 680px) {
+  #clients {
+    position: relative;
+    -webkit-perspective: 300px;
+    -moz-perspective: 300px;
+    -ms-perspective: 300px;
+    -o-perspective: 300px;
+    perspective: 300px;
+  }
   #clients .client {
     width: 6em;
+    height: 12em;
     padding: 0.25em;
     margin: 0.5em;
   }
-  html.multiplebgs #clients .client {
+  html.multiplebgs #clients .client .card-back {
     background: url("../gfx/card_art_fk.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  }
+  html.csstransitions #clients .client {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+  }
+  html.csstransitions #clients .client figure {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  html.csstransitions #clients .client .card-front {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    -webkit-backface-visibility: visible;
+    -moz-backface-visibility: visible;
+    -ms-backface-visibility: visible;
+    -o-backface-visibility: visible;
+    backface-visibility: visible;
+  }
+  html.csstransitions #votingResult.reveal #clients .client {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+  }
+  html.csstransitions #votingResult.reveal #clients .client figure {
+    display: block;
   }
   #clients .nickname {
     font-size: 0.875em;

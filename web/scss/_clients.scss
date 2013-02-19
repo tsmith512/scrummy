@@ -5,36 +5,37 @@
 #clients {
 
   .client {
+    position: relative;
 
     overflow: hidden;
     border: 4px solid darken($bright, 5%);
     @include border-radius(10px);
 
-    background:
-      url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
-      $bright;
-
     @include box-shadow($dark 0px 0px 10px);
 
-    &.voted {
-      .nickname { color: $orange; }
-      @include box-shadow($dark 0px 0px 15px);
+    .card-back {
+      background: $bright url('../gfx/card_back_bg_greenplaid_small.png') center center repeat;
+      .nickname { color: $bright; }
     }
 
-    .vote { display: none; }
-
-    #votingResult.reveal & {
-      background-image: none;
-      .vote { display: block; }
+    .card-front {
+      // display: none;
 
       .nickname {
         color: $dark;
         @include text-shadow(none);
       }
+    }
 
-      &.voted {
-        .nickname { color: $red; }
-      }
+    &.voted {
+      @include box-shadow($dark 0px 0px 15px);
+      .card-back .nickname { color: $orange; }
+      .card-front .nickname { color: $red; }
+    }
+
+    #votingResult.reveal & {
+      .card-back { display: block; }
+      .card-front { display: none; }
     }
   }
 
@@ -112,18 +113,47 @@
 
   /* Build the card display styles and spacing */
   @include respond-to('narrow') {
+    position: relative;
+    @include perspective( 300px );
+
     .client {
       width: 6em;
+      height: 12em;
 
       padding: 0.25em;
       margin: 0.5em;
 
-      html.multiplebgs & {
+      html.multiplebgs & .card-back {
         background:
           url('../gfx/card_art_fk.svg') center center no-repeat,
           url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
           $bright;
       }
+
+      html.csstransitions & {
+        
+        @include transform-style( preserve-3d );
+        @include transition( transform 1s );
+
+        figure {
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+
+          @include backface-visibility( hidden );
+        }
+
+        .card-front {
+          @include transform( rotateY( 180deg ) );
+          @include backface-visibility( visible ); 
+        }
+      }
+    }
+
+    html.csstransitions #votingResult.reveal & .client {
+      @include transform( rotateY( 180deg ) );
+      figure { display: block; }
     }
 
     .nickname {

@@ -134,11 +134,25 @@ function showCards() {
  * Create a vote card for a given user
  */
 function displayClient(sid, nickname){
+
+  // Card front shows the nickname and vote
+  var front = $('<figure />')
+    .addClass('card-front')
+    .append('<div class="nickname">'+nickname+'</div>')
+    .append('<div class="vote-wrap"><span class="vote"></span></div>')
+    .appendTo('#clients');
+
+  // Card back shows nickname only (default state)
+  var back = $('<figure />')
+    .addClass('card-back')
+    .append('<div class="nickname">'+nickname+'</div>')
+    .appendTo('#clients');
+
   $('<div />')
     .attr('id', sid)
     .addClass('client')
-    .append('<div class="nickname">'+nickname+'</div>')
-    .append('<div class="vote-wrap"><span class="vote"></span></div>')
+    .append(front)
+    .append(back)
     .appendTo('#clients');
 }
 
