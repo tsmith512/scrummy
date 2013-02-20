@@ -579,6 +579,7 @@ body {
   color: #f2f2f2;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
+  line-height: 1.5;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -586,6 +587,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
   color: #fc5426;
   text-align: center;
+  line-height: 1.2;
 }
 
 a {
@@ -650,6 +652,12 @@ a {
     padding: 1em;
   }
 }
+#container a {
+  color: #2b8045;
+}
+#container a:hover {
+  color: #38a65a;
+}
 
 section {
   padding: 0.25em;
@@ -699,13 +707,26 @@ input {
 input:hover {
   background: white;
 }
+input[type="text"] {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 0.9em;
+  background: #e3dfe3;
+  border-color: #cbc4cb;
+}
+input[type="text"]:focus {
+  outline: 0;
+  outline-offset: 0;
+  background: #f2f2f2;
+  border: 1px solid #fc5426;
+}
 
 /**
  * Shared Login and Voting Form Styles
  */
 #loginActions, #votingActions {
-  width: 90%;
-  max-width: 400px;
+  width: auto;
+  max-width: 500px;
   text-align: center;
   padding: 0 4px;
   margin: 0.25em auto;
@@ -784,6 +805,70 @@ input:hover {
 #gameLink input {
   width: 99%;
   margin-left: 0;
+}
+
+#readme .text {
+  font-size: 0.75em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+}
+#readme p {
+  max-width: 35em;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 1px 1px 0 #070606;
+  -webkit-column-break-inside: avoid;
+  column-break-inside: avoid;
+}
+#readme strong {
+  font-weight: normal;
+  color: #fc5426;
+}
+#readme em {
+  font-style: normal;
+  color: #1786b2;
+}
+#readme a {
+  text-shadow: 1px 1px 0 black;
+}
+@media (min-width: 680px) {
+  html.csscolumns #readme .text {
+    font-size: 0.875em;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    -ms-columns: 2;
+    -o-columns: 2;
+    columns: 2;
+    -webkit-column-gap: 2.5em;
+    -moz-column-gap: 2.5em;
+    -ms-column-gap: 2.5em;
+    -o-column-gap: 2.5em;
+    column-gap: 2.5em;
+  }
+  html.csscolumns #readme .text p {
+    max-width: none;
+    margin-top: 0;
+  }
+}
+@media (min-width: 980px) {
+  html.csscolumns #readme .text {
+    font-size: 0.925em;
+  }
+}
+@media (min-width: 1080px) {
+  html.csscolumns #readme .text {
+    font-size: 1em;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+    -ms-columns: 3;
+    -o-columns: 3;
+    columns: 3;
+    -webkit-column-gap: 2em;
+    -moz-column-gap: 2em;
+    -ms-column-gap: 2em;
+    -o-column-gap: 2em;
+    column-gap: 2em;
+  }
 }
 
 /**
