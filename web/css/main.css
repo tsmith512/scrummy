@@ -655,6 +655,9 @@ a {
 #container a {
   color: #2b8045;
 }
+#container a:hover {
+  color: #38a65a;
+}
 
 section {
   padding: 0.25em;

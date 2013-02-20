@@ -116,6 +116,9 @@ a {
 
   a {
     color: $green;
+    &:hover {
+      color: lighten( $green, 10% );
+    }
   }
 }
 
