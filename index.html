@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>scrummy</title>
+  <meta name="viewport" content="width=device-width" />
+
+  <link href='http://fonts.googleapis.com/css?family=Fjalla+One|Stint+Ultra+Expanded|Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="web/css/main.css" />
+
+  <script src="web/js/vendor/modernizr-2.6.2.min.js"></script>
+  <script src="web/js/vendor/jquery-1.9.0.min.js"></script>
+  <script src="web/js/main.js"></script>
+</head>
+<body>
+
+  <div id="logo">
+    <!-- Okay, so not logo really, but we'll get there -->
+    <h1>scrummy</h1>
+  </div>
+
+  <div id="container">
+    <section id="top"></section>
+
+    <section id="login" class="signin-form">
+      <h2>Welcome</h2>
+      <div id="loginActions"><form>
+        <input type="text" id="txtNickname" placeholder="Nickname?" />
+        <input type="submit" value="Play" id="btnSignIn" />
+        <input type="button" value="Watch" id="btnObserve" />
+      </form></div><!--/#loginActions-->
+    </section><!--#/login-->
+
+    <section id="readme">
+      <h2>What's scrummy?</h2>
+      
+      <div class="text">
+
+        <p><strong>Scrummy is</strong> a
+          <a href="http://en.wikipedia.org/wiki/Planning_poker">story point
+          estimation game</a> for scrum teams, developed by the Web Chefs at
+          <a href="http://www.fourkitchens.com">Four Kitchens</a> to allow easier
+          participation by remote team members and to experiment with some new
+          technologies.</p>
+
+        <p><strong>To begin,</strong> type a nickname and click
+          <em>Play</em> or <em>Watch</em> to begin. If you received a link from
+          another player, you will be added to that game. Otherwise, a new game
+          will be created for you. Invite others by sharing your <em>game
+          link</em>.</p>
+
+        <p><strong>While playing,</strong> vote by clicking on a card in your
+          hand. Withdraw a vote by clicking the same card; click another card to
+          change your vote. The <em>Reveal</em> and <em>Reset</em> buttons affect
+          everyone, so only use them when your team is ready.
+
+      </div><!--/.text-->
+
+    </section><!--/#readme-->
+
+    <section>
+      <p style="text-align: center"> For now,
+        <a href="https://github.com/tsmith512/scrummy">clone from GitHub</a>
+        and run with <a href="http://nodejs.org/">node.js</a> to play. We'll be
+        launching to a public server, soon!</p>
+    </section>
+
+    <section id="votingResult">
+      <div id="votingActions">
+        <input type="button" id="btnReveal" value="Reveal" />
+        <input type="button" id="btnReset" value="Reset" />
+        <input type="button" id="btnLink" value="Game Link" />
+        <div id="gameLink">
+          <input type="text" id="txtUrl" readonly />
+        </div>
+      </div><!--/#votingActions-->
+      <div id="clients">
+        <div id="Ted" class="client">
+          <div class="nickname">Ted</div>
+          <div class="vote-wrap">
+            <span class="vote">8</span>
+          </div>
+        </div><!--/#Ted-->
+        <div id="Linda" class="client">
+          <div class="nickname">Linda</div>
+          <div class="vote-wrap">
+            <span class="vote">8</span>
+          </div>
+        </div><!--/#Linda-->
+        <div id="Lem" class="client">
+          <div class="nickname">Lem</div>
+          <div class="vote-wrap">
+            <span class="vote">20</span>
+          </div>
+        </div><!--/#Lem-->
+        <div id="Phil" class="client">
+          <div class="nickname">Phil</div>
+          <div class="vote-wrap">
+            <span class="vote">13</span>
+          </div>
+        </div><!--/#Phil-->
+      </div>
+    </section><!--/#votingResult-->
+
+    <section id="playersHand">
+      <h2 id="nickname-display">Ted</h2>
+      <div class="cards-wrap"><div class="cards">
+        <div class="card"><span class="card-text">1</span></div>
+        <div class="card"><span class="card-text">2</span></div>
+        <div class="card"><span class="card-text">3</span></div>
+        <div class="card"><span class="card-text">5</span></div>
+        <div class="card selected"><span class="card-text">8</span></div>
+        <div class="card"><span class="card-text">13</span></div>
+        <div class="card"><span class="card-text">20</span></div>
+        <div class="card"><span class="card-text">40</span></div>
+        <div class="card"><span class="card-text">:(</span></div>
+      </div></div>
+    </section><!--/#playersHand-->
+
+    <section id="bottom"></section>
+  </div><!--/#container-->
+
+  <footer>
+    Scrummy is a creation of the Web Chefs at
+    <a href="http://www.fourkitchens.com">Four Kitchens</a>.
+  </footer>
+
+</body>
+</html>
