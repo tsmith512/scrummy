@@ -17,5 +17,8 @@
     "type": "git",
     "url": "https://github.com/tsmith512/scrummy.git"
   },
-  "subdomain": "playscrummy"
+  "subdomain": "playscrummy",
+  "domains": [
+    "playscrummy.com"
+  ]
 }
