@@ -1,7 +1,7 @@
 {
   "name": "scrummy",
   "description": "A Scrum planning and estimation game from Four Kitchens",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "start": "node scrum_cards_server.js"
   },
@@ -14,7 +14,8 @@
     "node": "0.8.x"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/tsmith512/Web-Planning-Poker.git"
-  }
+    "type": "git",
+    "url": "https://github.com/tsmith512/scrummy.git"
+  },
+  "subdomain": "playscrummy"
 }
