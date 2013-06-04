@@ -14,6 +14,7 @@ $red:    #D71414;
 // Typefaces:
 @mixin fjalla { font-family: 'Fjalla One', sans-serif;        font-weight: 400; }
 @mixin stint  { font-family: 'Stint Ultra Expanded', cursive; font-weight: 400; }
+@mixin osans  { font-family: 'Open Sans', sans-serif;         font-weight: 400; }
 
 // HTML5 Boilerplate Normalize
 @import "normalize";
@@ -41,12 +42,14 @@ body {
   background: $green url('../gfx/table_bg_green.gif') center center repeat;
   color: $bright;
   @include fjalla;
+  line-height: 1.5;
 }
 
 h1, h2, h3, h4, h5, h6 {
   @include stint;
   color: $orange;
   text-align: center;
+  line-height: 1.2;
 }
 
 a {
@@ -110,6 +113,13 @@ a {
     margin: 1.5em auto 1em auto;
     padding: 1em;
   }
+
+  a {
+    color: $green;
+    &:hover {
+      color: lighten( $green, 10% );
+    }
+  }
 }
 
 section {
@@ -148,14 +158,29 @@ input {
   @include border-radius(4px);
 
   @include fjalla;
+
+  &[type="text"] {
+    @include osans;
+    font-size: 0.9em; // Better matching with the Fjalla buttons
+    
+    background: $light;
+    border-color: darken($light, 10%);
+    
+    &:focus {
+      outline: 0;
+      outline-offset: 0;
+      background: $bright;
+      border: 1px solid $orange;
+    }
+  }
 }
 
 /**
  * Shared Login and Voting Form Styles
  */
 #loginActions, #votingActions {
-  width: 90%;
-  max-width: 400px;
+  width: auto;
+  max-width: 500px;
 
   text-align: center;
 
@@ -237,6 +262,61 @@ input {
   input {
     width: 99%;
     margin-left: 0;
+  }
+}
+
+#readme {
+
+  .text {
+    font-size: 0.75em;
+    @include osans;
+  }
+
+  p {
+    max-width: 35em;
+    margin-left: auto;
+    margin-right: auto;
+    @include text-shadow( 1px 1px 0 darken($low, 15%) );
+
+    @include column-break-inside(avoid);
+  }
+
+  strong {
+    font-weight: normal;
+    color: $orange;
+  }
+
+  em {
+    font-style: normal;
+    color: lighten($blue, 15%);
+  }
+
+  a {
+    @include text-shadow( 1px 1px 0 darken($low, 30%) );
+  }
+
+  html.csscolumns & .text {
+    @include respond-to('narrow') {
+      font-size: 0.875em;
+
+      @include columns(2);
+      @include column-gap(2.5em);
+
+      p {
+        max-width: none;
+        margin-top: 0;
+      }
+    }
+
+    @include respond-to('medium') {
+      font-size: 0.925em;
+    }
+
+    @include respond-to('wide') {
+      font-size: 1em;
+      @include columns(3);
+      @include column-gap(2em);
+    }
   }
 }
 

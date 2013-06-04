@@ -110,7 +110,7 @@ function signIn(mode){
 
     /* Hide the sign-in form, reveal the results panel and the "hand" */
     $('#nickname-display').text(myNick);
-    $('#login').slideUp();
+    $('#login, #readme').slideUp();
     $('#votingResult, #playersHand').slideDown();
     showCards();
   });
