@@ -15,9 +15,13 @@ io.sockets.on('connection',function(socket){
     // Nicknames should be unique, are displayed in uppercase, and should only
     // contain a small set of characters.
     var requestedNick = (data.nickname) ? data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'') : false;
-    var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
+    if ( !requestedNick ) {
+      fn( false, 'Please pick a nickname.' );
+      return;
+    }
     
     // Join the requested active game. If there isn't one, make one!
+    var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
     if ( !requestedGame ) {
       // Generate random strings until we have one that's no in use.
       while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
@@ -32,7 +36,7 @@ io.sockets.on('connection',function(socket){
     } else {
       // This game exists, check for duplicate names
       for ( client in bucket[requestedGame] ) {
-        if (requestedNick == bucket[requestedGame][client].nickname.toLowerCase() ) {
+        if (requestedNick == bucket[requestedGame][client].nickname ) {
           fn( false, 'Nickname already in use.' );
           return;
         }
