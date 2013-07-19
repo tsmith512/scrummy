@@ -20,6 +20,12 @@ $(document).ready(function(){
   $("#loginActions form").submit(function(){ signIn(1); return false; })
   $("#btnObserve").click(function(){ signIn(0); return false; })
 
+  /* If we have a cookie set, pull the nickname: */
+  if ( typeof(Cookies.get('nickname')) === "string" ) {
+    $('#txtNickname').val( Cookies.get('nickname') );
+  }
+
+
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
     $("#loginActions #txtGame").val( window.location.hash.substring(1) );
@@ -88,8 +94,9 @@ function signIn(mode){
     mySid = msg.sid;
 
     /* Use the sanitized nickname from the server so it appears
-     * consistently among clients. */
+     * consistently among clients, then save it for later. */
     myNick = msg.nickname;
+    Cookies.set('nickname', myNick, {expires:365});
 
     /* Use the sanitized game from the server so we can send the link to others */
     myGame = msg.game;
