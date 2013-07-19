@@ -1,6 +1,3 @@
-require(['js/socket_client.js'],function(cl){
-});
-
 var cli = null;
 var mySid = null;
 var myNick = null;
