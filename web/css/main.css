@@ -603,24 +603,41 @@ a {
 
 /* Layout */
 #logo {
-  width: 96%;
-  max-width: 1000px;
-  margin: 0.75em auto;
+  width: 70%;
+  max-width: 400px;
+  margin: 0.25em auto;
 }
-#logo h1 {
-  color: #e3dfe3;
-  text-shadow: #1f1a19 1px 1px 0;
-  text-align: center;
+#logo > div {
+  position: relative;
+  padding-bottom: 30%;
+  height: 0;
+}
+#logo > div h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
+  font-size: 0;
+  text-indent: -1000px;
+  overflow: hidden;
+  background-image: url("../gfx/logo-banner-dkgreen.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+html.svg #logo > div h1 {
+  background-image: url("../gfx/logo-banner-dkgreen.svg");
 }
 @media (min-width: 680px) {
   #logo {
-    margin: 1em auto;
+    margin: 0.25em auto 0.75em auto;
   }
 }
 @media (min-width: 1080px) {
   #logo {
-    margin: 2em auto;
+    margin: 1.25em auto 1.75em auto;
   }
 }
 
