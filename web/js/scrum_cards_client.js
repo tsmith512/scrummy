@@ -144,8 +144,8 @@ function displayClient(sid, nickname){
   $('<div />')
     .attr('id', sid)
     .addClass('client')
-    .append('<div class="nickname">'+nickname+'</div>')
-    .append('<div class="vote-wrap"><span class="vote"></span></div>')
+    .append('<div class="back"><div class="nickname">'+nickname+'</div></div>')
+    .append('<div class="front"><div class="nickname">'+nickname+'</div><div class="vote-wrap"><span class="vote"></span></div></div>')
     .appendTo('#clients');
 }
 
