@@ -120,7 +120,14 @@
 
       html.multiplebgs & {
         background:
-          url('../gfx/card_art_fk.svg') center center no-repeat,
+          url('../gfx/spiral-card-white-shadow.png') center center no-repeat,
+          url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
+          $bright;
+      }
+
+      html.multiplebgs.svg & {
+        background:
+          url('../gfx/spiral-card-white-shadow.svg') center center no-repeat,
           url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
           $bright;
       }
@@ -186,10 +193,10 @@
     }
 
     .vote-wrap {
-      min-height: 8.75em;
+      min-height: 8.5em;
 
       .vote {
-        padding: 0.5em 0;
+        padding: 0.25em 0;
         font-size: 4em;
       }
     }
