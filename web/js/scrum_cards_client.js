@@ -1,5 +1,5 @@
-require(['js/socket_client.js'],function(cl){
-});
+/* If we don't have flexbox, add another class for an "okay" card display */
+if ( !Modernizr.flexbox ) { $('html').addClass('no-flexbox'); }
 
 var cli = null;
 var mySid = null;
@@ -22,6 +22,12 @@ $(document).ready(function(){
   /* On form submit, execute signIn() but don't actually post/get or reload */
   $("#loginActions form").submit(function(){ signIn(1); return false; })
   $("#btnObserve").click(function(){ signIn(0); return false; })
+
+  /* If we have a cookie set, pull the nickname: */
+  if ( typeof(Cookies.get('nickname')) === "string" ) {
+    $('#txtNickname').val( Cookies.get('nickname') );
+  }
+
 
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
@@ -91,8 +97,9 @@ function signIn(mode){
     mySid = msg.sid;
 
     /* Use the sanitized nickname from the server so it appears
-     * consistently among clients. */
+     * consistently among clients, then save it for later. */
     myNick = msg.nickname;
+    Cookies.set('nickname', myNick, {expires:365});
 
     /* Use the sanitized game from the server so we can send the link to others */
     myGame = msg.game;
@@ -137,8 +144,8 @@ function displayClient(sid, nickname){
   $('<div />')
     .attr('id', sid)
     .addClass('client')
-    .append('<div class="nickname">'+nickname+'</div>')
-    .append('<div class="vote-wrap"><span class="vote"></span></div>')
+    .append('<div class="back"><div class="nickname">'+nickname+'</div></div>')
+    .append('<div class="front"><div class="nickname">'+nickname+'</div><div class="vote-wrap"><span class="vote"></span></div></div>')
     .appendTo('#clients');
 }
 

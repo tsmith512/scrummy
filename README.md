@@ -31,6 +31,13 @@ have continued development to include several new features and enhancements:
 * Edit `settings.js` as necessary
 * `npm start`
 
+## Collaboration
+
+If you run into trouble, issues can be posted to the [project][GHP] on GitHub.
+Pull requests are also welcome to add features, refactor existing code, or
+tackle issues! Be sure to open requests against the _dev_ branch (or applicable
+feature branch) and use Compass to recompile any style changes.
+
 [poker]: http://en.wikipedia.org/wiki/Planning_poker
 [simewn]: https://github.com/simewn/Web-Planning-Poker
 [tsmith512]: https://github.com/tsmith512
@@ -41,3 +48,4 @@ have continued development to include several new features and enhancements:
 [Sass]: http://sass-lang.com/
 [Compass]: http://compass-style.org/
 [Modernizr]: http://modernizr.com/
+[GHP]: https://github.com/tsmith512/scrummy

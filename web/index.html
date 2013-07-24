@@ -6,21 +6,29 @@
   <title>scrummy</title>
   <meta name="viewport" content="width=device-width" />
 
+  <!-- iOS Icons and Mobile Safari options -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="apple-touch-icon" href="gfx/apple-touch-icon-57x57.png" />
+  <link rel="apple-touch-icon" sizes="72x72"   href="gfx/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="gfx/apple-touch-icon-114x114.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="gfx/apple-touch-icon-144x144.png" />
+  <!-- /iOS -->
+
   <link href='http://fonts.googleapis.com/css?family=Fjalla+One|Stint+Ultra+Expanded|Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/main.css" />
 
   <script src="socket.io/socket.io.js"></script>
-  <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-  <script src="js/vendor/jquery-1.9.0.min.js"></script>
-  <script src="js/vendor/require-1.0.6.min.js" type="text/javascript"></script>
-  <script src="js/scrum_cards_client.js" type="text/javascript"></script>
-  <script src="js/main.js"></script>
+  <script src="js/socket_client.js"></script>
+  <script src="js/vendor/modernizr-jquery-cookies.merged.js"></script>
+  <script src="js/scrum_cards_client.js"></script>
 </head>
 <body>
 
   <div id="logo">
-    <!-- Okay, so not logo really, but we'll get there -->
-    <h1>scrummy</h1>
+    <div>
+      <h1>scrummy</h1>
+    </div>
   </div>
 
   <div id="container">
