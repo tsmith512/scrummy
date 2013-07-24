@@ -992,7 +992,7 @@ input[type="text"]:focus {
      * and the player's hand. */
     display: -webkit-flex;
     display: -moz-flex;
-    display: -ms-flex;
+    display: -ms-flexbox;
     display: flex;
     -webkit-align-items: center;
     -moz-align-items: center;
@@ -1165,7 +1165,7 @@ html.no-flexbox #playersHand .card.selected {
      * and the player's hand. */
     display: -webkit-flex;
     display: -moz-flex;
-    display: -ms-flex;
+    display: -ms-flexbox;
     display: flex;
     -webkit-align-items: center;
     -moz-align-items: center;
