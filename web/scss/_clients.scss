@@ -43,52 +43,9 @@
 
   }
 
-  html.csstransforms & .client {
-    position: relative;
-    @include perspective(400px);
-
-    .back, .front {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-
-      @include backface-visibility(hidden);
-      @include transform-style(preserve-3d);
-      @include transition(transform .5s ease-in-out);
-    }
-    .front {
-      z-index: 0;
-      display: block;
-      @include transform(rotateY(-180deg));
-    }
-
-    .back {
-      z-index: 50;
-    }
-
-  }
-
   #votingResult.reveal & {
-    background-image: none;
-
     .back { display: none; }
     .front { display: block; }
-
-    html.csstransforms & {
-      .back, .front { display: block; }
-
-      .back {
-        z-index: 0;
-        @include transform(rotateY(-180deg));
-      }
-
-      .front {
-        z-index: 50;
-        @include transform(rotateY(0deg));
-      }
-    }
   }
 
   .nickname {
@@ -204,6 +161,46 @@
       .vote {
         padding: 0.375em 0;
         font-size: 2em;
+      }
+    }
+
+    html.csstransforms & .client {
+      position: relative;
+      @include perspective(300px);
+
+      .back, .front {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        @include backface-visibility(hidden);
+        @include transform-style(preserve-3d);
+        @include transition(transform .5s ease-in-out);
+      }
+      .front {
+        z-index: 0;
+        display: block;
+        @include transform(rotateY(-180deg));
+      }
+
+      .back {
+        z-index: 50;
+      }
+    }
+
+    html.csstransforms #votingResult.reveal & {
+      .back, .front { display: block; }
+
+      .back {
+        z-index: 0;
+        @include transform(rotateY(-180deg));
+      }
+
+      .front {
+        z-index: 50;
+        @include transform(rotateY(0deg));
       }
     }
   }
