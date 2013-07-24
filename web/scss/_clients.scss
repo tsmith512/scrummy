@@ -120,6 +120,13 @@
 
       html.multiplebgs & {
         background:
+          url('../gfx/spiral-card-white-shadow.png') center center no-repeat,
+          url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
+          $bright;
+      }
+
+      html.multiplebgs.svg & {
+        background:
           url('../gfx/spiral-card-white-shadow.svg') center center no-repeat,
           url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
           $bright;

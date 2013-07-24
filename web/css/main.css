@@ -1028,6 +1028,9 @@ input[type="text"]:focus {
     margin: 0.5em;
   }
   html.multiplebgs #clients .client {
+    background: url("../gfx/spiral-card-white-shadow.png") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  }
+  html.multiplebgs.svg #clients .client {
     background: url("../gfx/spiral-card-white-shadow.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
   }
   #clients .nickname {
@@ -1091,6 +1094,9 @@ input[type="text"]:focus {
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
    * class first. */
   /* Set up the cards */
+}
+#playersHand #nickname-display {
+  margin: 0.25em auto;
 }
 #playersHand .card {
   position: relative;
