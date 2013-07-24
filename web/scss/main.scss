@@ -26,6 +26,10 @@ $red:    #D71414;
 @import "compass/css3";
 @import "breakpoint";
 
+@-ms-viewport{
+  width: device-width;
+}
+
 // Setup Breakpoints
 $breakpoints:
   // 'handheld'   // Mobile-first: default IS handheld

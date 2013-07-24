@@ -573,6 +573,10 @@ section:after {
   padding: 0;
 }
 
+@-ms-viewport {
+  width: device-width;
+}
+
 /* Set up basic colors and typefaces */
 body {
   background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
