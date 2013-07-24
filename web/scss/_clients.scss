@@ -188,6 +188,7 @@
 
       .back {
         z-index: 50;
+        @include transform(rotateY(0deg));
       }
     }
 
@@ -196,7 +197,7 @@
 
       .back {
         z-index: 0;
-        @include transform(rotateY(-180deg));
+        @include transform(rotateY(180deg));
       }
 
       .front {
