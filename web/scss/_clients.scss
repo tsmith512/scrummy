@@ -160,7 +160,7 @@
 
       .vote {
         padding: 0.375em 0;
-        font-size: 2em;
+        font-size: 2.75em;
       }
     }
 
@@ -176,6 +176,7 @@
         bottom: 0;
 
         @include backface-visibility(hidden);
+        @include perspective(0px);
         @include transform-style(preserve-3d);
         @include transition(transform .5s ease-in-out);
       }

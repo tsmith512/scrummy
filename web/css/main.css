@@ -1053,7 +1053,7 @@ input[type="text"]:focus {
   }
   #clients .vote-wrap .vote {
     padding: 0.375em 0;
-    font-size: 2em;
+    font-size: 2.75em;
   }
   html.csstransforms #clients .client {
     position: relative;
@@ -1074,6 +1074,11 @@ input[type="text"]:focus {
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden;
+    -webkit-perspective: 0px;
+    -moz-perspective: 0px;
+    -ms-perspective: 0px;
+    -o-perspective: 0px;
+    perspective: 0px;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     -ms-transform-style: preserve-3d;
