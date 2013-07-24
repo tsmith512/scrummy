@@ -1076,10 +1076,10 @@ input[type="text"]:focus {
     margin-bottom: 0.25em;
   }
   #clients .vote-wrap {
-    min-height: 8.75em;
+    min-height: 8.5em;
   }
   #clients .vote-wrap .vote {
-    padding: 0.5em 0;
+    padding: 0.25em 0;
     font-size: 4em;
   }
 }
