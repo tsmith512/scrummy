@@ -573,6 +573,10 @@ section:after {
   padding: 0;
 }
 
+@-ms-viewport {
+  width: device-width;
+}
+
 /* Set up basic colors and typefaces */
 body {
   background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
@@ -603,24 +607,41 @@ a {
 
 /* Layout */
 #logo {
-  width: 96%;
-  max-width: 1000px;
-  margin: 0.75em auto;
+  width: 70%;
+  max-width: 400px;
+  margin: 0.25em auto;
 }
-#logo h1 {
-  color: #e3dfe3;
-  text-shadow: #1f1a19 1px 1px 0;
-  text-align: center;
+#logo > div {
+  position: relative;
+  padding-bottom: 30%;
+  height: 0;
+}
+#logo > div h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
+  font-size: 0;
+  text-indent: -1000px;
+  overflow: hidden;
+  background-image: url("../gfx/logo-banner-dkgreen.png");
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+html.svg #logo > div h1 {
+  background-image: url("../gfx/logo-banner-dkgreen.svg");
 }
 @media (min-width: 680px) {
   #logo {
-    margin: 1em auto;
+    margin: 0.25em auto 0.75em auto;
   }
 }
 @media (min-width: 1080px) {
   #logo {
-    margin: 2em auto;
+    margin: 1.25em auto 1.75em auto;
   }
 }
 
@@ -880,47 +901,46 @@ input[type="text"]:focus {
   /* Set up the flexbox or flexbox-approximate for larger screens */
   /* Build the card display styles and spacing */
 }
-#clients .client {
+#clients .client .front, #clients .client .back {
   overflow: hidden;
   border: 4px solid #e5e5e5;
+  height: 100%;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  background: url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
   -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
 }
-#clients .client.voted {
-  -webkit-box-shadow: #1f1a19 0px 0px 15px;
-  -moz-box-shadow: #1f1a19 0px 0px 15px;
-  box-shadow: #1f1a19 0px 0px 15px;
+#clients .client .back {
+  display: block;
+  background: url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
 }
-#clients .client.voted .nickname {
-  color: #fc5426;
+#clients .client .back .nickname {
+  text-shadow: #1f1a19 1px 1px 0;
 }
-#clients .client .vote {
+#clients .client .front {
+  color: #1f1a19;
+  background: #f2f2f2;
+  text-shadow: none;
   display: none;
 }
-#votingResult.reveal #clients .client {
-  background-image: none;
+#clients .client.voted .back .nickname {
+  color: #fc5426;
 }
-#votingResult.reveal #clients .client .vote {
-  display: block;
-}
-#votingResult.reveal #clients .client .nickname {
-  color: #1f1a19;
-  text-shadow: none;
-}
-#votingResult.reveal #clients .client.voted .nickname {
+#clients .client.voted .front .nickname {
   color: #d71414;
+}
+#votingResult.reveal #clients .back {
+  display: none;
+}
+#votingResult.reveal #clients .front {
+  display: block;
 }
 #clients .nickname {
   text-transform: uppercase;
-  color: #e3dfe3;
-  text-shadow: #1f1a19 1px 1px 0;
 }
 #clients .vote-wrap {
   text-align: center;
@@ -936,8 +956,10 @@ input[type="text"]:focus {
     width: auto;
     display: block;
     float: none;
-    padding: 0.25em;
     margin: 0.5em auto;
+  }
+  #clients .client .front, #clients .client .back {
+    padding: 0.25em;
   }
   #clients .nickname, #clients .vote-wrap {
     display: block;
@@ -975,7 +997,7 @@ input[type="text"]:focus {
      * and the player's hand. */
     display: -webkit-flex;
     display: -moz-flex;
-    display: -ms-flex;
+    display: -ms-flexbox;
     display: flex;
     -webkit-align-items: center;
     -moz-align-items: center;
@@ -1006,16 +1028,24 @@ input[type="text"]:focus {
 }
 @media (min-width: 680px) {
   #clients .client {
+    height: 8em;
     width: 6em;
-    padding: 0.25em;
     margin: 0.5em;
   }
-  html.multiplebgs #clients .client {
-    background: url("../gfx/card_art_fk.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  #clients .client .front, #clients .client .back {
+    padding: 0.25em;
+  }
+  html.multiplebgs #clients .client .back {
+    background: url("../gfx/spiral-card-white-shadow.png") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
+  }
+  html.multiplebgs.svg #clients .client .back {
+    background: url("../gfx/spiral-card-white-shadow.svg") center center no-repeat, url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
   }
   #clients .nickname {
     font-size: 0.875em;
     letter-spacing: 1px;
+  }
+  #clients .nickname .front, #clients .nickname .back {
     padding: 0.25em 0.125em;
   }
   #clients .vote-wrap {
@@ -1023,14 +1053,82 @@ input[type="text"]:focus {
   }
   #clients .vote-wrap .vote {
     padding: 0.375em 0;
-    font-size: 2em;
+    font-size: 2.75em;
+  }
+  html.csstransforms #clients .client {
+    position: relative;
+    -webkit-perspective: 300px;
+    -moz-perspective: 300px;
+    -ms-perspective: 300px;
+    -o-perspective: 300px;
+    perspective: 300px;
+  }
+  html.csstransforms #clients .client .back, html.csstransforms #clients .client .front {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 0px;
+    -moz-perspective: 0px;
+    -ms-perspective: 0px;
+    -o-perspective: 0px;
+    perspective: 0px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 0.5s ease-in-out;
+    -moz-transition: -moz-transform 0.5s ease-in-out;
+    -o-transition: -o-transform 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+  }
+  html.csstransforms #clients .client .front {
+    z-index: 0;
+    display: block;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+  }
+  html.csstransforms #clients .client .back {
+    z-index: 50;
+  }
+  html.csstransforms #votingResult.reveal #clients .back, html.csstransforms #votingResult.reveal #clients .front {
+    display: block;
+  }
+  html.csstransforms #votingResult.reveal #clients .back {
+    z-index: 0;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+  }
+  html.csstransforms #votingResult.reveal #clients .front {
+    z-index: 50;
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
 }
 @media (min-width: 980px) {
   #clients .client {
+    height: 10em;
     width: 7em;
-    padding: 0.5em;
     margin: 0.5em;
+  }
+  #clients .client .front, #clients .client .back {
+    padding: 0.5em;
   }
   #clients .nickname {
     font-size: 1em;
@@ -1048,9 +1146,12 @@ input[type="text"]:focus {
 }
 @media (min-width: 1080px) {
   #clients .client {
+    height: 12em;
     width: 8em;
-    padding: 0.5em;
     margin: 0.5em;
+  }
+  #clients .client .front, #clients .client .back {
+    padding: 0.5em;
   }
   #clients .nickname {
     font-size: 1.125em;
@@ -1059,10 +1160,10 @@ input[type="text"]:focus {
     margin-bottom: 0.25em;
   }
   #clients .vote-wrap {
-    min-height: 8.75em;
+    min-height: 8.5em;
   }
   #clients .vote-wrap .vote {
-    padding: 0.5em 0;
+    padding: 0.25em 0;
     font-size: 4em;
   }
 }
@@ -1074,6 +1175,9 @@ input[type="text"]:focus {
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
    * class first. */
   /* Set up the cards */
+}
+#playersHand #nickname-display {
+  margin: 0.25em auto;
 }
 #playersHand .card {
   position: relative;
@@ -1142,7 +1246,7 @@ html.no-flexbox #playersHand .card.selected {
      * and the player's hand. */
     display: -webkit-flex;
     display: -moz-flex;
-    display: -ms-flex;
+    display: -ms-flexbox;
     display: flex;
     -webkit-align-items: center;
     -moz-align-items: center;
