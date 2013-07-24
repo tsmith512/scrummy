@@ -16,8 +16,9 @@
 <body>
 
   <div id="logo">
-    <!-- Okay, so not logo really, but we'll get there -->
-    <h1>scrummy</h1>
+    <div>
+      <h1>scrummy</h1>
+    </div>
   </div>
 
   <div id="container">
@@ -67,36 +68,56 @@
 
     <section id="votingResult">
       <div id="votingActions">
-        <input type="button" id="btnReveal" value="Reveal" />
-        <input type="button" id="btnReset" value="Reset" />
-        <input type="button" id="btnLink" value="Game Link" />
+        <input type="button" id="btnReveal" value="Reveal" onClick="$('#votingResult').addClass('reveal');" />
+        <input type="button" id="btnReset" value="Reset" onClick="$('#votingResult').removeClass('reveal');" />
+        <input type="button" id="btnLink" value="Game Link" onClick="$('#gameLink').slideToggle();" />
         <div id="gameLink">
-          <input type="text" id="txtUrl" readonly />
+          <input type="text" id="txtUrl" value="http://tsmith512.github.io/scrummy" readonly />
         </div>
       </div><!--/#votingActions-->
       <div id="clients">
         <div id="Ted" class="client">
-          <div class="nickname">Ted</div>
-          <div class="vote-wrap">
-            <span class="vote">8</span>
+          <div class="back">
+            <div class="nickname">Ted</div>
+          </div>
+          <div class="front">
+            <div class="nickname">Ted</div>
+            <div class="vote-wrap">
+              <span class="vote">8</span>
+            </div>
           </div>
         </div><!--/#Ted-->
         <div id="Linda" class="client">
-          <div class="nickname">Linda</div>
-          <div class="vote-wrap">
-            <span class="vote">8</span>
+          <div class="back">
+            <div class="nickname">Linda</div>
+          </div>
+          <div class="front">
+            <div class="nickname">Linda</div>
+            <div class="vote-wrap">
+              <span class="vote">8</span>
+            </div>
           </div>
         </div><!--/#Linda-->
         <div id="Lem" class="client">
-          <div class="nickname">Lem</div>
-          <div class="vote-wrap">
-            <span class="vote">20</span>
+          <div class="back">
+            <div class="nickname">Lem</div>
+          </div>
+          <div class="front">
+            <div class="nickname">Lem</div>
+            <div class="vote-wrap">
+              <span class="vote">20</span>
+            </div>
           </div>
         </div><!--/#Lem-->
         <div id="Phil" class="client">
-          <div class="nickname">Phil</div>
-          <div class="vote-wrap">
-            <span class="vote">13</span>
+          <div class="back">
+            <div class="nickname">Phil</div>
+          </div>
+          <div class="front">
+            <div class="nickname">Phil</div>
+            <div class="vote-wrap">
+              <span class="vote">13</span>
+            </div>
           </div>
         </div><!--/#Phil-->
       </div>
