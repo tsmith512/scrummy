@@ -99,7 +99,7 @@ function signIn(mode){
     /* Use the sanitized nickname from the server so it appears
      * consistently among clients, then save it for later. */
     myNick = msg.nickname;
-    Cookies.set('nickname', myNick, {expires:365});
+    Cookies.set('nickname', myNick, {expires:31536000});
 
     /* Use the sanitized game from the server so we can send the link to others */
     myGame = msg.game;
