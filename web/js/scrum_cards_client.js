@@ -34,9 +34,11 @@ $(document).ready(function(){
     $("#loginActions #txtGame").val( window.location.hash.substring(1) );
   }
 
-  /* Setup the reveal and restore buttons in #votingActions */
+  /* Setup the reveal and restore buttons in #votingActions and hotkeys */
   $("#btnReveal").click(function(){ revealVotes(); });
+  $(document).bind('keyup', 'space', function(){ revealVotes(); });
   $("#btnReset").click(function(){ resetVotes(); });
+  $(document).bind('keyup', 'esc', function(){ resetVotes(); });
 
   /* Set up the button to display the game link in voting actions */
   $("#btnLink").click(function(){
