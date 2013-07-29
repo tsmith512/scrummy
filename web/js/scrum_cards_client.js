@@ -34,9 +34,11 @@ $(document).ready(function(){
     $("#loginActions #txtGame").val( window.location.hash.substring(1) );
   }
 
-  /* Setup the reveal and restore buttons in #votingActions */
+  /* Setup the reveal and restore buttons in #votingActions and hotkeys */
   $("#btnReveal").click(function(){ revealVotes(); });
+  $(document).bind('keyup', 'return', function(){ revealVotes(); });
   $("#btnReset").click(function(){ resetVotes(); });
+  $(document).bind('keyup', 'esc', function(){ resetVotes(); });
 
   /* Set up the button to display the game link in voting actions */
   $("#btnLink").click(function(){
@@ -99,7 +101,7 @@ function signIn(mode){
     /* Use the sanitized nickname from the server so it appears
      * consistently among clients, then save it for later. */
     myNick = msg.nickname;
-    Cookies.set('nickname', myNick, {expires:365});
+    Cookies.set('nickname', myNick, {expires:31536000});
 
     /* Use the sanitized game from the server so we can send the link to others */
     myGame = msg.game;

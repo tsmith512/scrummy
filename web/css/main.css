@@ -933,10 +933,10 @@ input[type="text"]:focus {
 #clients .client.voted .front .nickname {
   color: #d71414;
 }
-#votingResult.reveal #clients .back {
+#votingResult.reveal #clients.voted .back {
   display: none;
 }
-#votingResult.reveal #clients .front {
+#votingResult.reveal #clients.voted .front {
   display: block;
 }
 #clients .nickname {
@@ -1106,10 +1106,10 @@ input[type="text"]:focus {
     -o-transform: rotateY(0deg);
     transform: rotateY(0deg);
   }
-  html.csstransforms #votingResult.reveal #clients .back, html.csstransforms #votingResult.reveal #clients .front {
+  html.csstransforms #votingResult.reveal #clients .voted .back, html.csstransforms #votingResult.reveal #clients .voted .front {
     display: block;
   }
-  html.csstransforms #votingResult.reveal #clients .back {
+  html.csstransforms #votingResult.reveal #clients .voted .back {
     z-index: 0;
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
@@ -1117,7 +1117,7 @@ input[type="text"]:focus {
     -o-transform: rotateY(180deg);
     transform: rotateY(180deg);
   }
-  html.csstransforms #votingResult.reveal #clients .front {
+  html.csstransforms #votingResult.reveal #clients .voted .front {
     z-index: 50;
     -webkit-transform: rotateY(0deg);
     -moz-transform: rotateY(0deg);
