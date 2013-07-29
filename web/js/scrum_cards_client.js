@@ -36,7 +36,7 @@ $(document).ready(function(){
 
   /* Setup the reveal and restore buttons in #votingActions and hotkeys */
   $("#btnReveal").click(function(){ revealVotes(); });
-  $(document).bind('keyup', 'space', function(){ revealVotes(); });
+  $(document).bind('keyup', 'return', function(){ revealVotes(); });
   $("#btnReset").click(function(){ resetVotes(); });
   $(document).bind('keyup', 'esc', function(){ resetVotes(); });
 
