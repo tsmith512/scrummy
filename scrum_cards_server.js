@@ -169,10 +169,11 @@ io.sockets.on('connection',function(socket){
 
   socket.on('getPlayerCount',function(data, fn){
     /* Which game is being investigated? */
-    var requestedGame = (data.game.length) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
+    var requestedGame = (typeof(data.game) === 'string' && data.game.length) ?
+      data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
 
     // If this game is present, return the number of players. Otherwise return false.
-    if ( requestedGame in bucket ) {
+    if ( requestedGame && requestedGame in bucket ) {
       fn(true, bucket[requestedGame].length);
     } else {
       fn(false, 0);

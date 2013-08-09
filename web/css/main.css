@@ -608,7 +608,7 @@ a {
 /* Layout */
 #logo {
   width: 70%;
-  max-width: 400px;
+  max-width: 350px;
   margin: 0.25em auto;
 }
 #logo > div {
@@ -641,7 +641,7 @@ html.svg #logo > div h1 {
 }
 @media (min-width: 1080px) {
   #logo {
-    margin: 1.25em auto 1.75em auto;
+    margin: 0.5em auto 1.25em auto;
   }
 }
 

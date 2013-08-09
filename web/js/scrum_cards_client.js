@@ -35,16 +35,15 @@ $(document).ready(function(){
   if ( window.location.hash.length ) {
     myGame = window.location.hash.substring(1);
     $("#loginActions #txtGame").val( myGame );
-
-    cli.send('getPlayerCount', {game: myGame}, function(res,msg){
-      if (res) {
-        var verb = (msg > 1) ? 'others are' : 'other is';
-        $('#login h2').text(['Welcome!', msg, verb, 'playing.'].join(' '));
-      } else {
-        $('#login h2').text('Welcome!"' + myGame + '" is a new game.');
-      }
-    });
   }
+
+  updateWelcomeCount();
+
+  /* And update this banner when the game ID field changes */
+  $('#txtGame').change(function(){
+    myGame = $(this).val();
+    updateWelcomeCount();
+  })
 
   /* Setup the reveal and restore buttons in #votingActions and hotkeys */
   $("#btnReveal").click(function(){ revealVotes(); });
@@ -171,6 +170,24 @@ function addVote(sid,vote){
   $('#' + sid ).addClass('voted');
 }
 
+/**
+ * Update the login section banner with game participants
+ */
+function updateWelcomeCount() {
+  if (typeof(myGame) === 'string' && myGame.length) {
+    cli.send('getPlayerCount', {game: myGame}, function(res,msg){
+      if (res && msg > 0) {
+        var verb = (msg > 1) ? 'others are' : 'other is';
+        $('#login h2').text(['Welcome!', msg, verb, 'playing.'].join(' '));
+      } else {
+        $('#login h2').text('Welcome! "' + myGame + '" is a new game.');
+      }
+    });
+  } else {
+    $('#login h2').text('Welcome! Start a new game.');
+  }
+
+}
 
 /*******************************************************************************
  * SERVER SAYS...                                                              *
@@ -253,7 +270,7 @@ function vote(card){
     });
   } else {
     /* This is not the "current" vote. Send the new one. */
-    
+
     // Clear out the old vote.
     $('.card.selected').removeClass('selected');
 

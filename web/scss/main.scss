@@ -68,7 +68,7 @@ a {
 /* Layout */
 #logo {
   width: 70%;
-  max-width: 400px;
+  max-width: 350px;
 
   margin: 0.25em auto;
 
@@ -106,7 +106,7 @@ a {
   }
 
   @include respond-to('wide') {
-    margin: 1.25em auto 1.75em auto;
+    margin: 0.5em auto 1.25em auto;
   }
 }
 
