@@ -33,7 +33,7 @@ $red:    #D71414;
 // Setup Breakpoints
 $breakpoints:
   // 'handheld'   // Mobile-first: default IS handheld
-  'handheld-only' (max-width    679px), // For styles 
+  'handheld-only' (max-width    679px), // For styles
   'narrow'        (min-width    680px),
   'medium'        (min-width    980px),
   'wide'          (min-width   1080px),
@@ -187,10 +187,10 @@ input {
   &[type="text"] {
     @include osans;
     font-size: 0.9em; // Better matching with the Fjalla buttons
-    
+
     background: $light;
     border-color: darken($light, 10%);
-    
+
     &:focus {
       outline: 0;
       outline-offset: 0;
@@ -270,6 +270,34 @@ input {
     width: 32%;
     margin-left: 1%;
     &#btnReveal { margin-left: 0; }
+  }
+
+  #votingResult.reveal & #btnReveal {
+    @include text-shadow( darken($orange, 50%) 1px 1px 0 );
+
+    background: $orange;
+    @include background-image( linear-gradient( darken($orange, 20%), darken($orange, 30%)) );
+
+    border: 1px solid darken($orange, 50%);
+  }
+
+  #votingResult.reveal & #btnReset {
+    color: $light;
+    @include text-shadow( darken($blue, 20%) 1px 1px 0 );
+
+    background: $blue;
+    @include background-image( linear-gradient(lighten($blue, 5%), darken($blue, 5%)) );
+
+    border: 1px solid darken($blue, 5%);
+
+    &:hover {
+      @include text-shadow( darken($orange, 40%) 1px 1px 0 );
+
+      background: $orange;
+      @include background-image( linear-gradient( darken($orange, 8%), darken($orange, 25%)) );
+
+      border: 1px solid darken($orange, 35%);
+    }
   }
 }
 

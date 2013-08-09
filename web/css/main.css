@@ -812,6 +812,37 @@ input[type="text"]:focus {
 #votingActions input#btnReveal {
   margin-left: 0;
 }
+#votingResult.reveal #votingActions #btnReveal {
+  text-shadow: #230800 1px 1px 0;
+  background: #fc5426;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #b92a03), color-stop(100%, #871f02));
+  background-image: -webkit-linear-gradient(#b92a03, #871f02);
+  background-image: -moz-linear-gradient(#b92a03, #871f02);
+  background-image: -o-linear-gradient(#b92a03, #871f02);
+  background-image: linear-gradient(#b92a03, #871f02);
+  border: 1px solid #230800;
+}
+#votingResult.reveal #votingActions #btnReset {
+  color: #e3dfe3;
+  text-shadow: #020f14 1px 1px 0;
+  background: #0e536e;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #116485), color-stop(100%, #0b4257));
+  background-image: -webkit-linear-gradient(#116485, #0b4257);
+  background-image: -moz-linear-gradient(#116485, #0b4257);
+  background-image: -o-linear-gradient(#116485, #0b4257);
+  background-image: linear-gradient(#116485, #0b4257);
+  border: 1px solid #0b4257;
+}
+#votingResult.reveal #votingActions #btnReset:hover {
+  text-shadow: #551301 1px 1px 0;
+  background: #fc5426;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f63803), color-stop(100%, #a02402));
+  background-image: -webkit-linear-gradient(#f63803, #a02402);
+  background-image: -moz-linear-gradient(#f63803, #a02402);
+  background-image: -o-linear-gradient(#f63803, #a02402);
+  background-image: linear-gradient(#f63803, #a02402);
+  border: 1px solid #6e1902;
+}
 
 /**
  * The shared game link box (inside the Voting actions box)
