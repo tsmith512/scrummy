@@ -117,6 +117,10 @@ function signIn(mode){
       if ( e.mode ) { displayClient(e.sid, e.nickname); }
     })
 
+    if ( currentUsers.length < 2 ) {
+      $('#btnLink').trigger('click');
+    }
+
     /* Hide the sign-in form, reveal the results panel and the "hand" */
     $('#nickname-display').text(myNick);
     $('#login, #readme').slideUp();
