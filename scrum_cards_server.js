@@ -39,13 +39,21 @@ io.sockets.on('connection',function(socket){
       fn( false, 'Please pick a nickname.' );
       return;
     }
-    
+
     // Join the requested active game. If there isn't one, make one!
     var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
     if ( !requestedGame ) {
       // Generate random strings until we have one that's no in use.
+      var i = 0; // Number of attempts.
       while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
-        requestedGame = Math.random().toString(36).substring(2,10);
+        if ( i < 5 ) {
+          // Try to get a friendly game name from the "names" config option
+          requestedGame = config.words[Math.floor(Math.random()*config.words.length)];
+        } else {
+          // We've failed to get a word five times, just make a number.
+          requestedGame = Math.floor(Math.random() * 100000);
+        }
+        i++;
       }
     }
 
