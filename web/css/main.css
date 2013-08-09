@@ -790,16 +790,12 @@ input[type="text"]:focus {
 /**
  * Login Form
  */
-#loginActions input[type="text"] {
-  width: 47%;
-  margin-right: 1%;
+#loginActions {
+  text-align: center;
 }
-#loginActions #btnSignIn {
-  width: 24%;
-  margin-right: 1%;
-}
-#loginActions #btnObserve {
-  width: 24%;
+#loginActions input {
+  width: 23.5%;
+  margin: 6px 0.5%;
 }
 
 /**

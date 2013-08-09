@@ -120,7 +120,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     /* Broadcast the vote and our socket.id to everyone */
     io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
 
@@ -136,7 +136,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
 
     /* Tell this client the vote was accepted. */
@@ -151,7 +151,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     io.sockets.in(game).emit('reset');
   });
 
@@ -163,7 +163,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     io.sockets.in(game).emit('reveal');
   });
 
@@ -180,7 +180,7 @@ io.sockets.on('connection',function(socket){
        * handle reconnections properly, which will fix this problem. */
       return false;
     }
-    
+
     /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
      * client having to recalculate the length (as you would in a for loop) */
     var i = bucket[game].length;

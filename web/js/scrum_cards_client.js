@@ -47,7 +47,7 @@ $(document).ready(function(){
       $(this).removeClass('active');
     } else {
       $('#gameLink').slideDown();
-      $(this).addClass('active');      
+      $(this).addClass('active');
     }
   });
 
@@ -64,13 +64,9 @@ $(document).ready(function(){
 function signIn(mode){
   cli = new client();
   myNick = $('#txtNickname').val();
+  myGame = $('#txtGame').val();
 
-  var data = {'nickname' : myNick, 'mode' : mode};
-
-  /* Have we requested to join a specific game? */
-  if ( window.location.hash.substring(1).length ) {
-    data.game = window.location.hash.substring(1);
-  }
+  var data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame};
 
   /**
    * Handle the login action and set up local variables
@@ -78,7 +74,7 @@ function signIn(mode){
   cli.send('signIn', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
-    
+
     /* Show our hand if we're a playing client, not if we're observing */
     if (mode) {
       /* Create cards for each item in the Points object */
