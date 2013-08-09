@@ -12,6 +12,8 @@ var voteValues = null;
  *******************************************************************************/
 
 $(document).ready(function(){
+  cli = new client();
+
   document.addEventListener('voteOccured',voteOccured,true);
   document.addEventListener('userSignedIn',userSignedIn,true);
   document.addEventListener('clientDisconnected',clientDisconnected,true);
@@ -31,7 +33,17 @@ $(document).ready(function(){
 
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
-    $("#loginActions #txtGame").val( window.location.hash.substring(1) );
+    myGame = window.location.hash.substring(1);
+    $("#loginActions #txtGame").val( myGame );
+
+    cli.send('getPlayerCount', {game: myGame}, function(res,msg){
+      if (res) {
+        var verb = (msg > 1) ? 'others are' : 'other is';
+        $('#login h2').text(['Welcome!', msg, verb, 'playing.'].join(' '));
+      } else {
+        $('#login h2').text('Welcome!"' + myGame + '" is a new game.');
+      }
+    });
   }
 
   /* Setup the reveal and restore buttons in #votingActions and hotkeys */
@@ -62,7 +74,6 @@ $(document).ready(function(){
  */
 
 function signIn(mode){
-  cli = new client();
   myNick = $('#txtNickname').val();
   myGame = $('#txtGame').val();
 

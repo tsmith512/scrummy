@@ -167,6 +167,19 @@ io.sockets.on('connection',function(socket){
     io.sockets.in(game).emit('reveal');
   });
 
+  socket.on('getPlayerCount',function(data, fn){
+    /* Which game is being investigated? */
+    var requestedGame = (data.game.length) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
+
+    // If this game is present, return the number of players. Otherwise return false.
+    if ( requestedGame in bucket ) {
+      fn(true, bucket[requestedGame].length);
+    } else {
+      fn(false, 0);
+    }
+
+  });
+
   socket.on('disconnect',function(data){
     /* What's our current game? */
     game = socket.store.data.game;
