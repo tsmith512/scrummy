@@ -61,7 +61,7 @@
       @include text-shadow($dark 1px 1px 0px);
     }
   }
-  
+
   /* The "non-card" display, for narrow devices. Looks like a
    * vertically stacked scoreboard. */
   @include respond-to('handheld-only') {

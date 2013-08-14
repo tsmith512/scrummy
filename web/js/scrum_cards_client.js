@@ -12,6 +12,8 @@ var voteValues = null;
  *******************************************************************************/
 
 $(document).ready(function(){
+  cli = new client();
+
   document.addEventListener('voteOccured',voteOccured,true);
   document.addEventListener('userSignedIn',userSignedIn,true);
   document.addEventListener('clientDisconnected',clientDisconnected,true);
@@ -31,14 +33,23 @@ $(document).ready(function(){
 
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
-    $("#loginActions #txtGame").val( window.location.hash.substring(1) );
+    myGame = window.location.hash.substring(1);
+    $("#loginActions #txtGame").val( myGame );
   }
+
+  updateWelcomeCount();
+
+  /* And update this banner when the game ID field changes */
+  $('#txtGame').change(function(){
+    myGame = $(this).val();
+    updateWelcomeCount();
+  })
 
   /* Setup the reveal and restore buttons in #votingActions and hotkeys */
   $("#btnReveal").click(function(){ revealVotes(); });
-  $(document).bind('keyup', 'return', function(){ revealVotes(); });
+  $(document).bind('keyup', 'return', function(){ if (mySid) { revealVotes(); } });
   $("#btnReset").click(function(){ resetVotes(); });
-  $(document).bind('keyup', 'esc', function(){ resetVotes(); });
+  $(document).bind('keyup', 'esc', function(){ if (mySid) { resetVotes(); } });
 
   /* Set up the button to display the game link in voting actions */
   $("#btnLink").click(function(){
@@ -47,7 +58,7 @@ $(document).ready(function(){
       $(this).removeClass('active');
     } else {
       $('#gameLink').slideDown();
-      $(this).addClass('active');      
+      $(this).addClass('active');
     }
   });
 
@@ -62,15 +73,10 @@ $(document).ready(function(){
  */
 
 function signIn(mode){
-  cli = new client();
   myNick = $('#txtNickname').val();
+  myGame = $('#txtGame').val();
 
-  var data = {'nickname' : myNick, 'mode' : mode};
-
-  /* Have we requested to join a specific game? */
-  if ( window.location.hash.substring(1).length ) {
-    data.game = window.location.hash.substring(1);
-  }
+  var data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame};
 
   /**
    * Handle the login action and set up local variables
@@ -78,7 +84,7 @@ function signIn(mode){
   cli.send('signIn', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
-    
+
     /* Show our hand if we're a playing client, not if we're observing */
     if (mode) {
       /* Create cards for each item in the Points object */
@@ -116,6 +122,10 @@ function signIn(mode){
       // Only display them if they're playing
       if ( e.mode ) { displayClient(e.sid, e.nickname); }
     })
+
+    if ( currentUsers.length < 2 ) {
+      $('#btnLink').trigger('click');
+    }
 
     /* Hide the sign-in form, reveal the results panel and the "hand" */
     $('#nickname-display').text(myNick);
@@ -160,6 +170,24 @@ function addVote(sid,vote){
   $('#' + sid ).addClass('voted');
 }
 
+/**
+ * Update the login section banner with game participants
+ */
+function updateWelcomeCount() {
+  if (typeof(myGame) === 'string' && myGame.length) {
+    cli.send('getPlayerCount', {game: myGame}, function(res,msg){
+      if (res && msg > 0) {
+        var verb = (msg > 1) ? 'others are' : 'other is';
+        $('#login h2').text(['Welcome!', msg, verb, 'playing.'].join(' '));
+      } else {
+        $('#login h2').text('Welcome! "' + myGame + '" is a new game.');
+      }
+    });
+  } else {
+    $('#login h2').text('Welcome! Start a new game.');
+  }
+
+}
 
 /*******************************************************************************
  * SERVER SAYS...                                                              *
@@ -242,7 +270,7 @@ function vote(card){
     });
   } else {
     /* This is not the "current" vote. Send the new one. */
-    
+
     // Clear out the old vote.
     $('.card.selected').removeClass('selected');
 

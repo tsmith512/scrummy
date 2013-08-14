@@ -39,13 +39,21 @@ io.sockets.on('connection',function(socket){
       fn( false, 'Please pick a nickname.' );
       return;
     }
-    
+
     // Join the requested active game. If there isn't one, make one!
     var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
     if ( !requestedGame ) {
       // Generate random strings until we have one that's no in use.
+      var i = 0; // Number of attempts.
       while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
-        requestedGame = Math.random().toString(36).substring(2,10);
+        if ( i < 5 ) {
+          // Try to get a friendly game name from the "names" config option
+          requestedGame = config.words[Math.floor(Math.random()*config.words.length)];
+        } else {
+          // We've failed to get a word five times, just make a number.
+          requestedGame = Math.floor(Math.random() * 100000);
+        }
+        i++;
       }
     }
 
@@ -112,7 +120,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     /* Broadcast the vote and our socket.id to everyone */
     io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
 
@@ -128,7 +136,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
 
     /* Tell this client the vote was accepted. */
@@ -143,7 +151,7 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     io.sockets.in(game).emit('reset');
   });
 
@@ -155,8 +163,22 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Could not determine active game. Please reload.');
       return false;
     }
-    
+
     io.sockets.in(game).emit('reveal');
+  });
+
+  socket.on('getPlayerCount',function(data, fn){
+    /* Which game is being investigated? */
+    var requestedGame = (typeof(data.game) === 'string' && data.game.length) ?
+      data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
+
+    // If this game is present, return the number of players. Otherwise return false.
+    if ( requestedGame && requestedGame in bucket ) {
+      fn(true, bucket[requestedGame].length);
+    } else {
+      fn(false, 0);
+    }
+
   });
 
   socket.on('disconnect',function(data){
@@ -172,7 +194,7 @@ io.sockets.on('connection',function(socket){
        * handle reconnections properly, which will fix this problem. */
       return false;
     }
-    
+
     /* Iterate over the bucket _backwards_ so we can cleanly remove the departing
      * client having to recalculate the length (as you would in a for loop) */
     var i = bucket[game].length;
