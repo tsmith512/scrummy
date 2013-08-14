@@ -47,9 +47,9 @@ $(document).ready(function(){
 
   /* Setup the reveal and restore buttons in #votingActions and hotkeys */
   $("#btnReveal").click(function(){ revealVotes(); });
-  $(document).bind('keyup', 'return', function(){ revealVotes(); });
+  $(document).bind('keyup', 'return', function(){ if (mySid) { revealVotes(); } });
   $("#btnReset").click(function(){ resetVotes(); });
-  $(document).bind('keyup', 'esc', function(){ resetVotes(); });
+  $(document).bind('keyup', 'esc', function(){ if (mySid) { resetVotes(); } });
 
   /* Set up the button to display the game link in voting actions */
   $("#btnLink").click(function(){
