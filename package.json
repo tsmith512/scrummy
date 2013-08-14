@@ -1,7 +1,7 @@
 {
   "name": "scrummy",
   "description": "A Scrum planning and estimation game from Four Kitchens",
-  "version": "1.6",
+  "version": "1.6.0",
   "scripts": {
     "start": "node scrum_cards_server.js"
   },
