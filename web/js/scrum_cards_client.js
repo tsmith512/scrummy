@@ -7,6 +7,33 @@ var myNick = null;
 var myGame = null;
 var voteValues = null;
 
+function scrummyCtl($scope) {
+  $scope.mySid = mySid;
+  $scope.myNick = myNick;
+  $scope.myGame = myGame;
+  $scope.myVote = null;
+  $scope.voteValues = [];
+  $scope.clients = [];
+
+  $scope.isMyVote(value) {
+    return $scope.myVote === value;
+  }
+
+  $scope.setMyVote(value) {
+    if ( $scope.isMyVote(value) ) {
+      cli.send('voteRevoke', null, function(res,msg){
+        if(!res){ alert(msg); return false; }
+        return $scope.value = null;
+      });
+    } else {
+      cli.send('vote',{ 'number' : value }, function(res,msg){
+        if(!res){ alert(msg); return false; }
+        return $scope.myVote = value;
+      });
+    }
+  }
+}
+
 /*******************************************************************************
  * BASIC SETUP, READY FUNCTIONS, AND THE SIGN IN FUNCTION                      *
  *******************************************************************************/
@@ -89,14 +116,6 @@ function signIn(mode){
     if (mode) {
       /* Create cards for each item in the Points object */
       voteValues = msg.points;
-      $(voteValues).each(function(index,item){
-        $('<div />')
-          .hide() /* Hidden for now, showCards() reveals them in sequence */
-          .addClass('card')
-          .click(function(){ vote(this); })
-          .append( $('<span />').addClass('card-text').text(item) )
-          .appendTo('.cards');
-      });
     } else {
       $('<h3 />').text('Observing. Reload to participate.').appendTo('#playersHand');
     }
@@ -147,18 +166,6 @@ function showCards() {
   newCards.each(function(i){
     $(this).delay(250*i).fadeIn(300);
   });
-}
-
-/**
- * Create a vote card for a given user
- */
-function displayClient(sid, nickname){
-  $('<div />')
-    .attr('id', sid)
-    .addClass('client')
-    .append('<div class="back"><div class="nickname">'+nickname+'</div></div>')
-    .append('<div class="front"><div class="nickname">'+nickname+'</div><div class="vote-wrap"><span class="vote"></span></div></div>')
-    .appendTo('#clients');
 }
 
 /**
