@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" data-ng-app>
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -27,6 +27,7 @@
   <link href='http://fonts.googleapis.com/css?family=Fjalla+One|Stint+Ultra+Expanded|Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="css/main.css" />
 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
   <script src="socket.io/socket.io.js"></script>
   <script src="js/socket_client.js"></script>
   <script src="js/vendor/modernizr-jquery-cookies-hotkeys.merged.js"></script>
@@ -40,7 +41,7 @@
     </div>
   </div>
 
-  <div id="container">
+  <div id="container" data-ng-controller="scrummyCtl">
     <section id="top"></section>
 
     <section id="login" class="signin-form">
@@ -89,12 +90,28 @@
           <input type="text" id="txtUrl" readonly />
         </div>
       </div><!--/#votingActions-->
-      <div id="clients"></div>
+      <div id="clients">
+        <div class="client" id="{{client.sid}}" data-ng-repeat="client in clients">
+          <div class="back">
+            <div class="nickname">{{client.nickname}}</div>
+          </div>
+          <div class="front">
+            <div class="nickname">{{client.nickname}}</div>
+            <div class="vote-wrap">
+              <div class="vote">{{client.vote}}</div>
+            </div>
+          </div>
+        </div><!--/.client template-->
+      </div><!--/#clients-->
     </section><!--/#votingResult-->
 
     <section id="playersHand" style="display:none;">
-      <h2 id="nickname-display"></h2>
-      <div class="cards-wrap"><div class="cards"></div></div>
+      <h2 id="nickname-display">{{myNick}}</h2>
+      <div class="cards-wrap"><div class="cards">
+        <div class="card {selected : isMyVote(value)}" data-ng-repeat="value in voteValues" data-ng-click="setMyVote(value)">
+          <span class="card-text">{{value}}</span>
+        </div>
+      </div></div>
     </section><!--/#playersHand-->
 
     <section id="bottom"></section>
