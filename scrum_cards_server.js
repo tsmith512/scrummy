@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
 
     Scrummy is a scrum planning and estimation game in Node.js
@@ -24,10 +25,12 @@ var express = require('express'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server),
     bucket  = [],
-    config  = require('./settings.json');
+    config  = require('./settings.json'),
+    argv    = require('yargs').argv,
+    port    = argv.port || config.port;
 
 app.use(express.static(__dirname + '/web'));
-server.listen(config.port);
+server.listen(port);
 
 io.sockets.on('connection',function(socket){
 
