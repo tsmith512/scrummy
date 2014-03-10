@@ -28,7 +28,7 @@ have continued development to include several new features and enhancements:
 ## Setup
 
 * `npm install`
-* Edit `settings.js` as necessary
+* Edit `settings.json` as necessary
 * `npm start`
 
 ## Collaboration
