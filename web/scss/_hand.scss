@@ -55,6 +55,33 @@
     }
   }
 
+  // Entrance effects
+  html.no-csstransforms3d & {
+    .card {
+      opacity: 1;
+      &.entrance { opacity: 0; }
+    }
+  }
+  html.csstransforms3d & {
+    .cards-wrap {
+      overflow: hidden;
+    }
+    .card {
+      @include simple-transform(
+        1, //scale
+        0deg, // rotate
+        0px, 0px //translate
+      );
+      &.entrance {
+        @include simple-transform(
+          0.9, //scale
+          -30deg, // rotate
+          500%, -200% //translate
+        );
+      }
+    }
+  }
+
   /* The "deck-o-cards" effect with media queries and flexbox. Check for flexbox
    * class first. */
   html.no-flexbox & {
