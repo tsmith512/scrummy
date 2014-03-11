@@ -32,6 +32,7 @@ server.listen(config.port);
 io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
+    var client;
     // Nicknames should be unique, are displayed in uppercase, and should only
     // contain a small set of characters.
     var requestedNick = (data.nickname) ? data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'') : false;
@@ -114,7 +115,7 @@ io.sockets.on('connection',function(socket){
     }
 
     /* What's our current game? */
-    game = socket.store.data.game;
+    var game = socket.store.data.game;
 
     if ( !game ) {
       fn(false, 'Could not determine active game. Please reload.');
@@ -130,7 +131,7 @@ io.sockets.on('connection',function(socket){
 
   socket.on('voteRevoke',function(data, fn){
     /* What's our current game? */
-    game = socket.store.data.game;
+    var game = socket.store.data.game;
 
     if ( !game ) {
       fn(false, 'Could not determine active game. Please reload.');
@@ -145,7 +146,7 @@ io.sockets.on('connection',function(socket){
 
   socket.on('reset',function(data, fn){
     /* What's our current game? */
-    game = socket.store.data.game;
+    var game = socket.store.data.game;
 
     if ( !game ) {
       fn(false, 'Could not determine active game. Please reload.');
@@ -157,7 +158,7 @@ io.sockets.on('connection',function(socket){
 
   socket.on('reveal',function(data, fn){
     /* What's our current game? */
-    game = socket.store.data.game;
+    var game = socket.store.data.game;
 
     if ( !game ) {
       fn(false, 'Could not determine active game. Please reload.');
@@ -183,7 +184,7 @@ io.sockets.on('connection',function(socket){
 
   socket.on('disconnect',function(data){
     /* What's our current game? */
-    game = socket.store.data.game;
+    var game = socket.store.data.game;
 
     if ( !game ) {
       /* In testing, I determined that if we don't have a valid game, it's because
