@@ -246,7 +246,8 @@ function userSignedIn(e){
     var number = $('.cards .selected').children('.card-text').text();
 
     // Send the vote. No callback actions because this isn't a real voting action.
-    cli.send('vote',{ 'number' : number }, function(res,msg){ return true; });
+    var data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame, 'number' : number};
+    cli.send('vote', data, function(res,msg){ return true; });
   }
 }
 
@@ -262,9 +263,11 @@ function clientDisconnected(e){
  * User has clicked a card. Send vote to server for broadcasting
  */
 function vote(card){
+  var data;
   if ( $(card).hasClass('selected') ) {
     /* The "current" vote has been clicked. We should revoke it. */
-    cli.send('voteRevoke', null, function(res,msg){
+    data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame};
+    cli.send('voteRevoke', data, function(res,msg){
       if(!res){ alert(msg); return false; }
       $('.card.selected').removeClass('selected');
     });
@@ -278,7 +281,8 @@ function vote(card){
     var number = $(card).children('.card-text').text();
 
     // Send the new vote.
-    cli.send('vote',{ 'number' : number }, function(res,msg){
+    data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame, 'number' : number};
+    cli.send('vote', data, function(res,msg){
       if(!res){ alert(msg); return false; }
       $(card).addClass('selected');
     });
@@ -290,7 +294,8 @@ function vote(card){
  * by the event action so it happens simultaneously with other clients in the game
  */
 function resetVotes(){
-  cli.send('reset',null, function(res,msg){
+  var data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame};
+  cli.send('reset', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
   });
@@ -300,7 +305,8 @@ function resetVotes(){
  * Like above, but with the reveal button.
  */
 function revealVotes(){
-  cli.send('reveal',null, function(res,msg){
+  var data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame};
+  cli.send('reveal', data, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
   });
