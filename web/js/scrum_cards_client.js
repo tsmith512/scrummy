@@ -20,6 +20,7 @@ $(document).ready(function(){
   document.addEventListener('clientReset',clientReset,false);
   document.addEventListener('clientRevoke',clientRevoke,false);
   document.addEventListener('clientReveal',clientReveal,false);
+  document.addEventListener('reconnect',reconnect,false);
 
   /* On form submit, execute signIn() but don't actually post/get or reload */
   $("#loginActions form").submit(function(){ signIn(1); return false; })
@@ -304,4 +305,10 @@ function revealVotes(){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
   });
+}
+
+function reconnect(){
+  if (mySid) {
+    signIn(myMode);
+  }
 }
