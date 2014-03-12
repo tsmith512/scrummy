@@ -32,78 +32,14 @@ server.listen(config.port);
 io.sockets.on('connection',function(socket){
 
   socket.on('signIn',function(data,fn){
-    // Nicknames should be unique, are displayed in uppercase, and should only
-    // contain a small set of characters.
-    var requestedNick = (data.nickname) ? data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'') : false;
-    if ( !requestedNick ) {
-      fn( false, 'Please pick a nickname.' );
-      return;
-    }
-
-    // Join the requested active game. If there isn't one, make one!
-    var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
-    if ( !requestedGame ) {
-      // Generate random strings until we have one that's no in use.
-      var i = 0; // Number of attempts.
-      while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
-        if ( i < 5 ) {
-          // Try to get a friendly game name from the "names" config option
-          requestedGame = config.words[Math.floor(Math.random()*config.words.length)];
-        } else {
-          // We've failed to get a word five times, just make a number.
-          requestedGame = Math.floor(Math.random() * 100000);
-        }
-        i++;
+    try {
+      var message = signIn(socket, data);
+      fn(true, message);
+    } catch (err) {
+      if (err instanceof ScrummyError){
+        fn(false, err.message);
       }
     }
-
-    // Either a game was requested, or we've made a string. Set it up.
-    if ( typeof(bucket[requestedGame]) === "undefined" ) {
-      // This game is new, create the array in the bucket.
-      bucket[requestedGame] = [];
-    } else {
-      // This game exists, check for duplicate names
-      for ( client in bucket[requestedGame] ) {
-        if (requestedNick == bucket[requestedGame][client].nickname ) {
-          fn( false, 'Nickname already in use.' );
-          return;
-        }
-      }
-    }
-
-    /*
-     * We need an easy way to know what game a client is playing, and the lookup
-     * alternative appears to be `io.sockets.manager.roomClients[socket.id]` so
-     * for the time being, I'm just gonna store it as a socket variable also.
-     * The easy way to get this back is: game = socket.store.data.game;
-     * The socket.get() function is asynchronous, which we don't really need.
-     */
-    socket.set('game', requestedGame, null);
-
-    console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
-
-    client = {
-      sid: socket.id,
-      nickname: requestedNick,
-      game: requestedGame,
-      mode: parseInt( data.mode )
-    };
-
-    bucket[requestedGame].push(client);
-
-    socket.join(requestedGame);
-
-    socket.broadcast.in(requestedGame).emit('userSignedIn',
-      {'nickname' : client.nickname, 'sid' : client.sid, 'mode' : client.mode}
-    );
-
-    fn(true,{
-      'sid' : client.sid,
-      'nickname' : requestedNick,
-      'points' : config.points,
-      'users' : bucket[requestedGame],
-      'game' : requestedGame
-    });
   });
 
   socket.on('vote',function(data, fn){
@@ -112,59 +48,50 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Invalid vote');
       return false;
     }
-
-    /* What's our current game? */
-    game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      console.log('received', data);
+      var game = getGame(socket, data);
+      /* Tell everyone about the action */
+      io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
+      /* Tell this client their action was accepted. */
+      fn(true);
     }
-
-    /* Broadcast the vote and our socket.id to everyone */
-    io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
-
-    /* Tell this client the vote was accepted. */
-    fn(true);
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('voteRevoke',function(data, fn){
-    /* What's our current game? */
-    game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      var game = getGame(socket, data);
+       /* Broadcast the action and our socket.id to everyone */
+      io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
+      /* Tell this client their action was accepted. */
+      fn(true);
     }
-
-    io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
-
-    /* Tell this client the vote was accepted. */
-    fn(true);
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('reset',function(data, fn){
-    /* What's our current game? */
-    game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      var game = getGame(socket, data);
+      io.sockets.in(game).emit('reset');
     }
-
-    io.sockets.in(game).emit('reset');
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('reveal',function(data, fn){
-    /* What's our current game? */
-    game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      var game = getGame(socket, data);
+      io.sockets.in(game).emit('reveal');
     }
-
-    io.sockets.in(game).emit('reveal');
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('getPlayerCount',function(data, fn){
@@ -183,7 +110,7 @@ io.sockets.on('connection',function(socket){
 
   socket.on('disconnect',function(data){
     /* What's our current game? */
-    game = socket.store.data.game;
+    var game = socket.store.data.game;
 
     if ( !game ) {
       /* In testing, I determined that if we don't have a valid game, it's because
@@ -212,4 +139,130 @@ io.sockets.on('connection',function(socket){
   });
 
 });
+
+/**
+ * Gets a game to apply actions to.
+ *   Attempts to re-sign in if neeeded
+ *
+ * @param {Socket} socket
+ *   Represents connection to client
+ * @param {object} data
+ *   Simple parameters from client
+ *   @param {string} data.nickname
+ *     Requested nickname
+ *   @param {string} data.game
+ *     Requested game to join
+ *   @param {int} data.mode
+ *     Mode to join as (0 = Pig/no vote, 1 = Chicken/may vote)
+ * @throws {ScrummyError}
+ *   If unable to sign in
+ * @return {object}
+ *   Game data for client
+ */
+function getGame (socket, data) {
+  var game = socket.store.data.game;
+
+  if ( !game ) {
+    var playerData = signIn(socket, data);
+    game = playerData.game;
+  }
+  return game;
+}
+
+/**
+ * Signs the socket in to a given game
+ *
+ * @param {Socket} socket
+ *   Represents connection to client
+ * @param {object} data
+ *   Simple parameters from client
+ *   @param {string} data.nickname
+ *     Requested nickname
+ *   @param {string} data.game
+ *     Requested game to join
+ *   @param {int} data.mode
+ *     Mode to join as (0 = Pig/no vote, 1 = Chicken/may vote)
+ * @throws {ScrummyError}
+ *   If unable to sign in
+ * @return {object}
+ *   Game data for client
+ */
+function signIn (socket, data) {
+  var client;
+  // Nicknames should be unique, are displayed in uppercase, and should only
+  // contain a small set of characters.
+  var requestedNick = (data.nickname) ? data.nickname.toLowerCase().replace(/[^\d\w- ]+/gi,'') : false;
+  if ( !requestedNick ) {
+    throw new ScrummyError('Please pick a nickname.' );
+  }
+
+  // Join the requested active game. If there isn't one, make one!
+  var requestedGame = (data.game) ? data.game.toLowerCase().replace(/[^\d\w]+/gi,'') : false;
+  if ( !requestedGame ) {
+    // Generate random strings until we have one that's no in use.
+    var i = 0; // Number of attempts.
+    while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
+      if ( i < 5 ) {
+        // Try to get a friendly game name from the "names" config option
+        requestedGame = config.words[Math.floor(Math.random()*config.words.length)];
+      } else {
+        // We've failed to get a word five times, just make a number.
+        requestedGame = Math.floor(Math.random() * 100000);
+      }
+      i++;
+    }
+  }
+
+  // Either a game was requested, or we've made a string. Set it up.
+  if ( typeof(bucket[requestedGame]) === "undefined" ) {
+    // This game is new, create the array in the bucket.
+    bucket[requestedGame] = [];
+  } else {
+    // This game exists, check for duplicate names
+    for ( client in bucket[requestedGame] ) {
+      if (requestedNick == bucket[requestedGame][client].nickname ) {
+        throw new ScrummyError('Nickname already in use.' );
+      }
+    }
+  }
+
+  /*
+   * We need an easy way to know what game a client is playing, and the lookup
+   * alternative appears to be `io.sockets.manager.roomClients[socket.id]` so
+   * for the time being, I'm just gonna store it as a socket variable also.
+   * The easy way to get this back is: game = socket.store.data.game;
+   * The socket.get() function is asynchronous, which we don't really need.
+   */
+  socket.set('game', requestedGame, null);
+
+  console.log("Client %s connected. Game requested: %s", requestedNick, requestedGame);
+
+  client = {
+    sid: socket.id,
+    nickname: requestedNick,
+    game: requestedGame,
+    mode: data.mode ? 1 : 0
+  };
+
+  bucket[requestedGame].push(client);
+
+  socket.join(requestedGame);
+
+  socket.broadcast.in(requestedGame).emit('userSignedIn',
+    {'nickname' : client.nickname, 'sid' : client.sid, 'mode' : client.mode}
+  );
+
+  return {
+    'sid' : client.sid,
+    'nickname' : requestedNick,
+    'points' : config.points,
+    'users' : bucket[requestedGame],
+    'game' : requestedGame
+  };
+}
+
+function ScrummyError (message) {
+  this.message = message;
+}
+ScrummyError.prototype = new Error();
 
