@@ -284,7 +284,6 @@ function vote(card){
 
     // Send the new vote.
     data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame, 'number' : number};
-    console.log('send', data);
     cli.send('vote', data, function(res,msg){
       if(!res){ alert(msg); return false; }
       $(card).addClass('selected');
