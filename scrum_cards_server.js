@@ -48,59 +48,50 @@ io.sockets.on('connection',function(socket){
       fn(false, 'Invalid vote');
       return false;
     }
-
-    /* What's our current game? */
-    var game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      console.log('received', data);
+      var game = getGame(socket, data);
+      /* Tell everyone about the action */
+      io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
+      /* Tell this client their action was accepted. */
+      fn(true);
     }
-
-    /* Broadcast the vote and our socket.id to everyone */
-    io.sockets.in(game).emit('voteOccured', { "sid": socket.id, "number": data.number } );
-
-    /* Tell this client the vote was accepted. */
-    fn(true);
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('voteRevoke',function(data, fn){
-    /* What's our current game? */
-    var game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      var game = getGame(socket, data);
+       /* Broadcast the action and our socket.id to everyone */
+      io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
+      /* Tell this client their action was accepted. */
+      fn(true);
     }
-
-    io.sockets.in(game).emit('clientRevoke', { "sid": socket.id } );
-
-    /* Tell this client the vote was accepted. */
-    fn(true);
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('reset',function(data, fn){
-    /* What's our current game? */
-    var game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      var game = getGame(socket, data);
+      io.sockets.in(game).emit('reset');
     }
-
-    io.sockets.in(game).emit('reset');
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('reveal',function(data, fn){
-    /* What's our current game? */
-    var game = socket.store.data.game;
-
-    if ( !game ) {
-      fn(false, 'Could not determine active game. Please reload.');
-      return false;
+    try {
+      var game = getGame(socket, data);
+      io.sockets.in(game).emit('reveal');
     }
-
-    io.sockets.in(game).emit('reveal');
+    catch (e) {
+      fn(false, 'Could not determine active game. Please reload.');
+    }
   });
 
   socket.on('getPlayerCount',function(data, fn){
@@ -149,8 +140,37 @@ io.sockets.on('connection',function(socket){
 
 });
 
+/**
+ * Gets a game to apply actions to.
+ *   Attempts to re-sign in if neeeded
+ *
+ * @param {Socket} socket
+ *   Represents connection to client
+ * @param {object} data
+ *   Simple parameters from client
+ *   @param {string} data.nickname
+ *     Requested nickname
+ *   @param {string} data.game
+ *     Requested game to join
+ *   @param {int} data.mode
+ *     Mode to join as (0 = Pig/no vote, 1 = Chicken/may vote)
+ * @throws {ScrummyError}
+ *   If unable to sign in
+ * @return {object}
+ *   Game data for client
+ */
+function getGame (socket, data) {
+  var game = socket.store.data.game;
+
+  if ( !game ) {
+    var playerData = signIn(socket, data);
+    game = playerData.game;
+  }
+  return game;
+}
 
 /**
+ * Signs the socket in to a given game
  *
  * @param {Socket} socket
  *   Represents connection to client
