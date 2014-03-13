@@ -1059,6 +1059,34 @@ input[type="text"]:focus {
   #clients .client .front, #clients .client .back {
     padding: 0.25em;
   }
+  .csstransforms #clients .client .back {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+  .csstransforms #clients .client .front {
+    -webkit-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+  }
+  .csstransforms #votingResult.reveal #clients .client.voted .back {
+    -webkit-transform: rotateX(-180deg);
+    -moz-transform: rotateX(-180deg);
+    -ms-transform: rotateX(-180deg);
+    -o-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+  .csstransforms #votingResult.reveal #clients .client.voted .front {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
   #clients .nickname, #clients .vote-wrap {
     display: block;
   }

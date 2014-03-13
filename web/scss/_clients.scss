@@ -76,7 +76,6 @@
         display: block;
         @include transform(rotateY(180deg));
       }
-
       .front {
         display: block;
         @include transform(rotateY(0deg));
@@ -110,6 +109,22 @@
 
       .front, .back {
         padding: 0.25em;
+      }
+
+      // Use Vertical flip for The wider cards
+      .csstransforms & .back {
+        @include transform(rotateX(0deg));
+      }
+      .csstransforms & .front {
+        @include transform(rotateX(180deg));
+      }
+      .csstransforms #votingResult.reveal &.voted {
+        .back {
+          @include transform(rotateX(-180deg));
+        }
+        .front {
+          @include transform(rotateX(0deg));
+        }
       }
     }
 
