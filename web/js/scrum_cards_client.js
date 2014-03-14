@@ -5,6 +5,7 @@ var cli = null;
 var mySid = null;
 var myNick = null;
 var myGame = null;
+var myMode = null;
 var voteValues = null;
 
 /*******************************************************************************
@@ -20,6 +21,7 @@ $(document).ready(function(){
   document.addEventListener('clientReset',clientReset,false);
   document.addEventListener('clientRevoke',clientRevoke,false);
   document.addEventListener('clientReveal',clientReveal,false);
+  document.addEventListener('reconnect',reconnect,false);
 
   /* On form submit, execute signIn() but don't actually post/get or reload */
   $("#loginActions form").submit(function(){ signIn(1); return false; })
@@ -75,8 +77,9 @@ $(document).ready(function(){
 function signIn(mode){
   myNick = $('#txtNickname').val();
   myGame = $('#txtGame').val();
+  myMode = mode;
 
-  var data = {'nickname' : myNick, 'mode' : mode, 'game' : myGame};
+  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame};
 
   /**
    * Handle the login action and set up local variables
@@ -119,13 +122,9 @@ function signIn(mode){
     $('#txtUrl').val( window.location.href );
 
     /* Server should respond with users already in the game, display them */
-    currentUsers = msg.users;
-    $(currentUsers).each(function(i,e){
-      // Only display them if they're playing
-      if ( e.mode ) { displayClient(e.sid, e.nickname); }
-    })
+    displayClients(msg.users);
 
-    if ( currentUsers.length < 2 ) {
+    if ( msg.users.length < 2 ) {
       $('#btnLink').trigger('click');
     }
 
@@ -150,6 +149,17 @@ function showCards() {
     setTimeout(function () {
       $(el).removeClass('entrance');
     }, 100*i);
+  });
+}
+
+/**
+ * Create a vote cards for all users
+ */
+function displayClients(clients) {
+  $('#clients').empty();
+  $(clients).each(function(i,e){
+    // Only display them if they're playing
+    if ( e.mode ) { displayClient(e.sid, e.nickname); }
   });
 }
 
@@ -307,5 +317,23 @@ function revealVotes(){
   cli.send('reveal',null, function(res,msg){
     /* Server returned false; alert with message and bail */
     if(!res){ alert(msg); return false; }
+  });
+}
+
+function reconnect(){
+  if (mySid === null) {
+    return;
+  }
+  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame};
+
+  cli.send('signIn', data, function(res,msg){
+    // Server returned false; alert with message and bail
+    if(!res){ alert(msg); return false; }
+
+    // Set client Socket ID for later; it's our identifier server-side
+    mySid = msg.sid;
+
+    // Server should respond with users already in the game, display them
+    displayClients(msg.users);
   });
 }
