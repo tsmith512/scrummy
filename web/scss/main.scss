@@ -31,13 +31,14 @@ $red:    #D71414;
 }
 
 // Setup Breakpoints
-$breakpoints:
+$breakpoints: (
   // 'handheld'   // Mobile-first: default IS handheld
-  'handheld-only' (max-width    679px), // For styles
-  'narrow'        (min-width    680px),
-  'medium'        (min-width    980px),
-  'wide'          (min-width   1080px),
-  'portrait'      (orientation portrait);
+  'handheld-only': (max-width    679px), // For styles
+  'narrow':        (min-width    680px),
+  'medium':        (min-width    980px),
+  'wide':          (min-width   1080px),
+  'portrait':      (orientation portrait)
+);
 
 /* Set up basic colors and typefaces */
 body {
@@ -123,7 +124,7 @@ a {
   @include box-shadow($dark 0px 0px 25px inset);
   background: $low url('../gfx/pit_bg_wood.jpg') center center repeat;
 
-  @include respond-to('small') {
+  @include respond-to('narrow') {
     margin: 0.5em auto;
     padding: 0.5em;
   }
@@ -322,7 +323,7 @@ input {
     margin-right: auto;
     @include text-shadow( 1px 1px 0 darken($low, 15%) );
 
-    @include column-break-inside(avoid);
+    @include column-break(inside, avoid);
   }
 
   strong {
