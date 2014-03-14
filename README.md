@@ -30,6 +30,8 @@ have continued development to include several new features and enhancements:
 * `npm install`
 * Edit `settings.json` as necessary
 * `npm start`
+* Alternatively, run `scrum_cards_server.js` directly with an optional
+  port override argument: `--port=9999`
 
 ## Collaboration
 
