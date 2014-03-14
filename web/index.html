@@ -46,11 +46,11 @@
 
     <section id="login" class="signin-form">
       <h2>Welcome</h2>
-      <div id="loginActions"><form>
-        <input type="text" id="txtNickname" placeholder="Nickname?" />
-        <input type="text" id="txtGame" placeholder="New Game!" />
+      <div id="loginActions"><form data-ng-submit="signIn(1)">
+        <input type="text" id="txtNickname" placeholder="Nickname?" data-ng-model="myNick" />
+        <input type="text" id="txtGame" placeholder="New Game!" data-ng-model="myGame" />
         <input type="submit" value="Play" id="btnSignIn" />
-        <input type="button" value="Watch" id="btnObserve" />
+        <input type="button" value="Watch" id="btnObserve" data-ng-submit="signIn(0)" />
       </form></div><!--/#loginActions-->
     </section><!--#/login-->
 
@@ -91,7 +91,7 @@
         </div>
       </div><!--/#votingActions-->
       <div id="clients">
-        <div class="client" id="{{client.sid}}" data-ng-repeat="client in clients">
+        <div data-ng-repeat="client in clients" class="client {voted : client.vote}" id="{{client.sid}}">
           <div class="back">
             <div class="nickname">{{client.nickname}}</div>
           </div>
@@ -108,7 +108,7 @@
     <section id="playersHand" style="display:none;">
       <h2 id="nickname-display">{{myNick}}</h2>
       <div class="cards-wrap"><div class="cards">
-        <div class="card {selected : isMyVote(value)}" data-ng-repeat="value in voteValues" data-ng-click="setMyVote(value)">
+        <div data-ng-repeat="value in voteValues" class="card {selected : isMyVote(value)}" data-ng-click="setMyVote(value)">
           <span class="card-text">{{value}}</span>
         </div>
       </div></div>

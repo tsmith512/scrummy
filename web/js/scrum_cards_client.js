@@ -15,11 +15,11 @@ function scrummyCtl($scope) {
   $scope.voteValues = [];
   $scope.clients = [];
 
-  $scope.isMyVote(value) {
+  $scope.isMyVote = function(value) {
     return $scope.myVote === value;
   }
 
-  $scope.setMyVote(value) {
+  $scope.setMyVote = function(value) {
     if ( $scope.isMyVote(value) ) {
       cli.send('voteRevoke', null, function(res,msg){
         if(!res){ alert(msg); return false; }
@@ -32,6 +32,58 @@ function scrummyCtl($scope) {
       });
     }
   }
+
+  $scope.signIn = function(mode){
+    var data = {'nickname' : $scope.myNick, 'mode' : mode, 'game' : $scope.myGame};
+
+    /**
+     * Handle the login action and set up local variables
+     */
+    cli.send('signIn', data, function(res,msg){
+      /* Server returned false; alert with message and bail */
+      if(!res){ alert(msg); return false; }
+
+      /* Show our hand if we're a playing client, not if we're observing */
+      if (mode) {
+        /* Create cards for each item in the Points object */
+        $scope.voteValues = msg.points;
+      } else {
+        $('<h3 />').text('Observing. Reload to participate.').appendTo('#playersHand');
+      }
+
+      /* Set client Socket ID for later; it's our identifier server-side */
+      $scope.mySid = msg.sid;
+
+      /* Use the sanitized nickname from the server so it appears
+       * consistently among clients, then save it for later. */
+      $scope.myNick = msg.nickname;
+      Cookies.set('nickname', $scope.myNick, {expires:31536000});
+
+      /* Use the sanitized game from the server so we can send the link to others */
+      $scope.myGame = msg.game;
+      window.location.hash = ('#' + myGame);
+
+      /* Populate the Game URL field */
+      $('#txtUrl').val( window.location.href );
+
+      /* Server should respond with users already in the game, display them */
+      $scope.clients.push(msg.users);
+      // $(currentUsers).each(function(i,e){
+        // Only display them if they're playing
+        // if ( e.mode ) { displayClient(e.sid, e.nickname); }
+      // })
+
+      if ( currentUsers.length < 2 ) {
+        $('#btnLink').trigger('click');
+      }
+
+      /* Hide the sign-in form, reveal the results panel and the "hand" */
+      $('#login, #readme').slideUp();
+      $('#votingResult, #playersHand').slideDown();
+      // showCards();
+    });
+  }
+
 }
 
 /*******************************************************************************
@@ -49,14 +101,11 @@ $(document).ready(function(){
   document.addEventListener('clientReveal',clientReveal,false);
 
   /* On form submit, execute signIn() but don't actually post/get or reload */
-  $("#loginActions form").submit(function(){ signIn(1); return false; })
-  $("#btnObserve").click(function(){ signIn(0); return false; })
 
   /* If we have a cookie set, pull the nickname: */
   if ( typeof(Cookies.get('nickname')) === "string" ) {
     $('#txtNickname').val( Cookies.get('nickname') );
   }
-
 
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
