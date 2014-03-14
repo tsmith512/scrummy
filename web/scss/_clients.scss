@@ -7,18 +7,30 @@
   // FRONT = FACE UP (SHOWING VOTE)
 
   .client {
+    @include perspective(300px);
+    position: relative;
+     // base height for mobile, will be responsively overriden
+    height: 3.5em;
 
-    .front, .back {
+    .front,
+    .back {
       overflow: hidden;
       border: 4px solid darken($bright, 5%);
-      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       @include border-radius(10px);
       @include box-shadow($dark 0px 0px 10px);
+      @include backface-visibility(hidden);
+      @include perspective(0px);
+      @include transform-style(preserve-3d);
+      @include transition(transform .5s ease-in-out);
     }
 
-    .back { // FACE DOWN
-      display: block;
-
+    .back { // FACE DOWN (COVERING VOTE)
+      z-index: 50;
       background:
         url('../gfx/card_back_bg_greenplaid_small.png') center center repeat,
         $bright;
@@ -29,11 +41,11 @@
     }
 
     .front { // FACE UP (SHOWING VOTE)
+      z-index: 0;
       color: $dark;
       background: $bright;
-      @include text-shadow(none);
 
-      display: none;
+      @include text-shadow(none);
     }
 
     &.voted {
@@ -41,11 +53,34 @@
       .front .nickname { color: $red; }
     }
 
-  }
+    // No Transforms? Use display none/block
+    .back { display: block; }
+    .front { display: none; }
 
-  #votingResult.reveal &.voted {
-    .back { display: none; }
-    .front { display: block; }
+    #votingResult.reveal &.voted {
+      .back { display: none; }
+      .front { display: block; }
+    }
+
+    // With the Transform, backsides will be hidden by transform
+    .csstransforms & .back {
+      display: block;
+      @include transform(rotateY(0deg));
+    }
+    .csstransforms & .front {
+      display: block;
+      @include transform(rotateY(-180deg));
+    }
+    .csstransforms #votingResult.reveal &.voted {
+      .back {
+        display: block;
+        @include transform(rotateY(180deg));
+      }
+      .front {
+        display: block;
+        @include transform(rotateY(0deg));
+      }
+    }
   }
 
   .nickname {
@@ -75,6 +110,22 @@
       .front, .back {
         padding: 0.25em;
       }
+
+      // Use Vertical flip for The wider cards
+      .csstransforms & .back {
+        @include transform(rotateX(0deg));
+      }
+      .csstransforms & .front {
+        @include transform(rotateX(180deg));
+      }
+      .csstransforms #votingResult.reveal &.voted {
+        .back {
+          @include transform(rotateX(-180deg));
+        }
+        .front {
+          @include transform(rotateX(0deg));
+        }
+      }
     }
 
     .nickname, .vote-wrap { display: block; }
@@ -84,6 +135,7 @@
       width: 70%;
       text-align: left;
 
+      line-height: 1.5em;
       font-size: 1.125em;
       letter-spacing: 2px;
 
@@ -94,8 +146,9 @@
       float: right;
       width: 25%;
       text-align: right;
+      line-height: 1.5em;
 
-      padding: 0.125em 0.25em 0 0;
+      padding: 0.375em 0.25em 0.375em 0;
 
       .vote {
         font-size: 1.75em;
@@ -161,48 +214,6 @@
       .vote {
         padding: 0.375em 0;
         font-size: 2.75em;
-      }
-    }
-
-    html.csstransforms & .client {
-      position: relative;
-      @include perspective(300px);
-
-      .back, .front {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-
-        @include backface-visibility(hidden);
-        @include perspective(0px);
-        @include transform-style(preserve-3d);
-        @include transition(transform .5s ease-in-out);
-      }
-      .front {
-        z-index: 0;
-        display: block;
-        @include transform(rotateY(-180deg));
-      }
-
-      .back {
-        z-index: 50;
-        @include transform(rotateY(0deg));
-      }
-    }
-
-    html.csstransforms #votingResult.reveal & .voted {
-      .back, .front { display: block; }
-
-      .back {
-        z-index: 0;
-        @include transform(rotateY(180deg));
-      }
-
-      .front {
-        z-index: 50;
-        @include transform(rotateY(0deg));
       }
     }
   }
