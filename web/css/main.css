@@ -1,4 +1,4 @@
-/* normalize.css v1.1.0 | MIT License | git.io/normalize */
+/*! normalize.css v1.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
    HTML5 display definitions
    ========================================================================== */
@@ -576,7 +576,6 @@ section:after {
 @-ms-viewport {
   width: device-width;
 }
-
 /* Set up basic colors and typefaces */
 body {
   background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
@@ -651,15 +650,19 @@ html.svg #logo > div h1 {
   margin: 0.25em auto;
   padding: 0.5em;
   border: 1px solid #151211;
-  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
-  -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
   -moz-box-shadow: #1f1a19 0px 0px 25px inset;
+  -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
   box-shadow: #1f1a19 0px 0px 25px inset;
   background: #312928 url("../gfx/pit_bg_wood.jpg") center center repeat;
+}
+@media (min-width: 680px) {
+  #container {
+    margin: 0.5em auto;
+    padding: 0.5em;
+  }
 }
 @media (min-width: 980px) {
   #container {
@@ -717,10 +720,8 @@ input {
   padding: 4px 8px;
   margin: 4px;
   border: 1px solid #e3dfe3;
-  -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
@@ -752,14 +753,12 @@ input[type="text"]:focus {
   padding: 0 4px;
   margin: 0.25em auto;
   border: 1px solid #473c3a;
-  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
   background: #1b1616;
-  -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
   -moz-box-shadow: #1f1a19 0px 0px 5px inset;
+  -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
   box-shadow: #1f1a19 0px 0px 5px inset;
 }
 #loginActions input, #votingActions input {
@@ -769,20 +768,16 @@ input[type="text"]:focus {
   color: #e3dfe3;
   text-shadow: black 1px 1px 0;
   background: #0e536e;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0e536e), color-stop(100%, #083141));
-  background-image: -webkit-linear-gradient(#0e536e, #083141);
   background-image: -moz-linear-gradient(#0e536e, #083141);
-  background-image: -o-linear-gradient(#0e536e, #083141);
+  background-image: -webkit-linear-gradient(#0e536e, #083141);
   background-image: linear-gradient(#0e536e, #083141);
   border: 1px solid #083141;
 }
 #loginActions input[type="button"]:hover, #loginActions input[type="button"].active, #loginActions input[type="submit"]:hover, #loginActions input[type="submit"].active, #votingActions input[type="button"]:hover, #votingActions input[type="button"].active, #votingActions input[type="submit"]:hover, #votingActions input[type="submit"].active {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ec3503), color-stop(100%, #871f02));
-  background-image: -webkit-linear-gradient(#ec3503, #871f02);
   background-image: -moz-linear-gradient(#ec3503, #871f02);
-  background-image: -o-linear-gradient(#ec3503, #871f02);
+  background-image: -webkit-linear-gradient(#ec3503, #871f02);
   background-image: linear-gradient(#ec3503, #871f02);
   border: 1px solid #551301;
 }
@@ -791,30 +786,66 @@ input[type="text"]:focus {
  * Login Form
  */
 #loginActions {
+  *zoom: 1;
   text-align: center;
 }
-#loginActions input {
-  width: 23.5%;
-  margin: 6px 0.5%;
+#loginActions:before, #loginActions:after {
+  content: " ";
+  display: table;
+}
+#loginActions:after {
+  clear: both;
+}
+@media (max-width: 679px) {
+  #loginActions input {
+    width: 48.93617%;
+    clear: right;
+    float: left;
+    margin-right: 2.12766%;
+  }
+  #loginActions input:nth-child(2n+0) {
+    margin-right: 0;
+  }
+}
+@media (min-width: 680px) {
+  #loginActions input {
+    width: 23.40426%;
+    clear: right;
+    float: left;
+    margin-right: 2.12766%;
+  }
+  #loginActions input:nth-child(4n+0) {
+    margin-right: 0;
+  }
 }
 
 /**
  * Voting Actions & Results Section
  */
-#votingActions input {
-  width: 32%;
-  margin-left: 1%;
+#votingActions {
+  *zoom: 1;
 }
-#votingActions input#btnReveal {
-  margin-left: 0;
+#votingActions:before, #votingActions:after {
+  content: " ";
+  display: table;
+}
+#votingActions:after {
+  clear: both;
+}
+#votingActions input {
+  width: 31.42857%;
+  clear: right;
+  float: left;
+  margin-right: 2.85714%;
+}
+#votingActions input:nth-child(3n+0) {
+  margin-right: 0;
 }
 #votingResult.reveal #votingActions #btnReveal {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #b92a03), color-stop(100%, #871f02));
-  background-image: -webkit-linear-gradient(#b92a03, #871f02);
   background-image: -moz-linear-gradient(#b92a03, #871f02);
-  background-image: -o-linear-gradient(#b92a03, #871f02);
+  background-image: -webkit-linear-gradient(#b92a03, #871f02);
   background-image: linear-gradient(#b92a03, #871f02);
   border: 1px solid #230800;
 }
@@ -822,20 +853,16 @@ input[type="text"]:focus {
   color: #e3dfe3;
   text-shadow: #020f14 1px 1px 0;
   background: #0e536e;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #116485), color-stop(100%, #0b4257));
-  background-image: -webkit-linear-gradient(#116485, #0b4257);
   background-image: -moz-linear-gradient(#116485, #0b4257);
-  background-image: -o-linear-gradient(#116485, #0b4257);
+  background-image: -webkit-linear-gradient(#116485, #0b4257);
   background-image: linear-gradient(#116485, #0b4257);
   border: 1px solid #0b4257;
 }
 #votingResult.reveal #votingActions #btnReset:hover {
   text-shadow: #551301 1px 1px 0;
   background: #fc5426;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f63803), color-stop(100%, #a02402));
-  background-image: -webkit-linear-gradient(#f63803, #a02402);
   background-image: -moz-linear-gradient(#f63803, #a02402);
-  background-image: -o-linear-gradient(#f63803, #a02402);
+  background-image: -webkit-linear-gradient(#f63803, #a02402);
   background-image: linear-gradient(#f63803, #a02402);
   border: 1px solid #6e1902;
 }
@@ -844,15 +871,22 @@ input[type="text"]:focus {
  * The shared game link box (inside the Voting actions box)
  */
 #gameLink {
+  *zoom: 1;
   display: none;
   width: 100%;
   margin-top: 3px;
   border-top: 1px solid #473c3a;
   padding-top: 3px;
 }
+#gameLink:before, #gameLink:after {
+  content: " ";
+  display: table;
+}
+#gameLink:after {
+  clear: both;
+}
 #gameLink input {
-  width: 99%;
-  margin-left: 0;
+  width: 100%;
 }
 
 #readme .text {
@@ -865,8 +899,9 @@ input[type="text"]:focus {
   margin-left: auto;
   margin-right: auto;
   text-shadow: 1px 1px 0 #070606;
+  break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  column-break-inside: avoid;
+  break-inside: avoid;
 }
 #readme strong {
   font-weight: normal;
@@ -882,15 +917,11 @@ input[type="text"]:focus {
 @media (min-width: 680px) {
   html.csscolumns #readme .text {
     font-size: 0.875em;
-    -webkit-columns: 2;
     -moz-columns: 2;
-    -ms-columns: 2;
-    -o-columns: 2;
+    -webkit-columns: 2;
     columns: 2;
-    -webkit-column-gap: 2.5em;
     -moz-column-gap: 2.5em;
-    -ms-column-gap: 2.5em;
-    -o-column-gap: 2.5em;
+    -webkit-column-gap: 2.5em;
     column-gap: 2.5em;
   }
   html.csscolumns #readme .text p {
@@ -906,15 +937,11 @@ input[type="text"]:focus {
 @media (min-width: 1080px) {
   html.csscolumns #readme .text {
     font-size: 1em;
-    -webkit-columns: 3;
     -moz-columns: 3;
-    -ms-columns: 3;
-    -o-columns: 3;
+    -webkit-columns: 3;
     columns: 3;
-    -webkit-column-gap: 2em;
     -moz-column-gap: 2em;
-    -ms-column-gap: 2em;
-    -o-column-gap: 2em;
+    -webkit-column-gap: 2em;
     column-gap: 2em;
   }
 }
@@ -928,31 +955,54 @@ input[type="text"]:focus {
   /* Set up the flexbox or flexbox-approximate for larger screens */
   /* Build the card display styles and spacing */
 }
-#clients .client .front, #clients .client .back {
+#clients .client {
+  -moz-perspective: 300px;
+  -webkit-perspective: 300px;
+  perspective: 300px;
+  position: relative;
+  height: 3.5em;
+}
+#clients .client .front,
+#clients .client .back {
   overflow: hidden;
   border: 4px solid #e5e5e5;
-  height: 100%;
-  -webkit-border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
-  -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
+  -webkit-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-perspective: 0px;
+  -webkit-perspective: 0px;
+  perspective: 0px;
+  -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -moz-transition: -moz-transform 0.5s ease-in-out;
+  -o-transition: -o-transform 0.5s ease-in-out;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
 }
 #clients .client .back {
-  display: block;
+  z-index: 50;
   background: url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
 }
 #clients .client .back .nickname {
   text-shadow: #1f1a19 1px 1px 0;
 }
 #clients .client .front {
+  z-index: 0;
   color: #1f1a19;
   background: #f2f2f2;
   text-shadow: none;
-  display: none;
 }
 #clients .client.voted .back .nickname {
   color: #fc5426;
@@ -960,11 +1010,45 @@ input[type="text"]:focus {
 #clients .client.voted .front .nickname {
   color: #d71414;
 }
-#votingResult.reveal #clients.voted .back {
+#clients .client .back {
+  display: block;
+}
+#clients .client .front {
   display: none;
 }
-#votingResult.reveal #clients.voted .front {
+#votingResult.reveal #clients .client.voted .back {
+  display: none;
+}
+#votingResult.reveal #clients .client.voted .front {
   display: block;
+}
+.csstransforms #clients .client .back {
+  display: block;
+  -moz-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.csstransforms #clients .client .front {
+  display: block;
+  -moz-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+.csstransforms #votingResult.reveal #clients .client.voted .back {
+  display: block;
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.csstransforms #votingResult.reveal #clients .client.voted .front {
+  display: block;
+  -moz-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
 }
 #clients .nickname {
   text-transform: uppercase;
@@ -988,6 +1072,30 @@ input[type="text"]:focus {
   #clients .client .front, #clients .client .back {
     padding: 0.25em;
   }
+  .csstransforms #clients .client .back {
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+  .csstransforms #clients .client .front {
+    -moz-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -webkit-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+  }
+  .csstransforms #votingResult.reveal #clients .client.voted .back {
+    -moz-transform: rotateX(-180deg);
+    -ms-transform: rotateX(-180deg);
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+  .csstransforms #votingResult.reveal #clients .client.voted .front {
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
   #clients .nickname, #clients .vote-wrap {
     display: block;
   }
@@ -995,6 +1103,7 @@ input[type="text"]:focus {
     float: left;
     width: 70%;
     text-align: left;
+    line-height: 1.5em;
     font-size: 1.125em;
     letter-spacing: 2px;
     padding: 0.375em 0 0.375em 0.25em;
@@ -1003,7 +1112,8 @@ input[type="text"]:focus {
     float: right;
     width: 25%;
     text-align: right;
-    padding: 0.125em 0.25em 0 0;
+    line-height: 1.5em;
+    padding: 0.375em 0.25em 0.375em 0;
   }
   #clients .vote-wrap .vote {
     font-size: 1.75em;
@@ -1082,76 +1192,6 @@ input[type="text"]:focus {
     padding: 0.375em 0;
     font-size: 2.75em;
   }
-  html.csstransforms #clients .client {
-    position: relative;
-    -webkit-perspective: 300px;
-    -moz-perspective: 300px;
-    -ms-perspective: 300px;
-    -o-perspective: 300px;
-    perspective: 300px;
-  }
-  html.csstransforms #clients .client .back, html.csstransforms #clients .client .front {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 0px;
-    -moz-perspective: 0px;
-    -ms-perspective: 0px;
-    -o-perspective: 0px;
-    perspective: 0px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-transition: -webkit-transform 0.5s ease-in-out;
-    -moz-transition: -moz-transform 0.5s ease-in-out;
-    -o-transition: -o-transform 0.5s ease-in-out;
-    transition: transform 0.5s ease-in-out;
-  }
-  html.csstransforms #clients .client .front {
-    z-index: 0;
-    display: block;
-    -webkit-transform: rotateY(-180deg);
-    -moz-transform: rotateY(-180deg);
-    -ms-transform: rotateY(-180deg);
-    -o-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-  }
-  html.csstransforms #clients .client .back {
-    z-index: 50;
-    -webkit-transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    -o-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-  }
-  html.csstransforms #votingResult.reveal #clients .voted .back, html.csstransforms #votingResult.reveal #clients .voted .front {
-    display: block;
-  }
-  html.csstransforms #votingResult.reveal #clients .voted .back {
-    z-index: 0;
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-    -ms-transform: rotateY(180deg);
-    -o-transform: rotateY(180deg);
-    transform: rotateY(180deg);
-  }
-  html.csstransforms #votingResult.reveal #clients .voted .front {
-    z-index: 50;
-    -webkit-transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    -o-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-  }
 }
 @media (min-width: 980px) {
   #clients .client {
@@ -1216,18 +1256,16 @@ input[type="text"]:focus {
   float: left;
   padding: 0.25em 0.5em;
   border: 1px solid #d7d1d7;
-  -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
+  -webkit-border-radius: 8px;
   border-radius: 8px;
   background: #f2f2f2;
-  -webkit-box-shadow: #312928 0px 0px 10px;
   -moz-box-shadow: #312928 0px 0px 10px;
+  -webkit-box-shadow: #312928 0px 0px 10px;
   box-shadow: #312928 0px 0px 10px;
-  -webkit-transition: all 0.25s;
   -moz-transition: all 0.25s;
   -o-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
   transition: all 0.25s;
 }
 #playersHand .card:hover .card-text, #playersHand .card.selected .card-text {
@@ -1256,6 +1294,27 @@ input[type="text"]:focus {
   #playersHand .card.selected .card-text {
     color: #f2f2f2;
   }
+}
+html.no-csstransforms3d #playersHand .card {
+  opacity: 1;
+}
+html.no-csstransforms3d #playersHand .card.entrance {
+  opacity: 0;
+}
+html.csstransforms3d #playersHand .cards-wrap {
+  overflow: hidden;
+}
+html.csstransforms3d #playersHand .card {
+  -moz-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  -ms-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  -webkit-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+}
+html.csstransforms3d #playersHand .card.entrance {
+  -moz-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  -ms-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  -webkit-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
 }
 html.no-flexbox #playersHand .cards {
   text-align: center;
@@ -1324,14 +1383,13 @@ html.no-flexbox #playersHand .card.selected {
     margin-top: 0em !important;
   }
   html.cssreflections.csstransforms #playersHand .card.selected {
-    -webkit-transition: all 0.55s;
     -moz-transition: all 0.55s;
     -o-transition: all 0.55s;
+    -webkit-transition: all 0.55s;
     transition: all 0.55s;
-    -webkit-transform: rotate(-5deg) scale(1.1);
     -moz-transform: rotate(-5deg) scale(1.1);
     -ms-transform: rotate(-5deg) scale(1.1);
-    -o-transform: rotate(-5deg) scale(1.1);
+    -webkit-transform: rotate(-5deg) scale(1.1);
     transform: rotate(-5deg) scale(1.1);
   }
   #playersHand .card-text {

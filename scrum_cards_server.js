@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
 
     Scrummy is a scrum planning and estimation game in Node.js
@@ -24,10 +25,12 @@ var express = require('express'),
     server  = http.createServer(app),
     io      = require('socket.io').listen(server),
     bucket  = [],
-    config  = require('./settings.js');
+    config  = require('./settings.json'),
+    argv    = require('yargs').argv,
+    port    = argv.port || config.port;
 
 app.use(express.static(__dirname + '/web'));
-server.listen(config.port);
+server.listen(port);
 
 io.sockets.on('connection',function(socket){
 
@@ -48,6 +51,9 @@ io.sockets.on('connection',function(socket){
       while ( !requestedGame && (bucket[requestedGame] !== "undefined") ) {
         if ( i < 5 ) {
           // Try to get a friendly game name from the "names" config option
+          // These are the valid HTML color names minus Light*, Medium*, and Dark*, to use
+          // as room names. The random number generator is still a fallback but these are
+          // easier to communicate verbally.
           requestedGame = config.words[Math.floor(Math.random()*config.words.length)];
         } else {
           // We've failed to get a word five times, just make a number.
