@@ -25,6 +25,7 @@ $red:    #D71414;
 // Include Compass Helpers
 @import "compass/css3";
 @import "breakpoint";
+@import "singularitygs";
 
 @-ms-viewport{
   width: device-width;
@@ -246,11 +247,18 @@ input {
  * Login Form
  */
 #loginActions {
+  @include clearfix();
   text-align: center;
 
-  input  {
-    width: 23.5%;
-    margin: 6px 0.5%;
+  input {
+    @include respond-to('handheld-only') {
+      @include grid-span(8,0,16, $gutter: 1/2, $output-style: 'float');
+      &:nth-child(2n+0) { margin-right: 0; }
+    }
+    @include respond-to('narrow') {
+      @include grid-span(4,0,16, $gutter: 1/2, $output-style: 'float');
+      &:nth-child(4n+0) { margin-right: 0; }
+    }
   }
 }
 
@@ -258,10 +266,11 @@ input {
  * Voting Actions & Results Section
  */
 #votingActions {
+  @include clearfix();
+
   input {
-    width: 32%;
-    margin-left: 1%;
-    &#btnReveal { margin-left: 0; }
+    @include grid-span(4,0,12, $gutter: 1/2, $output-style: 'float');
+    &:nth-child(3n+0) { margin-right: 0; }
   }
 
   #votingResult.reveal & #btnReveal {
@@ -297,6 +306,8 @@ input {
  * The shared game link box (inside the Voting actions box)
  */
 #gameLink {
+  @include clearfix();
+
   display: none;
 
   width: 100%;
@@ -305,8 +316,7 @@ input {
   padding-top: 3px;
 
   input {
-    width: 99%;
-    margin-left: 0;
+    width: 100%;
   }
 }
 
