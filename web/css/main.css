@@ -576,7 +576,6 @@ section:after {
 @-ms-viewport {
   width: device-width;
 }
-
 /* Set up basic colors and typefaces */
 body {
   background: #2b8045 url("../gfx/table_bg_green.gif") center center repeat;
@@ -651,15 +650,19 @@ html.svg #logo > div h1 {
   margin: 0.25em auto;
   padding: 0.5em;
   border: 1px solid #151211;
-  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
-  -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
   -moz-box-shadow: #1f1a19 0px 0px 25px inset;
+  -webkit-box-shadow: #1f1a19 0px 0px 25px inset;
   box-shadow: #1f1a19 0px 0px 25px inset;
   background: #312928 url("../gfx/pit_bg_wood.jpg") center center repeat;
+}
+@media (min-width: 680px) {
+  #container {
+    margin: 0.5em auto;
+    padding: 0.5em;
+  }
 }
 @media (min-width: 980px) {
   #container {
@@ -717,10 +720,8 @@ input {
   padding: 4px 8px;
   margin: 4px;
   border: 1px solid #e3dfe3;
-  -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
   font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
@@ -752,14 +753,12 @@ input[type="text"]:focus {
   padding: 0 4px;
   margin: 0.25em auto;
   border: 1px solid #473c3a;
-  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
   background: #1b1616;
-  -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
   -moz-box-shadow: #1f1a19 0px 0px 5px inset;
+  -webkit-box-shadow: #1f1a19 0px 0px 5px inset;
   box-shadow: #1f1a19 0px 0px 5px inset;
 }
 #loginActions input, #votingActions input {
@@ -769,20 +768,16 @@ input[type="text"]:focus {
   color: #e3dfe3;
   text-shadow: black 1px 1px 0;
   background: #0e536e;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #0e536e), color-stop(100%, #083141));
-  background-image: -webkit-linear-gradient(#0e536e, #083141);
   background-image: -moz-linear-gradient(#0e536e, #083141);
-  background-image: -o-linear-gradient(#0e536e, #083141);
+  background-image: -webkit-linear-gradient(#0e536e, #083141);
   background-image: linear-gradient(#0e536e, #083141);
   border: 1px solid #083141;
 }
 #loginActions input[type="button"]:hover, #loginActions input[type="button"].active, #loginActions input[type="submit"]:hover, #loginActions input[type="submit"].active, #votingActions input[type="button"]:hover, #votingActions input[type="button"].active, #votingActions input[type="submit"]:hover, #votingActions input[type="submit"].active {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ec3503), color-stop(100%, #871f02));
-  background-image: -webkit-linear-gradient(#ec3503, #871f02);
   background-image: -moz-linear-gradient(#ec3503, #871f02);
-  background-image: -o-linear-gradient(#ec3503, #871f02);
+  background-image: -webkit-linear-gradient(#ec3503, #871f02);
   background-image: linear-gradient(#ec3503, #871f02);
   border: 1px solid #551301;
 }
@@ -811,10 +806,8 @@ input[type="text"]:focus {
 #votingResult.reveal #votingActions #btnReveal {
   text-shadow: #230800 1px 1px 0;
   background: #fc5426;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #b92a03), color-stop(100%, #871f02));
-  background-image: -webkit-linear-gradient(#b92a03, #871f02);
   background-image: -moz-linear-gradient(#b92a03, #871f02);
-  background-image: -o-linear-gradient(#b92a03, #871f02);
+  background-image: -webkit-linear-gradient(#b92a03, #871f02);
   background-image: linear-gradient(#b92a03, #871f02);
   border: 1px solid #230800;
 }
@@ -822,20 +815,16 @@ input[type="text"]:focus {
   color: #e3dfe3;
   text-shadow: #020f14 1px 1px 0;
   background: #0e536e;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #116485), color-stop(100%, #0b4257));
-  background-image: -webkit-linear-gradient(#116485, #0b4257);
   background-image: -moz-linear-gradient(#116485, #0b4257);
-  background-image: -o-linear-gradient(#116485, #0b4257);
+  background-image: -webkit-linear-gradient(#116485, #0b4257);
   background-image: linear-gradient(#116485, #0b4257);
   border: 1px solid #0b4257;
 }
 #votingResult.reveal #votingActions #btnReset:hover {
   text-shadow: #551301 1px 1px 0;
   background: #fc5426;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f63803), color-stop(100%, #a02402));
-  background-image: -webkit-linear-gradient(#f63803, #a02402);
   background-image: -moz-linear-gradient(#f63803, #a02402);
-  background-image: -o-linear-gradient(#f63803, #a02402);
+  background-image: -webkit-linear-gradient(#f63803, #a02402);
   background-image: linear-gradient(#f63803, #a02402);
   border: 1px solid #6e1902;
 }
@@ -865,8 +854,9 @@ input[type="text"]:focus {
   margin-left: auto;
   margin-right: auto;
   text-shadow: 1px 1px 0 #070606;
+  break-inside: avoid;
   -webkit-column-break-inside: avoid;
-  column-break-inside: avoid;
+  break-inside: avoid;
 }
 #readme strong {
   font-weight: normal;
@@ -882,15 +872,11 @@ input[type="text"]:focus {
 @media (min-width: 680px) {
   html.csscolumns #readme .text {
     font-size: 0.875em;
-    -webkit-columns: 2;
     -moz-columns: 2;
-    -ms-columns: 2;
-    -o-columns: 2;
+    -webkit-columns: 2;
     columns: 2;
-    -webkit-column-gap: 2.5em;
     -moz-column-gap: 2.5em;
-    -ms-column-gap: 2.5em;
-    -o-column-gap: 2.5em;
+    -webkit-column-gap: 2.5em;
     column-gap: 2.5em;
   }
   html.csscolumns #readme .text p {
@@ -906,15 +892,11 @@ input[type="text"]:focus {
 @media (min-width: 1080px) {
   html.csscolumns #readme .text {
     font-size: 1em;
-    -webkit-columns: 3;
     -moz-columns: 3;
-    -ms-columns: 3;
-    -o-columns: 3;
+    -webkit-columns: 3;
     columns: 3;
-    -webkit-column-gap: 2em;
     -moz-column-gap: 2em;
-    -ms-column-gap: 2em;
-    -o-column-gap: 2em;
+    -webkit-column-gap: 2em;
     column-gap: 2em;
   }
 }
@@ -929,10 +911,8 @@ input[type="text"]:focus {
   /* Build the card display styles and spacing */
 }
 #clients .client {
-  -webkit-perspective: 300px;
   -moz-perspective: 300px;
-  -ms-perspective: 300px;
-  -o-perspective: 300px;
+  -webkit-perspective: 300px;
   perspective: 300px;
   position: relative;
   height: 3.5em;
@@ -946,32 +926,24 @@ input[type="text"]:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  -webkit-border-radius: 10px;
   border-radius: 10px;
-  -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
+  -webkit-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
-  -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  -o-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-perspective: 0px;
   -moz-perspective: 0px;
-  -ms-perspective: 0px;
-  -o-perspective: 0px;
+  -webkit-perspective: 0px;
   perspective: 0px;
-  -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
-  -ms-transform-style: preserve-3d;
-  -o-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  -webkit-transition: -webkit-transform 0.5s ease-in-out;
   -moz-transition: -moz-transform 0.5s ease-in-out;
   -o-transition: -o-transform 0.5s ease-in-out;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
   transition: transform 0.5s ease-in-out;
 }
 #clients .client .back {
@@ -1007,34 +979,30 @@ input[type="text"]:focus {
 }
 .csstransforms #clients .client .back {
   display: block;
-  -webkit-transform: rotateY(0deg);
   -moz-transform: rotateY(0deg);
   -ms-transform: rotateY(0deg);
-  -o-transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
 .csstransforms #clients .client .front {
   display: block;
-  -webkit-transform: rotateY(-180deg);
   -moz-transform: rotateY(-180deg);
   -ms-transform: rotateY(-180deg);
-  -o-transform: rotateY(-180deg);
+  -webkit-transform: rotateY(-180deg);
   transform: rotateY(-180deg);
 }
 .csstransforms #votingResult.reveal #clients .client.voted .back {
   display: block;
-  -webkit-transform: rotateY(180deg);
   -moz-transform: rotateY(180deg);
   -ms-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 .csstransforms #votingResult.reveal #clients .client.voted .front {
   display: block;
-  -webkit-transform: rotateY(0deg);
   -moz-transform: rotateY(0deg);
   -ms-transform: rotateY(0deg);
-  -o-transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
   transform: rotateY(0deg);
 }
 #clients .nickname {
@@ -1060,31 +1028,27 @@ input[type="text"]:focus {
     padding: 0.25em;
   }
   .csstransforms #clients .client .back {
-    -webkit-transform: rotateX(0deg);
     -moz-transform: rotateX(0deg);
     -ms-transform: rotateX(0deg);
-    -o-transform: rotateX(0deg);
+    -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
   }
   .csstransforms #clients .client .front {
-    -webkit-transform: rotateX(180deg);
     -moz-transform: rotateX(180deg);
     -ms-transform: rotateX(180deg);
-    -o-transform: rotateX(180deg);
+    -webkit-transform: rotateX(180deg);
     transform: rotateX(180deg);
   }
   .csstransforms #votingResult.reveal #clients .client.voted .back {
-    -webkit-transform: rotateX(-180deg);
     -moz-transform: rotateX(-180deg);
     -ms-transform: rotateX(-180deg);
-    -o-transform: rotateX(-180deg);
+    -webkit-transform: rotateX(-180deg);
     transform: rotateX(-180deg);
   }
   .csstransforms #votingResult.reveal #clients .client.voted .front {
-    -webkit-transform: rotateX(0deg);
     -moz-transform: rotateX(0deg);
     -ms-transform: rotateX(0deg);
-    -o-transform: rotateX(0deg);
+    -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
   }
   #clients .nickname, #clients .vote-wrap {
@@ -1247,18 +1211,16 @@ input[type="text"]:focus {
   float: left;
   padding: 0.25em 0.5em;
   border: 1px solid #d7d1d7;
-  -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
+  -webkit-border-radius: 8px;
   border-radius: 8px;
   background: #f2f2f2;
-  -webkit-box-shadow: #312928 0px 0px 10px;
   -moz-box-shadow: #312928 0px 0px 10px;
+  -webkit-box-shadow: #312928 0px 0px 10px;
   box-shadow: #312928 0px 0px 10px;
-  -webkit-transition: all 0.25s;
   -moz-transition: all 0.25s;
   -o-transition: all 0.25s;
+  -webkit-transition: all 0.25s;
   transition: all 0.25s;
 }
 #playersHand .card:hover .card-text, #playersHand .card.selected .card-text {
@@ -1298,17 +1260,15 @@ html.csstransforms3d #playersHand .cards-wrap {
   overflow: hidden;
 }
 html.csstransforms3d #playersHand .card {
-  -webkit-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
   -moz-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
   -ms-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
-  -o-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  -webkit-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
   transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
 }
 html.csstransforms3d #playersHand .card.entrance {
-  -webkit-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
   -moz-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
   -ms-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
-  -o-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  -webkit-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
   transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
 }
 html.no-flexbox #playersHand .cards {
@@ -1378,14 +1338,13 @@ html.no-flexbox #playersHand .card.selected {
     margin-top: 0em !important;
   }
   html.cssreflections.csstransforms #playersHand .card.selected {
-    -webkit-transition: all 0.55s;
     -moz-transition: all 0.55s;
     -o-transition: all 0.55s;
+    -webkit-transition: all 0.55s;
     transition: all 0.55s;
-    -webkit-transform: rotate(-5deg) scale(1.1);
     -moz-transform: rotate(-5deg) scale(1.1);
     -ms-transform: rotate(-5deg) scale(1.1);
-    -o-transform: rotate(-5deg) scale(1.1);
+    -webkit-transform: rotate(-5deg) scale(1.1);
     transform: rotate(-5deg) scale(1.1);
   }
   #playersHand .card-text {
