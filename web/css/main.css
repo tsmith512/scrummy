@@ -1,4 +1,4 @@
-/* normalize.css v1.1.0 | MIT License | git.io/normalize */
+/*! normalize.css v1.1.0 | MIT License | git.io/normalize */
 /* ==========================================================================
    HTML5 display definitions
    ========================================================================== */
@@ -928,10 +928,24 @@ input[type="text"]:focus {
   /* Set up the flexbox or flexbox-approximate for larger screens */
   /* Build the card display styles and spacing */
 }
-#clients .client .front, #clients .client .back {
+#clients .client {
+  -webkit-perspective: 300px;
+  -moz-perspective: 300px;
+  -ms-perspective: 300px;
+  -o-perspective: 300px;
+  perspective: 300px;
+  position: relative;
+  height: 3.5em;
+}
+#clients .client .front,
+#clients .client .back {
   overflow: hidden;
   border: 4px solid #e5e5e5;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
@@ -940,19 +954,38 @@ input[type="text"]:focus {
   -webkit-box-shadow: #1f1a19 0px 0px 10px;
   -moz-box-shadow: #1f1a19 0px 0px 10px;
   box-shadow: #1f1a19 0px 0px 10px;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 0px;
+  -moz-perspective: 0px;
+  -ms-perspective: 0px;
+  -o-perspective: 0px;
+  perspective: 0px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
+  -moz-transition: -moz-transform 0.5s ease-in-out;
+  -o-transition: -o-transform 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out;
 }
 #clients .client .back {
-  display: block;
+  z-index: 50;
   background: url("../gfx/card_back_bg_greenplaid_small.png") center center repeat, #f2f2f2;
 }
 #clients .client .back .nickname {
   text-shadow: #1f1a19 1px 1px 0;
 }
 #clients .client .front {
+  z-index: 0;
   color: #1f1a19;
   background: #f2f2f2;
   text-shadow: none;
-  display: none;
 }
 #clients .client.voted .back .nickname {
   color: #fc5426;
@@ -960,11 +993,49 @@ input[type="text"]:focus {
 #clients .client.voted .front .nickname {
   color: #d71414;
 }
-#votingResult.reveal #clients.voted .back {
+#clients .client .back {
+  display: block;
+}
+#clients .client .front {
   display: none;
 }
-#votingResult.reveal #clients.voted .front {
+#votingResult.reveal #clients .client.voted .back {
+  display: none;
+}
+#votingResult.reveal #clients .client.voted .front {
   display: block;
+}
+.csstransforms #clients .client .back {
+  display: block;
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  -o-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+.csstransforms #clients .client .front {
+  display: block;
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  -o-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+.csstransforms #votingResult.reveal #clients .client.voted .back {
+  display: block;
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.csstransforms #votingResult.reveal #clients .client.voted .front {
+  display: block;
+  -webkit-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  -o-transform: rotateY(0deg);
+  transform: rotateY(0deg);
 }
 #clients .nickname {
   text-transform: uppercase;
@@ -988,6 +1059,34 @@ input[type="text"]:focus {
   #clients .client .front, #clients .client .back {
     padding: 0.25em;
   }
+  .csstransforms #clients .client .back {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
+  .csstransforms #clients .client .front {
+    -webkit-transform: rotateX(180deg);
+    -moz-transform: rotateX(180deg);
+    -ms-transform: rotateX(180deg);
+    -o-transform: rotateX(180deg);
+    transform: rotateX(180deg);
+  }
+  .csstransforms #votingResult.reveal #clients .client.voted .back {
+    -webkit-transform: rotateX(-180deg);
+    -moz-transform: rotateX(-180deg);
+    -ms-transform: rotateX(-180deg);
+    -o-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+  .csstransforms #votingResult.reveal #clients .client.voted .front {
+    -webkit-transform: rotateX(0deg);
+    -moz-transform: rotateX(0deg);
+    -ms-transform: rotateX(0deg);
+    -o-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+  }
   #clients .nickname, #clients .vote-wrap {
     display: block;
   }
@@ -995,6 +1094,7 @@ input[type="text"]:focus {
     float: left;
     width: 70%;
     text-align: left;
+    line-height: 1.5em;
     font-size: 1.125em;
     letter-spacing: 2px;
     padding: 0.375em 0 0.375em 0.25em;
@@ -1003,7 +1103,8 @@ input[type="text"]:focus {
     float: right;
     width: 25%;
     text-align: right;
-    padding: 0.125em 0.25em 0 0;
+    line-height: 1.5em;
+    padding: 0.375em 0.25em 0.375em 0;
   }
   #clients .vote-wrap .vote {
     font-size: 1.75em;
@@ -1081,76 +1182,6 @@ input[type="text"]:focus {
   #clients .vote-wrap .vote {
     padding: 0.375em 0;
     font-size: 2.75em;
-  }
-  html.csstransforms #clients .client {
-    position: relative;
-    -webkit-perspective: 300px;
-    -moz-perspective: 300px;
-    -ms-perspective: 300px;
-    -o-perspective: 300px;
-    perspective: 300px;
-  }
-  html.csstransforms #clients .client .back, html.csstransforms #clients .client .front {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -ms-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 0px;
-    -moz-perspective: 0px;
-    -ms-perspective: 0px;
-    -o-perspective: 0px;
-    perspective: 0px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-transition: -webkit-transform 0.5s ease-in-out;
-    -moz-transition: -moz-transform 0.5s ease-in-out;
-    -o-transition: -o-transform 0.5s ease-in-out;
-    transition: transform 0.5s ease-in-out;
-  }
-  html.csstransforms #clients .client .front {
-    z-index: 0;
-    display: block;
-    -webkit-transform: rotateY(-180deg);
-    -moz-transform: rotateY(-180deg);
-    -ms-transform: rotateY(-180deg);
-    -o-transform: rotateY(-180deg);
-    transform: rotateY(-180deg);
-  }
-  html.csstransforms #clients .client .back {
-    z-index: 50;
-    -webkit-transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    -o-transform: rotateY(0deg);
-    transform: rotateY(0deg);
-  }
-  html.csstransforms #votingResult.reveal #clients .voted .back, html.csstransforms #votingResult.reveal #clients .voted .front {
-    display: block;
-  }
-  html.csstransforms #votingResult.reveal #clients .voted .back {
-    z-index: 0;
-    -webkit-transform: rotateY(180deg);
-    -moz-transform: rotateY(180deg);
-    -ms-transform: rotateY(180deg);
-    -o-transform: rotateY(180deg);
-    transform: rotateY(180deg);
-  }
-  html.csstransforms #votingResult.reveal #clients .voted .front {
-    z-index: 50;
-    -webkit-transform: rotateY(0deg);
-    -moz-transform: rotateY(0deg);
-    -ms-transform: rotateY(0deg);
-    -o-transform: rotateY(0deg);
-    transform: rotateY(0deg);
   }
 }
 @media (min-width: 980px) {
@@ -1256,6 +1287,29 @@ input[type="text"]:focus {
   #playersHand .card.selected .card-text {
     color: #f2f2f2;
   }
+}
+html.no-csstransforms3d #playersHand .card {
+  opacity: 1;
+}
+html.no-csstransforms3d #playersHand .card.entrance {
+  opacity: 0;
+}
+html.csstransforms3d #playersHand .cards-wrap {
+  overflow: hidden;
+}
+html.csstransforms3d #playersHand .card {
+  -webkit-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  -moz-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  -ms-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  -o-transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+  transform:  scale(1, 1) rotateZ(0deg) translate(0px, 0px);
+}
+html.csstransforms3d #playersHand .card.entrance {
+  -webkit-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  -moz-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  -ms-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  -o-transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
+  transform:  scale(0.9, 0.9) rotateZ(-30deg) translate(500%, -200%);
 }
 html.no-flexbox #playersHand .cards {
   text-align: center;

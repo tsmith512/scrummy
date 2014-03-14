@@ -89,14 +89,16 @@ function signIn(mode){
     if (mode) {
       /* Create cards for each item in the Points object */
       voteValues = msg.points;
-      $(voteValues).each(function(index,item){
-        $('<div />')
-          .hide() /* Hidden for now, showCards() reveals them in sequence */
-          .addClass('card')
-          .click(function(){ vote(this); })
-          .append( $('<span />').addClass('card-text').text(item) )
-          .appendTo('.cards');
-      });
+      $('.cards')
+        .append($.map(voteValues, function(item){
+          return $('<div />')
+            /* Hidden for now, showCards() reveals them in sequence */
+            .addClass('card entrance')
+            .append( $('<span />').addClass('card-text').text(item) )
+        }))
+        .on('click', '.card', function () {
+          vote(this);
+        });
     } else {
       $('<h3 />').text('Observing. Reload to participate.').appendTo('#playersHand');
     }
@@ -131,7 +133,7 @@ function signIn(mode){
     $('#nickname-display').text(myNick);
     $('#login, #readme').slideUp();
     $('#votingResult, #playersHand').slideDown();
-    showCards();
+    setTimeout(showCards, 400);
   });
 }
 
@@ -143,9 +145,11 @@ function signIn(mode){
  * Animate reveal the hand of cards
  */
 function showCards() {
-  var newCards = $('.card:hidden');
-  newCards.each(function(i){
-    $(this).delay(250*i).fadeIn(300);
+  var newCards = $('.card.entrance');
+  newCards.each(function(i, el){
+    setTimeout(function () {
+      $(el).removeClass('entrance');
+    }, 100*i);
   });
 }
 
