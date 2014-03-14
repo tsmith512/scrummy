@@ -41,6 +41,11 @@ var client = function(){
     evt.sid = data.sid;
     document.dispatchEvent(evt);
   });
+  this.socket.on('reconnect', function(data){
+    var evt = createEvent('reconnect');
+    evt.sid = data.sid;
+    document.dispatchEvent(evt);
+  });
 
   function createEvent(name){
     var evt = document.createEvent('Event');
