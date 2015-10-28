@@ -786,22 +786,60 @@ input[type="text"]:focus {
  * Login Form
  */
 #loginActions {
+  *zoom: 1;
   text-align: center;
 }
-#loginActions input {
-  width: 23.5%;
-  margin: 6px 0.5%;
+#loginActions:before, #loginActions:after {
+  content: " ";
+  display: table;
+}
+#loginActions:after {
+  clear: both;
+}
+@media (max-width: 679px) {
+  #loginActions input {
+    width: 48.93617%;
+    clear: right;
+    float: left;
+    margin-right: 2.12766%;
+  }
+  #loginActions input:nth-child(2n+0) {
+    margin-right: 0;
+  }
+}
+@media (min-width: 680px) {
+  #loginActions input {
+    width: 23.40426%;
+    clear: right;
+    float: left;
+    margin-right: 2.12766%;
+  }
+  #loginActions input:nth-child(4n+0) {
+    margin-right: 0;
+  }
 }
 
 /**
  * Voting Actions & Results Section
  */
-#votingActions input {
-  width: 32%;
-  margin-left: 1%;
+#votingActions {
+  *zoom: 1;
 }
-#votingActions input#btnReveal {
-  margin-left: 0;
+#votingActions:before, #votingActions:after {
+  content: " ";
+  display: table;
+}
+#votingActions:after {
+  clear: both;
+}
+#votingActions input {
+  width: 31.42857%;
+  clear: right;
+  float: left;
+  margin-right: 2.85714%;
+}
+#votingActions input:nth-child(3n+0) {
+  margin-right: 0;
 }
 #votingResult.reveal #votingActions #btnReveal {
   text-shadow: #230800 1px 1px 0;
@@ -833,15 +871,22 @@ input[type="text"]:focus {
  * The shared game link box (inside the Voting actions box)
  */
 #gameLink {
+  *zoom: 1;
   display: none;
   width: 100%;
   margin-top: 3px;
   border-top: 1px solid #473c3a;
   padding-top: 3px;
 }
+#gameLink:before, #gameLink:after {
+  content: " ";
+  display: table;
+}
+#gameLink:after {
+  clear: both;
+}
 #gameLink input {
-  width: 99%;
-  margin-left: 0;
+  width: 100%;
 }
 
 #readme .text {
