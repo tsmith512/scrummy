@@ -215,6 +215,7 @@ function clientReset(e){
   $('#votingResult .vote').text('');
   $('#votingResult .client').removeClass('voted');
   $('#votingResult').removeClass('reveal');
+  refreshAverage();
 }
 
 /**
@@ -224,6 +225,7 @@ function clientRevoke(e){
   $('#votingResult .card-text');
   $('#' + e.sid + ' .vote').text('');
   $('#' + e.sid ).removeClass('voted');
+  refreshAverage();
 }
 
 /**
@@ -231,6 +233,7 @@ function clientRevoke(e){
  */
 function clientReveal(e){
   $('#votingResult').addClass('reveal');
+  refreshAverage();
 }
 
 /**
@@ -238,6 +241,7 @@ function clientReveal(e){
  */
 function voteOccured(e){
   addVote(e.sid,e.number);
+  refreshAverage();
 }
 
 /**
@@ -266,6 +270,36 @@ function userSignedIn(e){
 
 function clientDisconnected(e){
   $('#'+e.sid).remove();
+  refreshAverage();
+}
+
+function refreshAverage() {
+  var $averageResult = $('#averageResult');
+  if (!($('#votingResult').hasClass('reveal'))) {
+    $averageResult.text('?');
+    return;
+  }
+
+  var sum = 0;
+  var count = 0;
+
+  $('#clients .vote').each(function() {
+    var value = $(this).text();
+    if ($.isNumeric(value)) {
+      var floatValue = parseFloat(value);
+      if (!isNaN(floatValue)) {
+        sum += floatValue;
+        count++;
+      }
+    }
+  });
+
+  if (count > 0) {
+    var average = sum / count;
+    $averageResult.text(average.toFixed(2));
+  } else {
+    $averageResult.text('?');
+  }
 }
 
 /*******************************************************************************
