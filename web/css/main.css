@@ -833,12 +833,12 @@ input[type="text"]:focus {
   clear: both;
 }
 #votingActions input {
-  width: 31.42857%;
+  width: 22.8%;
   clear: right;
   float: left;
   margin-right: 2.85714%;
 }
-#votingActions input:nth-child(3n+0) {
+#votingActions input:nth-child(4n+0) {
   margin-right: 0;
 }
 #votingResult.reveal #votingActions #btnReveal {
@@ -865,6 +865,28 @@ input[type="text"]:focus {
   background-image: -webkit-linear-gradient(#f63803, #a02402);
   background-image: linear-gradient(#f63803, #a02402);
   border: 1px solid #6e1902;
+}
+
+/**
+ * The watchers' list (inside the Voting actions box)
+ */
+#watchers {
+  *zoom: 1;
+  display: none;
+  width: 100%;
+  margin-top: 3px;
+  border-top: 1px solid #473c3a;
+  padding-top: 3px;
+}
+#watchers:before, #watchers:after {
+  content: " ";
+  display: table;
+}
+#watchers:after {
+  clear: both;
+}
+.watcher {
+  display: block;
 }
 
 /**
