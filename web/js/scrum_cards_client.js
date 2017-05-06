@@ -64,6 +64,17 @@ $(document).ready(function(){
     }
   });
 
+  /* Set up the button to display the watchers' list. */
+  $("#btnWatchers").click(function(){
+    if ( $(this).hasClass('active') ) {
+      $('#watchers').slideUp();
+      $(this).removeClass('active');
+    } else {
+      $('#watchers').slideDown();
+      $(this).addClass('active');
+    }
+  });
+
   /* I don't want to overwrite someone's clipboard without asking, but we will
    * select the whole thing when they click on the URL. */
   $("#txtUrl").click(function(){ $(this).select(); });
@@ -158,8 +169,11 @@ function showCards() {
 function displayClients(clients) {
   $('#clients').empty();
   $(clients).each(function(i,e){
-    // Only display them if they're playing
-    if ( e.mode ) { displayClient(e.sid, e.nickname); }
+    if ( e.mode ) {
+      displayClient(e.sid, e.nickname);
+    } else {
+      displayWatcher(e.sid, e.nickname);
+    }
   });
 }
 
@@ -173,6 +187,15 @@ function displayClient(sid, nickname){
     .append('<div class="back"><div class="nickname">'+nickname+'</div></div>')
     .append('<div class="front"><div class="nickname">'+nickname+'</div><div class="vote-wrap"><span class="vote"></span></div></div>')
     .appendTo('#clients');
+}
+
+/**
+ * Create a list item for the watcher user
+ */
+function displayWatcher(sid, nickname){
+  $('#watchers').append(
+      $('<span />').attr('id', sid).addClass('watcher').text(nickname)
+  );
 }
 
 /**
@@ -247,6 +270,8 @@ function voteOccured(e){
 function userSignedIn(e){
   if (e.mode) {
     displayClient(e.sid, e.nickname);
+  } else {
+    displayWatcher(e.sid, e.nickname);
   }
 
   /**
