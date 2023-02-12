@@ -63,48 +63,6 @@ input {
 }
 
 /**
- * Shared Login and Voting Form Styles
- */
-#loginActions, #votingActions {
-  width: auto;
-  max-width: 500px;
-
-  text-align: center;
-
-  padding: 0 4px;
-  margin: 0.25em auto;
-
-  border: 1px solid lighten($low, 8%);
-  @include border-radius(10px);
-
-  background: darken($low, 8%);
-  @include box-shadow($dark 0px 0px 5px inset);
-
-  input {
-    margin: 6px 0;
-  }
-
-  input[type="button"], input[type="submit"] {
-    color: $light;
-    @include text-shadow( darken($blue, 25%) 1px 1px 0 );
-
-    background: $blue;
-    @include background-image( linear-gradient($blue, darken($blue, 10%)) );
-
-    border: 1px solid darken($blue, 10%);
-
-    &:hover, &.active {
-      @include text-shadow( darken($orange, 50%) 1px 1px 0 );
-
-      background: $orange;
-      @include background-image( linear-gradient( darken($orange, 10%), darken($orange, 30%)) );
-
-      border: 1px solid darken($orange, 40%);
-    }
-  }
-}
-
-/**
  * Login Form
  */
 #loginActions {

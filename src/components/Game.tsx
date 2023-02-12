@@ -2,14 +2,17 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 
 import style from '@/styles/game.module.scss';
+import { LoginActions } from './LoginActions';
+import { PlayingActions } from './PlayingActions';
+import { Players } from './Players';
 
 // THESE ARE COPIED FROM THE DURABLE OBJECT:
-interface Player {
+export interface Player {
   nick: string;
   vote?: number;
 }
 
-interface GameState {
+export interface GameState {
   name: string;
   id: string;
   reveal: boolean;
@@ -27,13 +30,28 @@ export default function Game() {
     .then((payload: GameState) => setGame(payload));
   }
 
+  const handleReveal = async (): Promise<void> => {
+    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/test/reveal`, {
+      method: 'POST',
+      body: JSON.stringify(!game?.reveal),
+    });
+
+    getGame();
+  }
+
   useEffect(() => {
     getGame();
-  });
+  }, []);
+
+
 
   return (
     <div className={style.game}>
       { JSON.stringify(game) }
+
+      <LoginActions />
+      <PlayingActions handleReveal={handleReveal} />
+      <Players players={game?.players || []} reveal={game?.reveal || false} />
     </div>
   );
 };

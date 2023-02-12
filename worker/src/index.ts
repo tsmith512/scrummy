@@ -79,14 +79,19 @@ router.get('/api/game/:game', async (request, env: Env, context: any) => {
  */
 router.post('/api/game/:game/reveal', async (request, env: Env, context: any) => {
   const value = await request.json();
-  return await context.game.fetch(`${context.prefix}/reveal`, {
+  const res = await context.game.fetch(`${context.prefix}/reveal`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(!!value),
   });
-})
+
+  return new Response(null, {
+    status: res.status,
+    headers: globalheaders,
+  });
+});
 
 /**
  * Identify and sanitize the nickname in question
