@@ -64,15 +64,20 @@ router.all('/api/:game*', async (request, env: Env, context: any) => {
 /**
  * Given a game, return its status
  */
-router.get('/api/:game', async (request, env: Env, context: any) => {
-  return await context.game.fetch(`${context.prefix}/status`);
+router.get('/api/game/:game', async (request, env: Env, context: any) => {
+  const res = await context.game.fetch(`${context.prefix}/status`);
+
+  return new Response(await res.text(), {
+    status: res.status,
+    headers: globalheaders,
+  })
 });
 
 
 /**
  * Flip the cards, or hide them
  */
-router.post('/api/:game/reveal', async (request, env: Env, context: any) => {
+router.post('/api/game/:game/reveal', async (request, env: Env, context: any) => {
   const value = await request.json();
   return await context.game.fetch(`${context.prefix}/reveal`, {
     method: 'POST',
@@ -86,7 +91,7 @@ router.post('/api/:game/reveal', async (request, env: Env, context: any) => {
 /**
  * Identify and sanitize the nickname in question
  */
-router.all('/api/:game/player/:nick*', async (request, env: Env, context: any) => {
+router.all('/api/game/:game/player/:nick*', async (request, env: Env, context: any) => {
   const nick = request.params?.nick || false;
 
   if (!nick || nick.match(/^[A-Za-z0-9-_]$/g)) {
@@ -100,7 +105,7 @@ router.all('/api/:game/player/:nick*', async (request, env: Env, context: any) =
   context.player = player;
 });
 
-router.put('/api/:game/player/:nick', async (request, env: Env, context: any) => {
+router.put('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
   return await context.game.fetch(`${context.prefix}/players/new`, {
     method: 'POST',
     headers: {
@@ -110,7 +115,7 @@ router.put('/api/:game/player/:nick', async (request, env: Env, context: any) =>
   });
 });
 
-router.delete('/api/:game/player/:nick', async (request, env: Env, context: any) => {
+router.delete('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
   return await context.game.fetch(`${context.prefix}/players/remove`, {
     method: 'POST',
     headers: {
