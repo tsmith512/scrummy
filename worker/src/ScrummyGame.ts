@@ -3,7 +3,7 @@ import { basic404, Env } from ".";
 
 export interface Player {
   nick: string;
-  vote: number;
+  vote?: number;
 }
 
 export interface GameState {
@@ -27,21 +27,54 @@ const sampleState: GameState = {
 
 export class ScrummyGame {
   state: DurableObjectState;
+  game: GameState;
 
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
+    this.game = sampleState;
   }
 
   async fetch(request: Request) {
     const router = Router();
 
+    /**
+     * Return the entire game state object
+     */
     router.get('/status', async (request, env: Env, ctx) => {
-      return new Response(JSON.stringify(sampleState));
+      return new Response(JSON.stringify(this.game));
+    });
+
+    /**
+     * Update reveal status
+     */
+    router.post('/reveal', async (request, env: Env, ctx) => {
+      const value = await request.json() as boolean;
+      this.game.reveal = value;
+      return new Response(null, {status: 204});
+    });
+    /**
+     * Add a new player
+     */
+    router.post('/players/new', async (request, env: Env, ctx) => {
+      const player = await request.json() as Player;
+      this.game.players.push(player);
+
+      return new Response(null, {status: 201});
+    });
+
+    /**
+     * Remove a player
+     */
+    router.post('/players/remove', async (request, env: Env, ctx) => {
+      const player = await request.json() as Player;
+
+      const i = this.game.players.findIndex(p => p.nick === player.nick);
+      this.game.players.splice(i, 1);
+
+      return new Response(null, {status: 202});
     });
 
     router.all('*', basic404);
-
-    console.log(JSON.stringify(request));
 
     return await router.handle(request);
   }

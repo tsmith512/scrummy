@@ -1,4 +1,5 @@
 import { Router } from 'itty-router';
+import { Player } from './ScrummyGame';
 
 /**
  * Environment variables and bindings to DO, R2, KV, etc.
@@ -38,19 +39,87 @@ const basicCors = () => new Response(null, {
 router.get('/api', basic200);
 router.options('*', basicCors);
 
-router.get('/api/:game', async (request, env: Env, context: any) => {
+/**
+ * Set up global values based on the request
+ */
+router.all('*', async (request, env: Env, context: any) => {
+  const url = new URL(request.url);
+  context.prefix = `${url.protocol}//${url.hostname}`;
+})
+
+/**
+ * Identify the game (durable object instance) in question
+ */
+router.all('/api/:game*', async (request, env: Env, context: any) => {
   const name = request.params?.game || false;
 
   if (!name || name.match(/^[A-Za-z0-9-_]$/g)) {
     return;
   }
 
-  const id = env.GAME.idFromName(name);
-  const game = env.GAME.get(id);
-  const url = new URL(request.url);
-
-  return await game.fetch(`${url.protocol}//${url.hostname}/status`);
+  context.id = env.GAME.idFromName(name);
+  context.game = env.GAME.get(context.id);
 });
+
+/**
+ * Given a game, return its status
+ */
+router.get('/api/:game', async (request, env: Env, context: any) => {
+  return await context.game.fetch(`${context.prefix}/status`);
+});
+
+
+/**
+ * Flip the cards, or hide them
+ */
+router.post('/api/:game/reveal', async (request, env: Env, context: any) => {
+  const value = await request.json();
+  return await context.game.fetch(`${context.prefix}/reveal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(!!value),
+  });
+})
+
+/**
+ * Identify and sanitize the nickname in question
+ */
+router.all('/api/:game/player/:nick*', async (request, env: Env, context: any) => {
+  const nick = request.params?.nick || false;
+
+  if (!nick || nick.match(/^[A-Za-z0-9-_]$/g)) {
+    return;
+  }
+
+  const player: Player = {
+    nick
+  };
+
+  context.player = player;
+});
+
+router.put('/api/:game/player/:nick', async (request, env: Env, context: any) => {
+  return await context.game.fetch(`${context.prefix}/players/new`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(context.player),
+  });
+});
+
+router.delete('/api/:game/player/:nick', async (request, env: Env, context: any) => {
+  return await context.game.fetch(`${context.prefix}/players/remove`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(context.player),
+  });
+});
+
 
 // Fallback: any request not already caught is a 404.
 router.all('*', basic404);
