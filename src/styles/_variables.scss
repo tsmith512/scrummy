@@ -1,0 +1,37 @@
+// Colors:
+// Neutrals
+$bright: #f2f2f2;
+$light:  #E3DFE3;
+$low:    #312928;
+$dark:   #1F1A19;
+
+// Accents
+$orange: #FC5426;
+$blue:   #0E536E;
+$green:  #2B8045;
+$red:    #D71414;
+
+// Typefaces:
+@mixin fjalla { font-family: 'Fjalla One', sans-serif;        font-weight: 400; }
+@mixin stint  { font-family: 'Stint Ultra Expanded', cursive; font-weight: 400; }
+@mixin osans  { font-family: 'Open Sans', sans-serif;         font-weight: 400; }
+
+$bp-handheld-only: "max-width:    679px";
+$bp-narrow:        "min-width:    680px";
+$bp-medium:        "min-width:    980px";
+$bp-wide:          "min-width:   1080px";
+$bp-portrait:      "orientation: portrait";
+
+@mixin clearfix {
+  // Duplicate the clearfix extendable class as a mixin so we can
+  // use that when that's easier, like inside a media query:
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}

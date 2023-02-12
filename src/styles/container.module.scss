@@ -1,0 +1,37 @@
+@import 'variables';
+
+.main {
+  @include clearfix;
+  width: 96%;
+  max-width: 1000px;
+
+  margin: 0.25em auto;
+  padding: 0.5em;
+
+  border: 1px solid darken($low, 10%);
+  border-radius: 10px;
+  box-shadow: $dark 0px 0px 25px inset;
+  background: $low url('/gfx/pit_bg_wood.jpg') center center repeat;
+
+  @media ($bp-narrow) {
+    margin: 0.5em auto;
+    padding: 0.5em;
+  }
+
+  @media ($bp-medium) {
+    margin: 0.75em auto;
+    padding: 1em;
+  }
+
+  @media ($bp-wide) {
+    margin: 1.5em auto 1em auto;
+    padding: 1em;
+  }
+
+  a {
+    color: $green;
+    &:hover {
+      color: lighten( $green, 10% );
+    }
+  }
+}

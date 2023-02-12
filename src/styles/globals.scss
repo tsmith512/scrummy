@@ -1,0 +1,32 @@
+@import 'variables';
+
+@import '../../node_modules/normalize.css/normalize.css';
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  background: $green url('/gfx/table_bg_green.gif') center center repeat;
+  color: $bright;
+  @include fjalla;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include stint;
+  color: $orange;
+  text-align: center;
+  line-height: 1.2;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+::-moz-selection, ::selection {
+  background: $blue;
+  color: $light;
+  text-shadow: none;
+}
