@@ -16,18 +16,23 @@ export interface Env {
 	// MY_KV_NAMESPACE: KVNamespace
 	//
 	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	// MY_DURABLE_OBJECT: DurableObjectNamespace
+	GAME: DurableObjectNamespace
 	//
 	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
 	// MY_BUCKET: R2Bucket
 }
 
-export const worker = {
+export default {
 	async fetch(
 		request: Request,
 		env: Env,
 		ctx: ExecutionContext
 	): Promise<Response> {
-		return new Response(`Hello World from ${request.method}!`);
+		let id = env.GAME.idFromName("test");
+		let game = env.GAME.get(id);
+
+		return await game.fetch(request)
 	},
 };
+
+export { ScrummyGame } from "./ScrummyGame";

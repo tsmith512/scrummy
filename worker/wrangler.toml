@@ -1,3 +1,10 @@
 main = "./src/index.ts"
-name = "worker-typescript-template"
+name = "scrummy"
 compatibility_date = "2022-07-26"
+
+[durable_objects]
+bindings = [{name = "GAME", class_name = "ScrummyGame"}]
+
+[[migrations]]
+tag = "v1" # Should be unique for each entry
+new_classes = ["ScrummyGame"]
