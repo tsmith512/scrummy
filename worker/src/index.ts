@@ -48,9 +48,21 @@ router.all('*', async (request, env: Env, context: any) => {
 })
 
 /**
+ * Provide the frontend a list of acceptable story point sizes
+ */
+router.get('/api/settings/sizes', async (request, env: Env, context: any) => {
+  // @TODO: This should be ... not hardcoded.
+  const sizes = [1, 2, 3, 5, 8, 13, 20];
+
+  return new Response(JSON.stringify(sizes), {
+    headers: globalheaders,
+  })
+});
+
+/**
  * Identify the game (durable object instance) in question
  */
-router.all('/api/:game*', async (request, env: Env, context: any) => {
+router.all('/api/game/:game*', async (request, env: Env, context: any) => {
   const name = request.params?.game || false;
 
   if (!name || name.match(/^[A-Za-z0-9-_]$/g)) {

@@ -5,6 +5,7 @@ import style from '@/styles/game.module.scss';
 import { LoginActions } from './LoginActions';
 import { PlayingActions } from './PlayingActions';
 import { Players } from './Players';
+import { Hand } from './Hand';
 
 // THESE ARE COPIED FROM THE DURABLE OBJECT:
 export interface Player {
@@ -21,13 +22,21 @@ export interface GameState {
 // END.
 
 export default function Game() {
-  const [myNick, setMyNick] = useState(null);
+  const [myNick, setMyNick] = useState(null as string | null);
   const [game, setGame] = useState(null as GameState | null);
+  const [sizes, setSizes] = useState([] as number[]);
+  const [vote, setVote] = useState(null as number | null);
 
   const getGame = async (): Promise<void> => {
     await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/test`)
     .then((res) => res.json())
     .then((payload: GameState) => setGame(payload));
+  };
+
+  const getSizes = async (): Promise<void> => {
+    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/settings/sizes`)
+    .then((res) => res.json())
+    .then((payload: number[]) => setSizes(payload));
   }
 
   const handleReveal = async (): Promise<void> => {
@@ -37,10 +46,17 @@ export default function Game() {
     });
 
     getGame();
+  };
+
+  const handleVote = async (n: number): Promise<void> => {
+    if (sizes.indexOf(n) > -1) {
+      setVote(n);
+    }
   }
 
   useEffect(() => {
     getGame();
+    getSizes();
   }, []);
 
 
@@ -52,6 +68,7 @@ export default function Game() {
       <LoginActions />
       <PlayingActions handleReveal={handleReveal} />
       <Players players={game?.players || []} reveal={game?.reveal || false} />
+      <Hand sizes={sizes} nickname={myNick} handleVote={handleVote} vote={vote} />
     </div>
   );
 };
