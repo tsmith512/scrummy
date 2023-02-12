@@ -1,38 +1,68 @@
+import { Router } from 'itty-router';
+
 /**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npx wrangler dev src/index.ts` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npx wrangler publish src/index.ts --name my-worker` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
+ * Environment variables and bindings to DO, R2, KV, etc.
  */
-
-// These initial Types are based on bindings that don't exist in the project yet,
-// you can follow the links to learn how to implement them.
-
 export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace
-	//
-	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	GAME: DurableObjectNamespace
-	//
-	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-	// MY_BUCKET: R2Bucket
+	GAME: DurableObjectNamespace;
 }
 
-export default {
-	async fetch(
-		request: Request,
-		env: Env,
-		ctx: ExecutionContext
-	): Promise<Response> {
-		let id = env.GAME.idFromName("test");
-		let game = env.GAME.get(id);
+/**
+ * These headers are sent back on every response
+ */
+ export const globalheaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+};
 
-		return await game.fetch(request)
-	},
+
+const router = Router();
+
+//          _
+//  ___ ___| |_ _  _ _ __
+// (_-</ -_)  _| || | '_ \
+// /__/\___|\__|\_,_| .__/
+//                 |_|
+const basic404 = () => new Response('Route not found', { status: 404 });
+const basic200 = () => new Response('Scrummy backend is running', {
+  status: 200,
+  headers: globalheaders,
+});
+const basicCors = () => new Response(null, {
+  status: 204,
+  headers: globalheaders,
+});
+
+router.get('/api', basic200);
+router.options('*', basicCors);
+
+router.get('/api/:game', async (request, env: Env, context: any) => {
+	const name = request.params?.game || false;
+
+	if (!name || name.match(/^[A-Za-z0-9-_]$/g)) {
+		return;
+	}
+
+	const id = env.GAME.idFromName(name);
+	const game = env.GAME.get(id);
+	const url = new URL(request.url);
+
+	return await game.fetch(`${url.protocol}//${url.hostname}/status`);
+});
+
+// Fallback: any request not already caught is a 404.
+router.all('*', basic404);
+
+//  _      _ _
+// (_)_ _ (_) |_
+// | | ' \| |  _|
+// |_|_||_|_|\__|
+
+export default {
+  // Inbound requests pass as-is to the router.
+  fetch: router.handle,
+
+	// @TODO: scheduled jobs for garbage collecting?
 };
 
 export { ScrummyGame } from "./ScrummyGame";
