@@ -18,6 +18,7 @@
   background: darken($low, 8%);
   box-shadow: $dark 0px 0px 5px inset;
 
+
   input {
     margin: 6px 0;
   }
@@ -39,5 +40,38 @@
 
       border: 1px solid darken($orange, 40%);
     }
+  }
+
+  input.reveal {
+    text-shadow: darken($orange, 50%) 1px 1px 0;
+    background: $orange;
+    background-image: linear-gradient( darken($orange, 20%), darken($orange, 30%));
+    border: 1px solid darken($orange, 50%);
+  }
+}
+
+.contents {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  input {
+    flex: auto;
+    margin: 0.5em;
+  }
+}
+
+.gameLink {
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+
+  input {
+    width: 100%;
+    border-radius: 6px;
+    border: none;
+    margin-bottom: 4px;
   }
 }

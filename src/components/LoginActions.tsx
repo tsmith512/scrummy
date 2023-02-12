@@ -10,12 +10,10 @@ export const LoginActions = (props: LoginActionsProps) => {
     <section className={style.container}>
       <h2>Welcome</h2>
       <div className={style.contents}>
-        <form>
-          <input type="text" id="txtNickname" placeholder="Nickname?" />
-          <input type="text" id="txtGame" placeholder="New Game!" />
-          <input type="submit" value="Play" id="btnSignIn" />
-          <input type="button" value="Watch" id="btnObserve" />
-        </form>
+        <input type="text" id="txtNickname" placeholder="Nickname?" />
+        <input type="text" id="txtGame" placeholder="New Game!" />
+        <input type="submit" value="Play" id="btnSignIn" />
+        <input type="button" value="Watch" id="btnObserve" />
       </div>
     </section>
   )

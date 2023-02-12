@@ -48,25 +48,8 @@ $(document).ready(function(){
   })
 
   /* Setup the reveal and restore buttons in #votingActions and hotkeys */
-  $("#btnReveal").click(function(){ revealVotes(); });
-  $(document).bind('keyup', 'return', function(){ if (mySid) { revealVotes(); } });
   $("#btnReset").click(function(){ resetVotes(); });
   $(document).bind('keyup', 'esc', function(){ if (mySid) { resetVotes(); } });
-
-  /* Set up the button to display the game link in voting actions */
-  $("#btnLink").click(function(){
-    if ( $(this).hasClass('active') ) {
-      $('#gameLink').slideUp();
-      $(this).removeClass('active');
-    } else {
-      $('#gameLink').slideDown();
-      $(this).addClass('active');
-    }
-  });
-
-  /* I don't want to overwrite someone's clipboard without asking, but we will
-   * select the whole thing when they click on the URL. */
-  $("#txtUrl").click(function(){ $(this).select(); });
 });
 
 /**
@@ -150,38 +133,6 @@ function showCards() {
       $(el).removeClass('entrance');
     }, 100*i);
   });
-}
-
-/**
- * Create a vote cards for all users
- */
-function displayClients(clients) {
-  $('#clients').empty();
-  $(clients).each(function(i,e){
-    // Only display them if they're playing
-    if ( e.mode ) { displayClient(e.sid, e.nickname); }
-  });
-}
-
-/**
- * Create a vote card for a given user
- */
-function displayClient(sid, nickname){
-  $('<div />')
-    .attr('id', sid)
-    .addClass('client')
-    .append('<div class="back"><div class="nickname">'+nickname+'</div></div>')
-    .append('<div class="front"><div class="nickname">'+nickname+'</div><div class="vote-wrap"><span class="vote"></span></div></div>')
-    .appendTo('#clients');
-}
-
-/**
- * Add a vote number to a client voting card and highlight it.
- */
-function addVote(sid,vote){
-  $('#votingResult .card-text');
-  $('#' + sid + ' .vote').text(vote);
-  $('#' + sid ).addClass('voted');
 }
 
 /**

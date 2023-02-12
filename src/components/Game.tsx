@@ -63,10 +63,8 @@ export default function Game() {
 
   return (
     <div className={style.game}>
-      { JSON.stringify(game) }
-
       <LoginActions />
-      <PlayingActions handleReveal={handleReveal} />
+      <PlayingActions reveal={game?.reveal || false} handleReveal={handleReveal} />
       <Players players={game?.players || []} reveal={game?.reveal || false} />
       <Hand sizes={sizes} nickname={myNick} handleVote={handleVote} vote={vote} />
     </div>

@@ -63,57 +63,6 @@ input {
 }
 
 /**
- * Login Form
- */
-#loginActions {
-  text-align: center;
-
-  input  {
-    width: 23.5%;
-    margin: 6px 0.5%;
-  }
-}
-
-/**
- * Voting Actions & Results Section
- */
-#votingActions {
-  input {
-    width: 32%;
-    margin-left: 1%;
-    &#btnReveal { margin-left: 0; }
-  }
-
-  #votingResult.reveal & #btnReveal {
-    @include text-shadow( darken($orange, 50%) 1px 1px 0 );
-
-    background: $orange;
-    @include background-image( linear-gradient( darken($orange, 20%), darken($orange, 30%)) );
-
-    border: 1px solid darken($orange, 50%);
-  }
-
-  #votingResult.reveal & #btnReset {
-    color: $light;
-    @include text-shadow( darken($blue, 20%) 1px 1px 0 );
-
-    background: $blue;
-    @include background-image( linear-gradient(lighten($blue, 5%), darken($blue, 5%)) );
-
-    border: 1px solid darken($blue, 5%);
-
-    &:hover {
-      @include text-shadow( darken($orange, 40%) 1px 1px 0 );
-
-      background: $orange;
-      @include background-image( linear-gradient( darken($orange, 8%), darken($orange, 25%)) );
-
-      border: 1px solid darken($orange, 35%);
-    }
-  }
-}
-
-/**
  * The shared game link box (inside the Voting actions box)
  */
 #gameLink {
