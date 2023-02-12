@@ -9,7 +9,7 @@
 
   text-align: center;
 
-  padding: 0 4px;
+  padding: 0 8px;
   margin: 0.25em auto;
 
   border: 1px solid lighten($low, 8%);
@@ -18,12 +18,36 @@
   background: darken($low, 8%);
   box-shadow: $dark 0px 0px 5px inset;
 
-
   input {
-    margin: 6px 0;
+    margin: 8px 0;
+
+    @media ($bp-narrow) {
+      margin: 4px;
+      flex: auto;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 
-  input[type="button"], input[type="submit"] {
+  input[type="text"] {
+    width: 100%;
+    @media ($bp-narrow) {
+      width: 25%;
+    }
+  }
+
+  input[type="button"] {
+    width: 30%;
+    @media ($bp-narrow) {
+      width: 10%;
+    }
+
     color: $light;
     text-shadow: darken($blue, 25%) 1px 1px 0;
 
@@ -58,14 +82,12 @@
 }
 
 .contents {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  input {
-    flex: auto;
-    margin: 0.5em;
+  @media ($bp-narrow) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
+
 }
 
 .gameLink {

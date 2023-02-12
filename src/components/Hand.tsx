@@ -19,7 +19,6 @@ export const Hand = (props: HandProps) => {
             <div
               className={[
                 style.card,
-                style.loading,
                 (s === props.vote ? style.selected : style.unselected)
               ].join(' ')}
               onClick={(e) => {

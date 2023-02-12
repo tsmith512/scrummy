@@ -93,8 +93,8 @@ export default function Game() {
     }
   };
 
-  const handleDepart = async (nick: string, game: string): Promise<void> => {
-    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${nick}`,
+  const handleDepart = async (): Promise<void> => {
+    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${myNick}`,
       {
         method: 'DELETE',
       }
@@ -108,7 +108,27 @@ export default function Game() {
 
   useEffect(() => {
     getSizes();
-  }, [myGame, myNick]);
+
+    const interval = setInterval(() => {
+      if (joined && typeof window !== 'undefined' && document.visibilityState === 'visible') {
+        getGameState();
+      }
+    }, 3000);
+
+    window.addEventListener("beforeunload", (e) => {
+      handleDepart();
+      clearInterval(interval);
+    });
+
+    return () => {
+      handleDepart();
+      clearInterval(interval);
+    }
+  }, []);
+
+  useEffect(() => {
+    getGameState();
+  }, [joined]);
 
   return (
     <div className={style.game}>

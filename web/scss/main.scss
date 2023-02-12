@@ -1,11 +1,4 @@
 
-// Helper styles with various mixins and extendables, set border-box
-@import "helpers";
-
-// Include Compass Helpers
-@import "compass/css3";
-@import "breakpoint";
-
 /* Set up basic colors and typefaces */
 /* Layout */
 
@@ -30,35 +23,6 @@ section {
 
   @include respond-to('wide') {
     padding: 1em;
-  }
-}
-
-input {
-  background: $bright;
-  &:hover { background: white; }
-
-  color: $low;
-
-  padding: 4px 8px;
-  margin: 4px;
-  border: 1px solid $light;
-  @include border-radius(4px);
-
-  @include fjalla;
-
-  &[type="text"] {
-    @include osans;
-    font-size: 0.9em; // Better matching with the Fjalla buttons
-
-    background: $light;
-    border-color: darken($light, 10%);
-
-    &:focus {
-      outline: 0;
-      outline-offset: 0;
-      background: $bright;
-      border: 1px solid $orange;
-    }
   }
 }
 

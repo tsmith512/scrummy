@@ -1,37 +1,12 @@
-/* If we don't have flexbox, add another class for an "okay" card display */
-if ( !Modernizr.flexbox ) { $('html').addClass('no-flexbox'); }
-
-var cli = null;
-var mySid = null;
-var myNick = null;
-var myGame = null;
-var myMode = null;
-var voteValues = null;
-
 /*******************************************************************************
  * BASIC SETUP, READY FUNCTIONS, AND THE SIGN IN FUNCTION                      *
  *******************************************************************************/
 
 $(document).ready(function(){
-  cli = new client();
-
-  document.addEventListener('voteOccured',voteOccured,true);
-  document.addEventListener('userSignedIn',userSignedIn,true);
-  document.addEventListener('clientDisconnected',clientDisconnected,true);
-  document.addEventListener('clientReset',clientReset,false);
-  document.addEventListener('clientRevoke',clientRevoke,false);
-  document.addEventListener('clientReveal',clientReveal,false);
-  document.addEventListener('reconnect',reconnect,false);
-
-  /* On form submit, execute signIn() but don't actually post/get or reload */
-  $("#loginActions form").submit(function(){ signIn(1); return false; })
-  $("#btnObserve").click(function(){ signIn(0); return false; })
-
   /* If we have a cookie set, pull the nickname: */
   if ( typeof(Cookies.get('nickname')) === "string" ) {
     $('#txtNickname').val( Cookies.get('nickname') );
   }
-
 
   /* If we have a game hash, put it in the "game" text field */
   if ( window.location.hash.length ) {
@@ -46,10 +21,6 @@ $(document).ready(function(){
     myGame = $(this).val();
     updateWelcomeCount();
   })
-
-  /* Setup the reveal and restore buttons in #votingActions and hotkeys */
-  $("#btnReset").click(function(){ resetVotes(); });
-  $(document).bind('keyup', 'esc', function(){ if (mySid) { resetVotes(); } });
 });
 
 /**
@@ -58,36 +29,6 @@ $(document).ready(function(){
  */
 
 function signIn(mode){
-  myNick = $('#txtNickname').val();
-  myGame = $('#txtGame').val();
-  myMode = mode;
-
-  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame};
-
-  /**
-   * Handle the login action and set up local variables
-   */
-  cli.send('signIn', data, function(res,msg){
-    /* Server returned false; alert with message and bail */
-    if(!res){ alert(msg); return false; }
-
-    /* Show our hand if we're a playing client, not if we're observing */
-    if (mode) {
-      /* Create cards for each item in the Points object */
-      voteValues = msg.points;
-      $('.cards')
-        .append($.map(voteValues, function(item){
-          return $('<div />')
-            /* Hidden for now, showCards() reveals them in sequence */
-            .addClass('card entrance')
-            .append( $('<span />').addClass('card-text').text(item) )
-        }))
-        .on('click', '.card', function () {
-          vote(this);
-        });
-    } else {
-      $('<h3 />').text('Observing. Reload to participate.').appendTo('#playersHand');
-    }
 
     /* Set client Socket ID for later; it's our identifier server-side */
     mySid = msg.sid;
@@ -104,36 +45,14 @@ function signIn(mode){
     /* Populate the Game URL field */
     $('#txtUrl').val( window.location.href );
 
-    /* Server should respond with users already in the game, display them */
-    displayClients(msg.users);
-
     if ( msg.users.length < 2 ) {
       $('#btnLink').trigger('click');
     }
-
-    /* Hide the sign-in form, reveal the results panel and the "hand" */
-    $('#nickname-display').text(myNick);
-    $('#login, #readme').slideUp();
-    $('#votingResult, #playersHand').slideDown();
-    setTimeout(showCards, 400);
-  });
 }
 
 /*******************************************************************************
  * FRONT-END UTILITY FUNCTIONS                                                 *
  *******************************************************************************/
-
-/**
- * Animate reveal the hand of cards
- */
-function showCards() {
-  var newCards = $('.card.entrance');
-  newCards.each(function(i, el){
-    setTimeout(function () {
-      $(el).removeClass('entrance');
-    }, 100*i);
-  });
-}
 
 /**
  * Update the login section banner with game participants
@@ -158,15 +77,6 @@ function updateWelcomeCount() {
  * SERVER SAYS...                                                              *
  *******************************************************************************/
 
-/**
- * The server has ordered clients to reset all votes
- */
-function clientReset(e){
-  $('#playersHand .card').removeClass('selected');
-  $('#votingResult .vote').text('');
-  $('#votingResult .client').removeClass('voted');
-  $('#votingResult').removeClass('reveal');
-}
 
 /**
  * The server has indicated that a user has withdrawn his or her vote
@@ -175,48 +85,6 @@ function clientRevoke(e){
   $('#votingResult .card-text');
   $('#' + e.sid + ' .vote').text('');
   $('#' + e.sid ).removeClass('voted');
-}
-
-/**
- * The server has ordered clients to reveal all votes
- */
-function clientReveal(e){
-  $('#votingResult').addClass('reveal');
-}
-
-/**
- * The server has indicated that a client has voted
- */
-function voteOccured(e){
-  addVote(e.sid,e.number);
-}
-
-/**
- * The server has indicated that a user has connected. If they're playing (not
- * observing), pass it over to displayClient();
- */
-function userSignedIn(e){
-  if (e.mode) {
-    displayClient(e.sid, e.nickname);
-  }
-
-  /**
-   * Presently, the server doesn't store votes. The easy way to get new clients
-   * caught up on votes that occurred before they connected is just to rebroadcast
-   * the votes.
-   */
-
-  // Get text of the new vote.
-  if ( $('.cards .selected').length ) {
-    var number = $('.cards .selected').children('.card-text').text();
-
-    // Send the vote. No callback actions because this isn't a real voting action.
-    cli.send('vote',{ 'number' : number }, function(res,msg){ return true; });
-  }
-}
-
-function clientDisconnected(e){
-  $('#'+e.sid).remove();
 }
 
 /*******************************************************************************
@@ -248,43 +116,4 @@ function vote(card){
       $(card).addClass('selected');
     });
   }
-}
-
-/**
- * User has clicked the "reset" button; tell the server. Reset is actually handled
- * by the event action so it happens simultaneously with other clients in the game
- */
-function resetVotes(){
-  cli.send('reset',null, function(res,msg){
-    /* Server returned false; alert with message and bail */
-    if(!res){ alert(msg); return false; }
-  });
-}
-
-/**
- * Like above, but with the reveal button.
- */
-function revealVotes(){
-  cli.send('reveal',null, function(res,msg){
-    /* Server returned false; alert with message and bail */
-    if(!res){ alert(msg); return false; }
-  });
-}
-
-function reconnect(){
-  if (mySid === null) {
-    return;
-  }
-  var data = {'nickname' : myNick, 'mode' : myMode, 'game' : myGame};
-
-  cli.send('signIn', data, function(res,msg){
-    // Server returned false; alert with message and bail
-    if(!res){ alert(msg); return false; }
-
-    // Set client Socket ID for later; it's our identifier server-side
-    mySid = msg.sid;
-
-    // Server should respond with users already in the game, display them
-    displayClients(msg.users);
-  });
 }

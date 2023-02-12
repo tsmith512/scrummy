@@ -29,7 +29,7 @@ export const LoginActions = (props: LoginActionsProps) => {
           onChange={(e) => { setMyNewGame(e.target.value)}}
         />
         <input
-          type="submit"
+          type="button"
           value="Play"
           disabled={!newNick || !newGame}
           onClick={ (e) => {
