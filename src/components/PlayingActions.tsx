@@ -4,6 +4,7 @@ import style from '@/styles/actionsPanel.module.scss';
 interface PlayingActionsProps {
   reveal: boolean;
   handleReveal: () => Promise<void>;
+  handleReset: () => Promise<void>;
 }
 
 export const PlayingActions = (props: PlayingActionsProps) => {
@@ -21,7 +22,14 @@ export const PlayingActions = (props: PlayingActionsProps) => {
             props.handleReveal();
           }}
         />
-        <input type="button" id="btnReset" value="Reset" />
+        <input
+          type="button"
+          value="Reset"
+          onClick={(e) => {
+            e.preventDefault();
+            props.handleReset();
+          }}
+        />
         <input
           type="button"
           id="btnLink"

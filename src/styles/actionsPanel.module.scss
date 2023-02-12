@@ -40,6 +40,13 @@
 
       border: 1px solid darken($orange, 40%);
     }
+
+    &[disabled] {
+      text-shadow: darken($dark, 10%) 1px 1px 0;
+      background: darken($light, 20%);
+      background-image: linear-gradient(darken($light, 30%), darken($light, 60%));
+      border: 1px solid $dark;
+    }
   }
 
   input.reveal {

@@ -23,14 +23,16 @@ export interface GameState {
 
 export default function Game() {
   const [myNick, setMyNick] = useState(null as string | null);
-  const [game, setGame] = useState(null as GameState | null);
+  const [myGame, setMyGame] = useState(null as string | null);
+  const [joined, setJoined] = useState(false as boolean);
+  const [gameState, setGameState] = useState(null as GameState | null);
   const [sizes, setSizes] = useState([] as number[]);
   const [vote, setVote] = useState(null as number | null);
 
-  const getGame = async (): Promise<void> => {
-    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/test`)
+  const getGameState = async (): Promise<void> => {
+    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}`)
     .then((res) => res.json())
-    .then((payload: GameState) => setGame(payload));
+    .then((payload: GameState) => setGameState(payload));
   };
 
   const getSizes = async (): Promise<void> => {
@@ -40,33 +42,88 @@ export default function Game() {
   }
 
   const handleReveal = async (): Promise<void> => {
-    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/test/reveal`, {
+    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/reveal`, {
       method: 'POST',
-      body: JSON.stringify(!game?.reveal),
+      body: JSON.stringify(!gameState?.reveal),
     });
 
-    getGame();
+    getGameState();
+  };
+
+  const handleReset = async (): Promise<void> => {
+    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/reset`, {
+      method: 'POST',
+    });
+
+    if (res.status == 202) {
+      setVote(null);
+      getGameState();
+    }
   };
 
   const handleVote = async (n: number): Promise<void> => {
-    if (sizes.indexOf(n) > -1) {
-      setVote(n);
+    console.log(n)
+    console.log(sizes, sizes.indexOf(n));
+    if (sizes.indexOf(n) > -1 && myGame) {
+      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${myNick}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(n),
+      }
+      );
+
+      if (res.status == 202) {
+        setVote(n);
+        getGameState();
+      }
     }
-  }
+  };
+
+  const handleJoin = async (nick: string, gameName: string): Promise<void> => {
+    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameName}/player/${nick}`,
+      {
+        method: 'PUT',
+      }
+    );
+
+    if (res.status === 201) {
+      setJoined(true);
+      setMyGame(gameName);
+      setMyNick(nick);
+    }
+  };
+
+  const handleDepart = async (nick: string, game: string): Promise<void> => {
+    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${nick}`,
+      {
+        method: 'DELETE',
+      }
+    );
+
+    if (res.status === 202) {
+      setJoined(false);
+      setGameState(null);
+    }
+  };
 
   useEffect(() => {
-    getGame();
     getSizes();
-  }, []);
-
-
+  }, [myGame, myNick]);
 
   return (
     <div className={style.game}>
-      <LoginActions />
-      <PlayingActions reveal={game?.reveal || false} handleReveal={handleReveal} />
-      <Players players={game?.players || []} reveal={game?.reveal || false} />
-      <Hand sizes={sizes} nickname={myNick} handleVote={handleVote} vote={vote} />
+      {joined || (
+        <LoginActions
+          handleJoin={handleJoin}
+        />
+      )}
+      {joined && (
+        <>
+          <PlayingActions reveal={gameState?.reveal || false} handleReveal={handleReveal} handleReset={handleReset} />
+          <Players players={gameState?.players || []} reveal={gameState?.reveal || false} />
+          <Hand sizes={sizes} nickname={myNick} handleVote={handleVote} vote={vote} />
+        </>
+      )}
     </div>
   );
 };

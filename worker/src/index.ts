@@ -13,9 +13,11 @@ export interface Env {
  */
  export const globalheaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
 };
 
+// @TODO: This should be ... not hardcoded.
+export const sizes = [1, 2, 3, 5, 8, 13, 20];
 
 const router = Router();
 
@@ -51,9 +53,6 @@ router.all('*', async (request, env: Env, context: any) => {
  * Provide the frontend a list of acceptable story point sizes
  */
 router.get('/api/settings/sizes', async (request, env: Env, context: any) => {
-  // @TODO: This should be ... not hardcoded.
-  const sizes = [1, 2, 3, 5, 8, 13, 20];
-
   return new Response(JSON.stringify(sizes), {
     headers: globalheaders,
   })
@@ -106,6 +105,20 @@ router.post('/api/game/:game/reveal', async (request, env: Env, context: any) =>
 });
 
 /**
+ * Reset all the votes
+ */
+router.post('/api/game/:game/reset', async (request, env: Env, context: any) => {
+  const res = await context.game.fetch(`${context.prefix}/reset`, {
+    method: 'POST',
+  });
+
+  return new Response(null, {
+    status: res.status,
+    headers: globalheaders,
+  });
+});
+
+/**
  * Identify and sanitize the nickname in question
  */
 router.all('/api/game/:game/player/:nick*', async (request, env: Env, context: any) => {
@@ -123,22 +136,57 @@ router.all('/api/game/:game/player/:nick*', async (request, env: Env, context: a
 });
 
 router.put('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
-  return await context.game.fetch(`${context.prefix}/players/new`, {
+  const res = await context.game.fetch(`${context.prefix}/players/new`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(context.player),
   });
+
+  return new Response(null, {
+    status: res.status,
+    headers: globalheaders,
+  });
+});
+
+router.patch('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
+  const value = await request.json();
+  if (sizes.indexOf(value) > -1) {
+    context.player.vote = value;
+console.log(context.player);
+    const res = await context.game.fetch(`${context.prefix}/players/vote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(context.player),
+    });
+
+    return new Response(null, {
+      status: res.status,
+      headers: globalheaders,
+    });
+  }
+
+  return new Response('Invalid vote', {
+    status: 400,
+    headers: globalheaders,
+  });
 });
 
 router.delete('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
-  return await context.game.fetch(`${context.prefix}/players/remove`, {
+  const res = await context.game.fetch(`${context.prefix}/players/remove`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(context.player),
+  });
+
+  return new Response(null, {
+    status: res.status,
+    headers: globalheaders,
   });
 });
 
