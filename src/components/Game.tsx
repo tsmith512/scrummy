@@ -130,6 +130,7 @@ export default function Game() {
         const player = await join.json() as Player;
         setJoined(true);
         setMe(player);
+        getGameState();
       }
     }
   };
@@ -149,24 +150,18 @@ export default function Game() {
     }
   };
 
-  // Need this hook to only execute once, but eslint doesn't like empty dep arr
-  // @ts-ignore react-hooks/exhaustive-deps
   useEffect(() => {
-    getSizes();
+    if (joined) {
+      getSizes();
 
-    const interval = setInterval(() => {
-      console.log(`joined is ${joined}`);
-      if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
-        getGameState();
-      }
-    }, 3000);
-
-    return () => {
-      // @TODO: This doesn't appear to work on exit/window close
-      handleDepart();
-      clearInterval(interval);
+      setInterval(() => {
+        console.log(`joined is ${joined}`);
+        if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
+          getGameState();
+        }
+      }, 2000);
     }
-  }, []);
+  }, [joined]);
 
   return (
     <div className={style.game}>
