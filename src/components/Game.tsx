@@ -41,7 +41,7 @@ export default function Game() {
 
   const getGameState = async (): Promise<void> => {
     if (joined && gameState?.id) {
-      await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/status`)
+      await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/status`)
       .then((res) => res.json())
       .then((payload: GameState) => {
         setGameState(payload);
@@ -57,14 +57,14 @@ export default function Game() {
   };
 
   const getSizes = async (): Promise<void> => {
-    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/settings/sizes`)
+    await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/settings/sizes`)
     .then((res) => res.json())
     .then((payload: number[]) => setSizes(payload));
   }
 
   const handleReveal = async (): Promise<void> => {
     if (joined && gameState?.id) {
-      await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/reveal`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/reveal`, {
         method: 'POST',
         body: JSON.stringify(!gameState?.reveal),
       });
@@ -75,7 +75,7 @@ export default function Game() {
 
   const handleReset = async (): Promise<void> => {
     if (joined && gameState?.id) {
-      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/reset`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/reset`, {
         method: 'POST',
       });
 
@@ -89,7 +89,7 @@ export default function Game() {
   const handleVote = async (n: number): Promise<void> => {
     if (joined && gameState?.id && me?.id) {
       const newVote = (me?.vote === n) ? false : n;
-      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/player/${me.id}/vote`,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/player/${me.id}/vote`,
       {
         method: 'POST',
         body: JSON.stringify(newVote),
@@ -108,7 +108,7 @@ export default function Game() {
 
     // Step 1: Identify (either create or look up) the game
     // @TODO: It'd be great to make this a one-step.
-    const lookup = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game`,
+    const lookup = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game`,
       {
         method: 'POST',
         body: JSON.stringify({ name: gameName }),
@@ -121,7 +121,7 @@ export default function Game() {
       setGameState(newGameState);
 
       // Step 2: Add the current player to the game
-      const join = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${newGameState.id}/player`, {
+      const join = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${newGameState.id}/player`, {
         method: 'POST',
         body: JSON.stringify({ name: nick }),
       });
@@ -136,7 +136,7 @@ export default function Game() {
 
   const handleDepart = async (): Promise<void> => {
     if (joined && gameState?.id && me?.id) {
-      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/player/${me.id}`,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/player/${me.id}`,
         {
           method: 'DELETE',
         }

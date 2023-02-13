@@ -1,5 +1,6 @@
 main = "./src/index.ts"
 name = "scrummy"
+route = "scrummy.cards/api/*"
 
 compatibility_date = "2022-07-26"
 compatibility_flags = ["durable_object_alarms"]
