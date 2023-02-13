@@ -9,6 +9,14 @@ export interface Env {
 }
 
 /**
+ * Payload used to create a new game or a new character
+ */
+export interface gameInit {
+  name: string;
+  id?: string;
+}
+
+/**
  * These headers are sent back on every response
  */
  export const globalheaders = {
@@ -18,6 +26,8 @@ export interface Env {
 
 // @TODO: This should be ... not hardcoded.
 export const sizes = [1, 2, 3, 5, 8, 13, 20];
+
+export const safeId = /^[A-Za-z0-9-_]+$/;
 
 const router = Router();
 
@@ -59,29 +69,55 @@ router.get('/api/settings/sizes', async (request, env: Env, context: any) => {
 });
 
 /**
- * Identify the game (durable object instance) in question
+ * Create or lookup a new game from a nickname, return its id and initial state
  */
-router.all('/api/game/:game*', async (request, env: Env, context: any) => {
-  const name = request.params?.game || false;
+router.post('/api/game', async (request, env: Env, context: any) => {
+  const payload: gameInit = await request.json();
 
-  if (!name || name.match(/^[A-Za-z0-9-_]$/g)) {
-    return;
+  if (!payload?.name || !safeId.test(payload.name)) {
+    return new Response('Bad game name', {status: 400});
   }
 
-  context.id = env.GAME.idFromName(name);
-  context.game = env.GAME.get(context.id);
+  context.gameId = env.GAME.idFromName(payload.name);
+  context.game = env.GAME.get(context.gameId);
+
+  const res = await context.game.fetch(`${context.prefix}/status`);
+
+  return new Response(await res.text(), {
+    status: res.status,
+    headers: { 'Content-Type': 'application/json', ...globalheaders },
+  });
 });
 
 /**
- * Given a game, return its status
+ * Look up a game instance and add it to context; based on URL argument
  */
-router.get('/api/game/:game', async (request, env: Env, context: any) => {
+router.all('/api/game/:game/*', async (request, env: Env, context: any) => {
+  const gameId = request.params?.game || false;
+
+  if (!gameId || !safeId.test(gameId)) {
+    return new Response('Bad game id', { status: 400 });
+  }
+
+  try {
+    context.gameId = env.GAME.idFromString(gameId);
+    context.game = env.GAME.get(context.gameId);
+  } catch (e) {
+    console.log(JSON.stringify(e));
+    return new Response('Cannot look up game ID', { status: 404 });
+  }
+});
+
+/**
+ * Get game status
+ */
+router.get('/api/game/:game/status', async (request, env: Env, context: any) => {
   const res = await context.game.fetch(`${context.prefix}/status`);
 
   return new Response(await res.text(), {
     status: res.status,
     headers: globalheaders,
-  })
+  });
 });
 
 
@@ -119,42 +155,50 @@ router.post('/api/game/:game/reset', async (request, env: Env, context: any) => 
 });
 
 /**
- * Identify and sanitize the nickname in question
+ * Join a new player to an existing game
  */
-router.all('/api/game/:game/player/:nick*', async (request, env: Env, context: any) => {
-  const nick = request.params?.nick || false;
+router.post('/api/game/:game/player', async (request, env: Env, context: any) => {
+  const payload: gameInit = await request.json();
 
-  if (!nick || nick.match(/^[A-Za-z0-9-_]$/g)) {
-    return;
+  if (!payload?.name || !safeId.test(payload.name)) {
+    return new Response('Bad player name', {status: 400});
   }
 
-  const player: Player = {
-    nick
-  };
-
-  context.player = player;
-});
-
-router.put('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
   const res = await context.game.fetch(`${context.prefix}/players/new`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(context.player),
+    body: JSON.stringify({ name: payload.name }),
   });
 
-  return new Response(null, {
+  return new Response(await res.text(), {
     status: res.status,
-    headers: globalheaders,
+    headers: { 'Content-Type': 'application/json', ...globalheaders },
   });
 });
 
-router.patch('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
-  const value = await request.json();
-  console.log(value);
-  if (value === false || sizes.indexOf(value) > -1) {
-    context.player.vote = value;
+/**
+ * Validate a player ID in URL arg so we only have to do it once
+ */
+ router.all('/api/game/:game/player/:id*', async (request, env: Env, context: any) => {
+  const playerId = request.params?.id || false;
+
+  if (!playerId || !safeId.test(playerId)) {
+    return new Response('Bad player id', { status: 400 });
+  }
+
+  context.player = {
+    id: playerId,
+  }
+});
+
+router.post('/api/game/:game/player/:id/vote', async (request, env: Env, context: any) => {
+  const vote = await request.json() as number | false;
+
+  // If the vote is FALSE or is a valid size, post the player to the game instance
+  if (vote === false || sizes.indexOf(vote) > -1) {
+    context.player.vote = vote;
 
     const res = await context.game.fetch(`${context.prefix}/players/vote`, {
       method: 'POST',
@@ -176,7 +220,7 @@ router.patch('/api/game/:game/player/:nick', async (request, env: Env, context: 
   });
 });
 
-router.delete('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
+router.delete('/api/game/:game/player/:id', async (request, env: Env, context: any) => {
   const res = await context.game.fetch(`${context.prefix}/players/remove`, {
     method: 'POST',
     headers: {

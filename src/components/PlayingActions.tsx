@@ -3,7 +3,7 @@ import style from '@/styles/actionsPanel.module.scss';
 
 interface PlayingActionsProps {
   reveal: boolean;
-  gameLink: string;
+  gameLink?: string;
   handleReveal: () => Promise<void>;
   handleReset: () => Promise<void>;
 }

@@ -1,8 +1,9 @@
 import { Router } from "itty-router";
-import { basic404, Env } from ".";
+import { basic404, Env, gameInit } from ".";
 
 export interface Player {
   nick: string;
+  id: string;
   vote?: number | false;
 }
 
@@ -10,6 +11,7 @@ export interface GameState {
   name: string;
   id: string;
   reveal: boolean;
+  active: boolean;
   players: Player[];
 }
 
@@ -17,11 +19,12 @@ const sampleState: GameState = {
   name: 'Test Game',
   id: 'unknown durable object id',
   reveal: false,
+  active: true,
   players: [
-    { nick: 'Ted', vote: 5 },
-    { nick: 'Linda', vote: 5 },
-    { nick: 'Lem', vote: 13 },
-    { nick: 'Phil', vote: 8 },
+    { nick: 'Ted', id: 'a', vote: 5 },
+    { nick: 'Linda', id: 'b', vote: 5 },
+    { nick: 'Lem', id: 'c', vote: 13 },
+    { nick: 'Phil', id: 'd', vote: 8 },
   ],
 }
 
@@ -31,7 +34,8 @@ export class ScrummyGame {
 
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
-    this.game = sampleState;
+    this.game = JSON.parse(JSON.stringify(sampleState));
+    this.game.id = this.state.id.toString();
   }
 
   async fetch(request: Request) {
@@ -66,10 +70,13 @@ export class ScrummyGame {
      * Add a new player
      */
     router.post('/players/new', async (request, env: Env, ctx) => {
-      const player = await request.json() as Player;
+      const newPlayer = await request.json() as gameInit;
+      const player: Player = {
+        nick: newPlayer.name,
+        id: Math.random().toString(16).substring(2),
+      }
       this.game.players.push(player);
-
-      return new Response(null, {status: 201});
+      return new Response(JSON.stringify(player), {status: 201});
     });
 
     /**
@@ -78,7 +85,11 @@ export class ScrummyGame {
     router.post('/players/vote', async (request, env: Env, ctx) => {
       const player = await request.json() as Player;
 
-      const i = this.game.players.findIndex(p => p.nick === player.nick);
+      const i = this.game.players.findIndex(p => p.id === player.id);
+
+      if (i < 0) {
+        return new Response(null, {status: 404});
+      }
 
       if (player.vote) {
         this.game.players[i].vote = player.vote;
@@ -95,9 +106,13 @@ export class ScrummyGame {
     router.post('/players/remove', async (request, env: Env, ctx) => {
       const player = await request.json() as Player;
 
-      const i = this.game.players.findIndex(p => p.nick === player.nick);
-      this.game.players.splice(i, 1);
+      const i = this.game.players.findIndex(p => p.id === player.id);
 
+      if (i < 0) {
+        return new Response(null, {status: 404});
+      }
+
+      this.game.players.splice(i, 1);
       return new Response(null, {status: 202});
     });
 

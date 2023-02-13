@@ -11,7 +11,8 @@ import { Readme } from './Readme';
 // THESE ARE COPIED FROM THE DURABLE OBJECT:
 export interface Player {
   nick: string;
-  vote?: number | false;
+  id: string;
+  vote: number | false | null;
 }
 
 export interface GameState {
@@ -20,21 +21,30 @@ export interface GameState {
   reveal: boolean;
   players: Player[];
 }
+
+export interface gameInit {
+  name: string;
+  id?: string;
+}
 // END.
 
 export default function Game() {
-  const [myNick, setMyNick] = useState(null as string | null);
-  const [myGame, setMyGame] = useState(null as string | null);
+  const [me, setMe] = useState(null as Player | null);
+  // const [myNick, setMyNick] = useState(null as string | null);
+  // const [myId, setMyId] = useState(null as string | null);
+  // const [myGame, setMyGame] = useState(null as string | null);
+  const [gameState, setGameState] = useState(null as GameState | null);
   const [gameLink, setGameLink] = useState(null as string | null);
   const [joined, setJoined] = useState(false as boolean);
-  const [gameState, setGameState] = useState(null as GameState | null);
   const [sizes, setSizes] = useState([] as number[]);
-  const [vote, setVote] = useState(null as number | null);
+  // const [vote, setVote] = useState(null as number | null);
 
   const getGameState = async (): Promise<void> => {
-    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}`)
-    .then((res) => res.json())
-    .then((payload: GameState) => setGameState(payload));
+    if (joined && gameState?.id) {
+      await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/status`)
+      .then((res) => res.json())
+      .then((payload: GameState) => setGameState(payload));
+    }
   };
 
   const getSizes = async (): Promise<void> => {
@@ -44,67 +54,89 @@ export default function Game() {
   }
 
   const handleReveal = async (): Promise<void> => {
-    await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/reveal`, {
-      method: 'POST',
-      body: JSON.stringify(!gameState?.reveal),
-    });
+    if (joined && gameState?.id) {
+      await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/reveal`, {
+        method: 'POST',
+        body: JSON.stringify(!gameState?.reveal),
+      });
 
-    getGameState();
+      getGameState();
+    }
   };
 
   const handleReset = async (): Promise<void> => {
-    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/reset`, {
-      method: 'POST',
-    });
+    if (joined && gameState?.id) {
+      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/reset`, {
+        method: 'POST',
+      });
 
-    if (res.status == 202) {
-      setVote(null);
-      getGameState();
+      if (res.status == 202) {
+        setMe({...me as Player, vote: null});
+        getGameState();
+      }
     }
   };
 
   const handleVote = async (n: number): Promise<void> => {
-    const newVote = (vote === n) ? false : n;
-    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${myNick}`,
-    {
-      method: 'PATCH',
-      body: JSON.stringify(newVote),
-    }
-    );
+    if (joined && gameState?.id && me?.id) {
+      const newVote = (me?.vote === n) ? false : n;
+      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/player/${me.id}/vote`,
+      {
+        method: 'POST',
+        body: JSON.stringify(newVote),
+      }
+      );
 
-    if (res.status == 202) {
-      setVote(newVote || null);
-      getGameState();
+      if (res.status == 202) {
+        setMe({...me as Player, vote: newVote || null });
+        getGameState();
+      }
     }
   };
 
   const handleJoin = async (nick: string, gameName: string): Promise<void> => {
     localStorage.setItem('nickname', nick);
 
-    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameName}/player/${nick}`,
+    // Step 1: Identify (either create or look up) the game
+    // @TODO: It'd be great to make this a one-step.
+    const lookup = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game`,
       {
-        method: 'PUT',
+        method: 'POST',
+        body: JSON.stringify({ name: gameName }),
       }
     );
 
-    if (res.status === 201) {
-      setJoined(true);
-      setMyGame(gameName);
+    if (lookup.status === 200) {
+      const newGameState = await lookup.json() as GameState;
       setGameLink(`https://${window.location.host}/#${gameName}`);
-      setMyNick(nick);
+      setGameState(newGameState);
+
+      // Step 2: Add the current player to the game
+      const join = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${newGameState.id}/player`, {
+        method: 'POST',
+        body: JSON.stringify({ name: nick }),
+      });
+
+      if (join.status === 201) {
+        const player = await join.json() as Player;
+        setJoined(true);
+        setMe(player);
+      }
     }
   };
 
   const handleDepart = async (): Promise<void> => {
-    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${myNick}`,
-      {
-        method: 'DELETE',
-      }
-    );
+    if (joined && gameState?.id && me?.id) {
+      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/player/${me.id}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
-    if (res.status === 202) {
-      setJoined(false);
-      setGameState(null);
+      if (res.status === 202) {
+        setJoined(false);
+        setGameState(null);
+      }
     }
   };
 
@@ -116,11 +148,6 @@ export default function Game() {
         getGameState();
       }
     }, 3000);
-
-    window.addEventListener("beforeunload", (e) => {
-      handleDepart();
-      clearInterval(interval);
-    });
 
     return () => {
       handleDepart();
@@ -146,10 +173,10 @@ export default function Game() {
             reveal={gameState?.reveal || false}
             handleReveal={handleReveal}
             handleReset={handleReset}
-            gameLink={gameLink}
+            gameLink={gameLink || undefined}
           />
           <Players players={gameState?.players || []} reveal={gameState?.reveal || false} />
-          <Hand sizes={sizes} nickname={myNick} handleVote={handleVote} vote={vote} />
+          <Hand sizes={sizes} nickname={me?.nick} handleVote={handleVote} vote={me.vote} />
         </>
       )}
     </div>

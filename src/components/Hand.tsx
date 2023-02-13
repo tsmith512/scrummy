@@ -4,7 +4,7 @@ import { Player } from './Game';
 
 export interface HandProps {
   sizes: number[];
-  nickname: string | null;
+  nickname?: string;
   vote: number | null;
   handleVote: (n: number) => Promise<void>
 }
