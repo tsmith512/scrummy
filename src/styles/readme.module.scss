@@ -1,0 +1,42 @@
+@import 'variables';
+
+.readme {
+
+}
+
+.content {
+  font-size: 0.875em;
+  @include osans;
+
+  p {
+    max-width: 35em;
+    margin: 0 auto 1em;
+    text-shadow: 1px 1px 0 darken($low, 15%);
+    break-inside: avoid;
+  }
+
+  strong {
+    font-weight: normal;
+    color: $orange;
+  }
+
+  em {
+    font-style: normal;
+    color: lighten($blue, 25%);
+  }
+
+  a {
+    color: lighten($green, 10%);
+  }
+
+  @media ($bp-narrow) {
+    columns: 2;
+    column-gap: 2em;
+    font-size: 1em;
+  }
+
+  @media ($bp-medium) {
+    font-size: 1em;
+    columns: 3;
+  }
+}

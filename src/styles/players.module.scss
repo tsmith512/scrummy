@@ -1,6 +1,8 @@
 @import 'variables';
 
 .players {
+  border-bottom: 1px solid darken($low, 10%);
+
   @media ($bp-narrow) {
     display: flex;
     align-items: center;

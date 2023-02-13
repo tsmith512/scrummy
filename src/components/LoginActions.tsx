@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '@/styles/actionsPanel.module.scss';
 
 interface LoginActionsProps {
-  nick?: string;
-  game?: string;
   handleJoin: (nick: string, game: string) => Promise<void>;
-  handleView: (game: string) => Promise<void>;
+  // handleView: (game: string) => Promise<void>;
 }
 
 export const LoginActions = (props: LoginActionsProps) => {
-  const [newNick, setMyNewNick] = useState(props.nick as string | null);
-  const [newGame, setMyNewGame] = useState(props.game as string | null);
+  const [newNick, setMyNewNick] = useState('');
+  const [newGame, setMyNewGame] = useState('');
+
+  useEffect(() => {
+    if (window.location.hash) {
+      setMyNewGame(window.location.hash.substring(1));
+    }
+
+    const previousNick = localStorage.getItem('nickname');
+    if (previousNick) {
+      setMyNewNick(previousNick);
+    }
+  }, []);
 
   return (
     <section className={style.container}>
@@ -19,13 +28,13 @@ export const LoginActions = (props: LoginActionsProps) => {
         <input
           type="text"
           placeholder="Nickname?"
-          value={props.nick}
+          value={newNick}
           onChange={(e) => { setMyNewNick(e.target.value)}}
         />
         <input
           type="text"
           placeholder="New Game!"
-          value={props.game}
+          value={newGame}
           onChange={(e) => { setMyNewGame(e.target.value)}}
         />
         <input

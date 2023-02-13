@@ -6,11 +6,12 @@ import { LoginActions } from './LoginActions';
 import { PlayingActions } from './PlayingActions';
 import { Players } from './Players';
 import { Hand } from './Hand';
+import { Readme } from './Readme';
 
 // THESE ARE COPIED FROM THE DURABLE OBJECT:
 export interface Player {
   nick: string;
-  vote?: number;
+  vote?: number | false;
 }
 
 export interface GameState {
@@ -24,6 +25,7 @@ export interface GameState {
 export default function Game() {
   const [myNick, setMyNick] = useState(null as string | null);
   const [myGame, setMyGame] = useState(null as string | null);
+  const [gameLink, setGameLink] = useState(null as string | null);
   const [joined, setJoined] = useState(false as boolean);
   const [gameState, setGameState] = useState(null as GameState | null);
   const [sizes, setSizes] = useState([] as number[]);
@@ -62,24 +64,23 @@ export default function Game() {
   };
 
   const handleVote = async (n: number): Promise<void> => {
-    console.log(n)
-    console.log(sizes, sizes.indexOf(n));
-    if (sizes.indexOf(n) > -1 && myGame) {
-      const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${myNick}`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify(n),
-      }
-      );
+    const newVote = (vote === n) ? false : n;
+    const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${myGame}/player/${myNick}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(newVote),
+    }
+    );
 
-      if (res.status == 202) {
-        setVote(n);
-        getGameState();
-      }
+    if (res.status == 202) {
+      setVote(newVote || null);
+      getGameState();
     }
   };
 
   const handleJoin = async (nick: string, gameName: string): Promise<void> => {
+    localStorage.setItem('nickname', nick);
+
     const res = await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameName}/player/${nick}`,
       {
         method: 'PUT',
@@ -89,6 +90,7 @@ export default function Game() {
     if (res.status === 201) {
       setJoined(true);
       setMyGame(gameName);
+      setGameLink(`https://${window.location.host}/#${gameName}`);
       setMyNick(nick);
     }
   };
@@ -133,13 +135,19 @@ export default function Game() {
   return (
     <div className={style.game}>
       {joined || (
-        <LoginActions
-          handleJoin={handleJoin}
-        />
+        <>
+          <LoginActions handleJoin={handleJoin} />
+          <Readme />
+        </>
       )}
       {joined && (
         <>
-          <PlayingActions reveal={gameState?.reveal || false} handleReveal={handleReveal} handleReset={handleReset} />
+          <PlayingActions
+            reveal={gameState?.reveal || false}
+            handleReveal={handleReveal}
+            handleReset={handleReset}
+            gameLink={gameLink}
+          />
           <Players players={gameState?.players || []} reveal={gameState?.reveal || false} />
           <Hand sizes={sizes} nickname={myNick} handleVote={handleVote} vote={vote} />
         </>

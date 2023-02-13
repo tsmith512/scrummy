@@ -3,7 +3,7 @@ import { basic404, Env } from ".";
 
 export interface Player {
   nick: string;
-  vote?: number;
+  vote?: number | false;
 }
 
 export interface GameState {
@@ -77,9 +77,14 @@ export class ScrummyGame {
      */
     router.post('/players/vote', async (request, env: Env, ctx) => {
       const player = await request.json() as Player;
-console.log(player);
+
       const i = this.game.players.findIndex(p => p.nick === player.nick);
-      this.game.players[i].vote = player.vote;
+
+      if (player.vote) {
+        this.game.players[i].vote = player.vote;
+      } else {
+        this.game.players[i].vote = undefined;
+      }
 
       return new Response(null, {status: 202});
     });

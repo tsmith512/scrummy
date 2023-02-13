@@ -152,9 +152,10 @@ router.put('/api/game/:game/player/:nick', async (request, env: Env, context: an
 
 router.patch('/api/game/:game/player/:nick', async (request, env: Env, context: any) => {
   const value = await request.json();
-  if (sizes.indexOf(value) > -1) {
+  console.log(value);
+  if (value === false || sizes.indexOf(value) > -1) {
     context.player.vote = value;
-console.log(context.player);
+
     const res = await context.game.fetch(`${context.prefix}/players/vote`, {
       method: 'POST',
       headers: {

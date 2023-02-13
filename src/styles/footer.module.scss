@@ -1,0 +1,25 @@
+@import 'variables';
+
+.footer {
+  max-width: 1000px;
+  margin: 1em auto 3em;
+
+  font-size: 0.75em;
+  text-align: center;
+
+  color: darken($green, 20%);
+  @include osans;
+
+  a {
+    color: $light;
+    text-shadow: 1px 1px 0 darken($green, 30%);
+
+    &:hover {
+      color: $bright;
+    }
+  }
+
+  @media ($bp-medium) {
+    font-size: 0.875em;
+  }
+}

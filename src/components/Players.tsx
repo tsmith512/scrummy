@@ -9,7 +9,7 @@ export interface PlayersProps {
 
 export const Players = (props: PlayersProps) => {
   return (
-    <div className={[style.players, (props.reveal ? style.reveal : style.hidden)].join(' ')}>
+    <section className={[style.players, (props.reveal ? style.reveal : style.hidden)].join(' ')}>
       {props.players?.map(p => (
         <div className={[style.player, (p.vote ? style.voted : style.abstained)].join(' ')}>
           <div className={style.back}>
@@ -21,6 +21,6 @@ export const Players = (props: PlayersProps) => {
           </div>
         </div>
       ))}
-    </div>
+    </section>
   );
 }

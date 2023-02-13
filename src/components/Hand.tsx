@@ -11,7 +11,7 @@ export interface HandProps {
 
 export const Hand = (props: HandProps) => {
   return (
-    <div className={style.container}>
+    <section className={style.container}>
       {props.nickname && (<h2 className={style.nickname}>{props.nickname}</h2>)}
       <div className={style.handWrap}>
         <div className={style.hand}>
@@ -31,6 +31,6 @@ export const Hand = (props: HandProps) => {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

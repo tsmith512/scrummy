@@ -3,6 +3,7 @@ import style from '@/styles/actionsPanel.module.scss';
 
 interface PlayingActionsProps {
   reveal: boolean;
+  gameLink: string;
   handleReveal: () => Promise<void>;
   handleReset: () => Promise<void>;
 }
@@ -44,6 +45,7 @@ export const PlayingActions = (props: PlayingActionsProps) => {
         <input
           type="text"
           id="txtUrl"
+          value={props.gameLink}
           readOnly
           onClick={(e) => { e.target.select(); }}
         />
