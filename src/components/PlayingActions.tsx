@@ -14,32 +14,26 @@ export const PlayingActions = (props: PlayingActionsProps) => {
   return (
     <section className={style.container}>
       <div className={style.contents}>
-        <input
+        <button
           type="button"
           className={(props.reveal ? style.reveal : style.hidden )}
-          value="Reveal"
           onClick={(e) => {
-            e.preventDefault();
             props.handleReveal();
           }}
-        />
-        <input
+        >Reveal</button>
+        <button
           type="button"
-          value="Reset"
           onClick={(e) => {
-            e.preventDefault();
             props.handleReset();
           }}
-        />
-        <input
+        >Reset</button>
+        <button
           type="button"
           id="btnLink"
-          value="Game Link"
           onClick={(e) => {
-            e.preventDefault();
             setLinkVisible(!linkVisible)
           }}
-        />
+        >Game Link</button>
       </div>
       <div className={[style.gameLink, (linkVisible ? style.visible : style.hidden)].join(' ')}>
         <input

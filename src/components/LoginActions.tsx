@@ -37,25 +37,23 @@ export const LoginActions = (props: LoginActionsProps) => {
           value={newGame}
           onChange={(e) => { setMyNewGame(e.target.value)}}
         />
-        <input
+        <button
           type="button"
-          value="Play"
           disabled={!newNick || !newGame}
           onClick={ (e) => {
             e.preventDefault();
             props.handleJoin(newNick, newGame);
           }}
-        />
-        <input
+        >Play</button>
+        <button
           type="button"
-          value="Watch"
           disabled={!newGame}
           onClick={ (e) => {
             e.preventDefault();
             // props.handleView(newGame);
             alert("Watch mode not yet implemented.");
           }}
-        />
+        >Watch</button>
       </div>
     </section>
   )
