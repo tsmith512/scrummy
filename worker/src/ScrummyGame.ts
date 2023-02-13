@@ -3,7 +3,7 @@ import { basic404, Env } from ".";
 
 export interface Player {
   nick: string;
-  vote?: number;
+  vote?: number | false;
 }
 
 export interface GameState {
@@ -52,6 +52,16 @@ export class ScrummyGame {
       this.game.reveal = value;
       return new Response(null, {status: 204});
     });
+
+    /**
+     * Reset game state
+     */
+    router.post('/reset', async (request, env: Env, ctx) => {
+      this.game.players.forEach((p) => p.vote = undefined);
+      this.game.reveal = false;
+      return new Response(null, {status: 202});
+    });
+
     /**
      * Add a new player
      */
@@ -60,6 +70,23 @@ export class ScrummyGame {
       this.game.players.push(player);
 
       return new Response(null, {status: 201});
+    });
+
+    /**
+     * Record a player's vote
+     */
+    router.post('/players/vote', async (request, env: Env, ctx) => {
+      const player = await request.json() as Player;
+
+      const i = this.game.players.findIndex(p => p.nick === player.nick);
+
+      if (player.vote) {
+        this.game.players[i].vote = player.vote;
+      } else {
+        this.game.players[i].vote = undefined;
+      }
+
+      return new Response(null, {status: 202});
     });
 
     /**
