@@ -30,14 +30,10 @@ export interface gameInit {
 
 export default function Game() {
   const [me, setMe] = useState(null as Player | null);
-  // const [myNick, setMyNick] = useState(null as string | null);
-  // const [myId, setMyId] = useState(null as string | null);
-  // const [myGame, setMyGame] = useState(null as string | null);
   const [gameState, setGameState] = useState(null as GameState | null);
   const [gameLink, setGameLink] = useState(null as string | null);
   const [joined, setJoined] = useState(false as boolean);
   const [sizes, setSizes] = useState([] as number[]);
-  // const [vote, setVote] = useState(null as number | null);
 
   const getGameState = async (): Promise<void> => {
     if (joined && gameState?.id) {
@@ -130,6 +126,7 @@ export default function Game() {
         const player = await join.json() as Player;
         setJoined(true);
         setMe(player);
+        getGameState();
       }
     }
   };
@@ -149,24 +146,17 @@ export default function Game() {
     }
   };
 
-  // Need this hook to only execute once, but eslint doesn't like empty dep arr
-  // @ts-ignore react-hooks/exhaustive-deps
   useEffect(() => {
-    getSizes();
+    if (joined) {
+      getSizes();
 
-    const interval = setInterval(() => {
-      console.log(`joined is ${joined}`);
-      if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
-        getGameState();
-      }
-    }, 3000);
-
-    return () => {
-      // @TODO: This doesn't appear to work on exit/window close
-      handleDepart();
-      clearInterval(interval);
+      setInterval(() => {
+        if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
+          getGameState();
+        }
+      }, 2000);
     }
-  }, []);
+  }, [joined]);
 
   return (
     <div className={style.game}>
