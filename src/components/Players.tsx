@@ -11,7 +11,7 @@ export const Players = (props: PlayersProps) => {
   return (
     <section className={[style.players, (props.reveal ? style.reveal : style.hidden)].join(' ')}>
       {props.players?.map(p => (
-        <div className={[style.player, (p.vote ? style.voted : style.abstained)].join(' ')}>
+        <div key={p.id} className={[style.player, (p.vote ? style.voted : style.abstained)].join(' ')}>
           <div className={style.back}>
             <div className={style.nickname}>{p.nick}</div>
           </div>

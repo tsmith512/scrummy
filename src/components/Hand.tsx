@@ -17,6 +17,7 @@ export const Hand = (props: HandProps) => {
         <div className={style.hand}>
           {props.sizes.map(s => (
             <div
+              key={s}
               className={[
                 style.card,
                 (s === props.vote ? style.selected : style.unselected)

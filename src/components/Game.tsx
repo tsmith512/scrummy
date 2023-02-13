@@ -43,7 +43,16 @@ export default function Game() {
     if (joined && gameState?.id) {
       await fetch(`https://scrummy.tsmithcreative.workers.dev/api/game/${gameState.id}/status`)
       .then((res) => res.json())
-      .then((payload: GameState) => setGameState(payload));
+      .then((payload: GameState) => {
+        setGameState(payload);
+
+        // If another player triggered a reset, this game state update affects
+        // "me" too.
+        if (me) {
+          const i = payload.players.findIndex(p => p.id == me.id);
+          setMe({...payload.players[i]});
+        }
+      })
     }
   };
 
@@ -144,20 +153,18 @@ export default function Game() {
     getSizes();
 
     const interval = setInterval(() => {
-      if (joined && typeof window !== 'undefined' && document.visibilityState === 'visible') {
+      console.log(`joined is ${joined}`);
+      if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
         getGameState();
       }
     }, 3000);
 
     return () => {
+      // @TODO: This doesn't appear to work on exit/window close
       handleDepart();
       clearInterval(interval);
     }
   }, []);
-
-  useEffect(() => {
-    getGameState();
-  }, [joined]);
 
   return (
     <div className={style.game}>
