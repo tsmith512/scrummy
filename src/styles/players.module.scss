@@ -1,0 +1,162 @@
+@import 'variables';
+
+.players {
+  border-bottom: 1px solid darken($low, 10%);
+
+  @media ($bp-narrow) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row wrap;
+  }
+}
+
+.player {
+  perspective: 300px;
+  position: relative;
+  height: 4em;
+
+  @media ($bp-handheld-only) {
+    width: auto;
+    margin: 0.5em auto;
+  }
+
+  @media ($bp-narrow) {
+    height: 8em;
+    width: 6em;
+    margin: 0.5em;
+  }
+
+  @media ($bp-medium) {
+    height: 10em;
+    width: 7em;
+  }
+}
+
+.voted {
+  .back .nickname { color: $orange; }
+  .front .nickname { color: $red; }
+}
+
+.abstained {
+
+}
+
+// BACK = FACE DOWN (HIDING VOTE)
+// FRONT = FACE UP (SHOWING VOTE)
+
+.front, .back {
+  overflow: hidden;
+  border: 4px solid darken($bright, 5%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 10px;
+  box-shadow: $dark 0px 0px 10px;
+  backface-visibility: hidden;
+  perspective: 0px;
+  transform-style: preserve-3d;
+  transition: transform .5s ease-in-out;
+
+  @media ($bp-handheld-only) {
+    padding: 0.25em;
+  }
+}
+
+// Face Down
+.back {
+  z-index: 50;
+  background: url('/gfx/card_back_bg_greenplaid_small.png') center center repeat, $bright;
+
+  @media ($bp-narrow) {
+    background:
+      url('/gfx/spiral-card-white-shadow.png') center center no-repeat,
+      url('/gfx/card_back_bg_greenplaid_small.png') center center repeat,
+      $bright;
+  }
+}
+
+.front {
+  z-index: 0;
+  color: $dark;
+  background: $bright;
+  text-shadow: none;
+}
+
+.nickname {
+  text-shadow: $dark 1px 1px 0;
+  text-transform: uppercase;
+
+  @media ($bp-narrow) {
+    font-size: 0.875em;
+    letter-spacing: 1px;
+  }
+
+  @media ($bp-medium) {
+    font-size: 1em;
+    padding: 0.25em 0.125em;
+    margin-bottom: 0.125em;
+  }
+}
+
+@media ($bp-handheld-only) {
+  .hidden {
+    .back { transform: rotateX(0deg); }
+    .front { transform: rotateX(-180deg); }
+  }
+
+  .reveal {
+    .back { transform: rotateX(180deg); }
+    .front { transform: rotateX(0deg); }
+  }
+}
+
+@media ($bp-narrow) {
+  .hidden {
+    .back { transform: rotateY(0deg); }
+    .front { transform: rotateY(-180deg); }
+  }
+
+  .reveal {
+    .back { transform: rotateY(180deg); }
+    .front { transform: rotateY(0deg); }
+  }
+}
+
+.voteWrap {
+  text-align: center;
+
+  @media ($bp-handheld-only) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+
+  @media ($bp-narrow) {
+    min-height: 5.5em;
+  }
+
+  @media ($bp-medium) {
+    min-height: 7.5em;
+  }
+}
+
+.voteNumber {
+  color: $red;
+  @include stint;
+  text-shadow: $dark 1px 1px 0px;
+
+  font-size: 1.75em;
+
+  @media ($bp-narrow) {
+    padding: 0.375em 0;
+    font-size: 2.75em;
+  }
+
+  @media ($bp-medium) {
+    font-size: 3em;
+  }
+}
