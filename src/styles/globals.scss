@@ -1,0 +1,75 @@
+@import 'variables';
+
+@import '../../node_modules/normalize.css/normalize.css';
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+body {
+  background: $green url('/gfx/table_bg_green.gif') center center repeat;
+  color: $bright;
+  @include fjalla;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include stint;
+  color: $orange;
+  text-align: center;
+  line-height: 1.2;
+  margin: 1em auto;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+::-moz-selection, ::selection {
+  background: $blue;
+  color: $light;
+  text-shadow: none;
+}
+
+
+input {
+  background: $bright;
+  &:hover { background: white; }
+
+  color: $low;
+
+  padding: 4px 8px;
+  margin: 2px;
+  border: 1px solid $light;
+  border-radius: 4px;
+
+  @include fjalla;
+
+  &[type="text"] {
+    @include osans;
+    font-size: 0.9em; // Better matching with the Fjalla buttons
+
+    background: $light;
+    border-color: darken($light, 10%);
+
+    &:focus {
+      outline: 0;
+      outline-offset: 0;
+      background: $bright;
+      border: 1px solid $orange;
+    }
+  }
+}
+
+section {
+  padding: 0.25em;
+
+  @media ($bp-narrow) {
+    padding: 0.5em;
+  }
+
+  @media ($bp-medium) {
+    padding: 0.75em;
+  }
+}
