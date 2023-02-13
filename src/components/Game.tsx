@@ -141,20 +141,27 @@ export default function Game() {
 
       if (res.status === 202) {
         setJoined(false);
-        setGameState(null);
       }
     }
   };
 
   useEffect(() => {
+    let pollingTimer: any;
+
     if (joined) {
       getSizes();
 
-      setInterval(() => {
+      pollingTimer = setInterval(() => {
         if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
           getGameState();
         }
       }, 2000);
+    } else {
+      setGameState(null);
+    }
+
+    return () => {
+      clearInterval(pollingTimer);
     }
   }, [joined]);
 
@@ -172,6 +179,7 @@ export default function Game() {
             reveal={gameState?.reveal || false}
             handleReveal={handleReveal}
             handleReset={handleReset}
+            handleExit={handleDepart}
             gameLink={gameLink || undefined}
           />
           <Players players={gameState?.players || []} reveal={gameState?.reveal || false} />
