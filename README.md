@@ -1,6 +1,6 @@
 # scrummy &ndash; A Scrum Planning Game
 
-scrummy is a [card game for scrum story point estimation][poker]. Originally forked from
+scrummy is a card game for [scrum story point estimation][poker]. Originally forked from
 [simewn's project][simewn] by [tsmith512][], the Web Chefs of [Four Kitchens][4K]
 have continued development to include several new features and enhancements:
 
@@ -40,7 +40,7 @@ Pull requests are also welcome to add features, refactor existing code, or
 tackle issues! Be sure to open requests against the _dev_ branch (or applicable
 feature branch) and use Compass to recompile any style changes.
 
-[poker]: http://en.wikipedia.org/wiki/Planning_poker
+[poker]: https://luis-goncalves.com/planning-poker-scrum-poker/
 [simewn]: https://github.com/simewn/Web-Planning-Poker
 [tsmith512]: https://github.com/tsmith512
 [4K]: http://www.fourkitchens.com

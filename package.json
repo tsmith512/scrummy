@@ -2,6 +2,7 @@
   "name": "scrummy",
   "version": "3.0.0",
   "private": true,
+  "description": "A Scrum planning and estimation game from Four Kitchens",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
