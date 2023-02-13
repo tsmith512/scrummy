@@ -1,9 +1,15 @@
 main = "./src/index.ts"
 name = "scrummy"
-route = "scrummy.cards/api/*"
 
 compatibility_date = "2022-07-26"
 compatibility_flags = ["durable_object_alarms"]
+
+workers_dev = false
+
+# PRODUCTION
+
+route = "scrummy.cards/api/*"
+vars = { ENVIRONMENT = "production" }
 
 [durable_objects]
 bindings = [{name = "GAME", class_name = "ScrummyGame"}]
@@ -11,3 +17,13 @@ bindings = [{name = "GAME", class_name = "ScrummyGame"}]
 [[migrations]]
 tag = "v1" # Should be unique for each entry
 new_classes = ["ScrummyGame"]
+
+# DEV
+
+[env.dev]
+name = "scrummy-dev"
+route = "dev.scrummy.cards/api/*"
+vars = { ENVIRONMENT = "dev" }
+
+[env.dev.durable_objects]
+bindings = [{name = "GAME", class_name = "ScrummyGame"}]
