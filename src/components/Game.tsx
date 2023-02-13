@@ -43,10 +43,15 @@ export default function Game() {
         setGameState(payload);
 
         // If another player triggered a reset, this game state update affects
-        // "me" too.
+        // "me" too. And if I'm not still in the game state, kick me out.
         if (me) {
           const i = payload.players.findIndex(p => p.id == me.id);
-          setMe({...payload.players[i]});
+          if (i === -1) {
+            // I got kicked...
+            setJoined(false);
+          } else {
+            setMe({...payload.players[i]});
+          }
         }
       })
     }
@@ -158,6 +163,7 @@ export default function Game() {
       }, 2000);
     } else {
       setGameState(null);
+      setMe(null);
     }
 
     return () => {
