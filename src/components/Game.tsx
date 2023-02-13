@@ -30,14 +30,10 @@ export interface gameInit {
 
 export default function Game() {
   const [me, setMe] = useState(null as Player | null);
-  // const [myNick, setMyNick] = useState(null as string | null);
-  // const [myId, setMyId] = useState(null as string | null);
-  // const [myGame, setMyGame] = useState(null as string | null);
   const [gameState, setGameState] = useState(null as GameState | null);
   const [gameLink, setGameLink] = useState(null as string | null);
   const [joined, setJoined] = useState(false as boolean);
   const [sizes, setSizes] = useState([] as number[]);
-  // const [vote, setVote] = useState(null as number | null);
 
   const getGameState = async (): Promise<void> => {
     if (joined && gameState?.id) {
@@ -155,7 +151,6 @@ export default function Game() {
       getSizes();
 
       setInterval(() => {
-        console.log(`joined is ${joined}`);
         if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
           getGameState();
         }

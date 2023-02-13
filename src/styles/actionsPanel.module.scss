@@ -44,6 +44,8 @@
 
   input[type="button"] {
     width: 30%;
+    cursor: pointer;
+
     @media ($bp-narrow) {
       width: 10%;
     }
