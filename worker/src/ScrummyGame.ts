@@ -35,7 +35,16 @@ export class ScrummyGame {
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
     this.game = JSON.parse(JSON.stringify(sampleState));
-    this.game.id = this.state.id.toString();
+    this.state.blockConcurrencyWhile(async () => {
+      const stored = await this.state.storage.get("gameState") as GameState;
+      this.game = stored || {
+        name: 'unknown', // @TODO: How would we set this, and does this matter?
+        id: this.state.id.toString(),
+        reveal: false,
+        active: true,
+        players: [],
+      };
+    });
   }
 
   async fetch(request: Request) {
@@ -76,6 +85,7 @@ export class ScrummyGame {
         id: Math.random().toString(16).substring(2),
       }
       this.game.players.push(player);
+      await this.state.storage.put("gameState", this.game);
       return new Response(JSON.stringify(player), {status: 201});
     });
 
@@ -113,6 +123,7 @@ export class ScrummyGame {
       }
 
       this.game.players.splice(i, 1);
+      await this.state.storage.put("gameState", this.game);
       return new Response(null, {status: 202});
     });
 
