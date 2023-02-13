@@ -2,7 +2,7 @@ import React from 'react';
 
 import style from '../styles/footer.module.scss';
 
-export const Footer = (props) => {
+export const Footer = () => {
   return (
     <footer className={style.footer}>
       &copy; {new Date().getFullYear()} Scrummy is an experiment

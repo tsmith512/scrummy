@@ -52,7 +52,8 @@ export const LoginActions = (props: LoginActionsProps) => {
           disabled={!newGame}
           onClick={ (e) => {
             e.preventDefault();
-            props.handleView(newGame);
+            // props.handleView(newGame);
+            alert("Watch mode not yet implemented.");
           }}
         />
       </div>

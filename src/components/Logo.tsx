@@ -2,7 +2,7 @@ import React from 'react';
 
 import style from '../styles/logo.module.scss';
 
-export const Logo = (props) => {
+export const Logo = () => {
   return (
     <div className={style.logo}>
       <div>

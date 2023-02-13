@@ -47,7 +47,7 @@ export const PlayingActions = (props: PlayingActionsProps) => {
           id="txtUrl"
           value={props.gameLink}
           readOnly
-          onClick={(e) => { e.target.select(); }}
+          onClick={(e) => { e.currentTarget.select(); }}
         />
       </div>
     </section>

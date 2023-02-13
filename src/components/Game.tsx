@@ -149,6 +149,8 @@ export default function Game() {
     }
   };
 
+  // Need this hook to only execute once, but eslint doesn't like empty dep arr
+  // @ts-ignore react-hooks/exhaustive-deps
   useEffect(() => {
     getSizes();
 
@@ -183,7 +185,7 @@ export default function Game() {
             gameLink={gameLink || undefined}
           />
           <Players players={gameState?.players || []} reveal={gameState?.reveal || false} />
-          <Hand sizes={sizes} nickname={me?.nick} handleVote={handleVote} vote={me.vote} />
+          <Hand sizes={sizes} nickname={me?.nick} handleVote={handleVote} vote={me?.vote} />
         </>
       )}
     </div>

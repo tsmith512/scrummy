@@ -2,10 +2,10 @@ import React from 'react';
 
 import style from '../styles/readme.module.scss';
 
-export const Readme = (props) => {
+export const Readme = () => {
   return (
     <section className={style.readme}>
-      <h2>What's scrummy?</h2>
+      <h2>What&rsquo;s scrummy?</h2>
       <div className={style.content}>
         <p><strong>Scrummy</strong> is
           a story point estimation game for scrum teams to make it easier for
