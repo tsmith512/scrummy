@@ -32,6 +32,7 @@ export default function Game() {
   const [me, setMe] = useState(null as Player | null);
   const [gameState, setGameState] = useState(null as GameState | null);
   const [gameLink, setGameLink] = useState(null as string | null);
+  const [socket, setSocket] = useState(null as null | WebSocket);
   const [joined, setJoined] = useState(false as boolean);
   const [sizes, setSizes] = useState([] as number[]);
 
@@ -160,14 +161,29 @@ export default function Game() {
         if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
           getGameState();
         }
-      }, 2000);
+      }, 10 * 1000);
+
+      if (gameState?.id) {
+        const newSocket = new WebSocket(`ws://dev.scrummy.cards/api/game/${gameState.id}/socket`);
+        setSocket(newSocket);
+      }
+
     } else {
       setGameState(null);
       setMe(null);
+
+      if (typeof window !== 'undefined' && socket !== null) {
+        socket.close();
+        setSocket(null);
+      }
     }
 
     return () => {
       clearInterval(pollingTimer);
+      if (typeof window !== 'undefined' && socket) {
+        socket.close();
+        setSocket(null);
+      }
     }
   }, [joined]);
 

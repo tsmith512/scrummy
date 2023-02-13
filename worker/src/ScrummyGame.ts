@@ -89,8 +89,32 @@ export class ScrummyGame {
     return true;
   }
 
+  async handleSocket(server: WebSocket) {
+    server.accept();
+
+    this.sessions.push({ server, })
+    // NOTE TO SELF: WE NEED TO PUT THE SOCKET IN THE PLAYER OBJECT
+  }
+
   async fetch(request: Request) {
     const router = Router();
+
+    /**
+     * Set up a websocket for state change events.
+     *
+     * NOTE: This is the only request passed directly from the Worker to the Object
+     * with its original API path intact (so the Worker can bow out of the exchange).
+     */
+    router.all('/api/game/:game/socket', async (request, env: Env, ctx) => {
+      if (request.headers.get('Upgrade') !== 'websocket') {
+        return new Response('expected websocket', { status: 400 });
+      }
+
+      const [client, server] = Object.values(new WebSocketPair());
+
+      await this.handleSocket(server);
+      return new Response(null, { status: 101, webSocket: client });
+    });
 
     /**
      * Return the entire game state object
