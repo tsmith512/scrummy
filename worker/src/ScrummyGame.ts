@@ -25,7 +25,6 @@ export interface Player {
  * Representation of game state
  */
 export interface GameState {
-  name: string;
   id: string;
   reveal: boolean;
   lastActive?: number;
@@ -49,7 +48,6 @@ export class ScrummyGame {
     this.state.blockConcurrencyWhile(async () => {
       const stored = await this.state.storage.get("gameState") as GameState;
       this.game = stored || {
-        name: 'unknown', // @TODO: How would we set this, and does this matter?
         id: this.state.id.toString(),
         reveal: false,
         lastActive: Date.now(),
@@ -175,7 +173,7 @@ export class ScrummyGame {
 
     const hello: ScrummyUpdate = {
       type: 'state',
-      game: this.cleanState(['name', 'id', 'reveal']),
+      game: this.cleanState(['id', 'reveal']),
     }
     server.send(JSON.stringify(hello));
   }
@@ -186,7 +184,7 @@ export class ScrummyGame {
   broadcastState() {
     const message: ScrummyUpdate = {
       type: 'state',
-      game: this.cleanState(['name', 'id', 'reveal']),
+      game: this.cleanState(['id', 'reveal']),
     }
     this.game.players.forEach((player) => {
       if (player.socket) {

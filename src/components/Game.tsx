@@ -17,7 +17,6 @@ export interface Player {
 }
 
 export interface GameState {
-  name: string;
   id: string;
   reveal: boolean;
   lastActive?: number;
