@@ -8,8 +8,8 @@
  * Durable Object representing a single game instance of Scrummy.
  */
 
-import { Router } from "itty-router";
-import { basic404, Env, gameInit } from ".";
+import { Router } from 'itty-router';
+import { basic404, Env, gameInit } from '.';
 
 /**
  * Representation of a player
@@ -46,7 +46,7 @@ export class ScrummyGame {
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
     this.state.blockConcurrencyWhile(async () => {
-      const stored = await this.state.storage.get("gameState") as GameState;
+      const stored = (await this.state.storage.get('gameState')) as GameState;
       this.game = stored || {
         id: this.state.id.toString(),
         reveal: false,
@@ -63,8 +63,8 @@ export class ScrummyGame {
    * @returns GameState object
    */
   cleanState(props: Array<keyof GameState>): GameState {
-    const newState = (({ ...props }) => ({ ...props}))(this.game) as GameState;
-    newState.players = this.game.players.map(p => ({
+    const newState = (({ ...props }) => ({ ...props }))(this.game) as GameState;
+    newState.players = this.game.players.map((p) => ({
       nick: p.nick,
       id: p.id,
       vote: p.vote,
@@ -79,7 +79,7 @@ export class ScrummyGame {
   }
 
   reset() {
-    this.game.players.forEach((p) => p.vote = undefined);
+    this.game.players.forEach((p) => (p.vote = undefined));
     this.reveal(false);
     this.game.lastActive = Date.now();
     this.broadcastState();
@@ -101,7 +101,7 @@ export class ScrummyGame {
    * @returns (boolean) was update successful?
    */
   playerUpdate(player: Player): boolean {
-    const i = this.game.players.findIndex(p => p.id === player.id);
+    const i = this.game.players.findIndex((p) => p.id === player.id);
 
     if (i < 0) {
       return false;
@@ -126,7 +126,7 @@ export class ScrummyGame {
    * @returns (boolean) true on success; false if player not found
    */
   async playerRemove(player: Player): Promise<boolean> {
-    const i = this.game.players.findIndex(p => p.id === player.id);
+    const i = this.game.players.findIndex((p) => p.id === player.id);
 
     if (i < 0) {
       return false;
@@ -148,7 +148,7 @@ export class ScrummyGame {
    * @param playerId (string) the Player ID to attach this socket to
    */
   async handleSocket(server: WebSocket, playerId: string) {
-    const i = this.game.players.findIndex(p => p.id === playerId);
+    const i = this.game.players.findIndex((p) => p.id === playerId);
 
     if (i === -1) {
       console.log('Player ID not found when assigning websocket');
@@ -162,7 +162,9 @@ export class ScrummyGame {
 
     this.game.players[i].socket = server;
 
-    server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); });
+    server.addEventListener('close', () => {
+      this.playerRemove(this.game.players[i]);
+    });
     server.addEventListener('message', (event: MessageEvent) => {
       const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
       if (msg?.type == 'ping') {
@@ -174,7 +176,7 @@ export class ScrummyGame {
     const hello: ScrummyUpdate = {
       type: 'state',
       game: this.cleanState(['id', 'reveal']),
-    }
+    };
     server.send(JSON.stringify(hello));
   }
 
@@ -185,12 +187,12 @@ export class ScrummyGame {
     const message: ScrummyUpdate = {
       type: 'state',
       game: this.cleanState(['id', 'reveal']),
-    }
+    };
     this.game.players.forEach((player) => {
       if (player.socket) {
         player.socket.send(JSON.stringify(message));
       }
-    })
+    });
   }
 
   /**
@@ -231,9 +233,9 @@ export class ScrummyGame {
      * Update reveal status
      */
     router.post('/reveal', async (request, env: Env, ctx) => {
-      const value = await request.json() as boolean;
+      const value = (await request.json()) as boolean;
       this.reveal(value);
-      return new Response(null, {status: 204});
+      return new Response(null, { status: 204 });
     });
 
     /**
@@ -241,32 +243,32 @@ export class ScrummyGame {
      */
     router.post('/reset', async (request, env: Env, ctx) => {
       this.reset();
-      return new Response(null, {status: 202});
+      return new Response(null, { status: 202 });
     });
 
     /**
      * Add a new player
      */
     router.post('/players/new', async (request, env: Env, ctx) => {
-      const newPlayer = await request.json() as gameInit;
+      const newPlayer = (await request.json()) as gameInit;
       const player: Player = {
         nick: newPlayer.name,
-        id: Math.random().toString(36).substring(2,6),
-      }
+        id: Math.random().toString(36).substring(2, 6),
+      };
       await this.playerAdd(player);
       this.broadcastState();
-      return new Response(JSON.stringify(player), {status: 201});
+      return new Response(JSON.stringify(player), { status: 201 });
     });
 
     /**
      * Record a player's vote
      */
     router.post('/players/vote', async (request, env: Env, ctx) => {
-      const player = await request.json() as Player;
+      const player = (await request.json()) as Player;
       const success = this.playerUpdate(player);
 
       return new Response(null, {
-        status: (success) ? 202 : 400
+        status: success ? 202 : 400,
       });
     });
 
@@ -274,10 +276,10 @@ export class ScrummyGame {
      * Remove a player
      */
     router.post('/players/remove', async (request, env: Env, ctx) => {
-      const player = await request.json() as Player;
+      const player = (await request.json()) as Player;
       const success = await this.playerRemove(player);
       return new Response(null, {
-        status: (success) ? 202 : 400
+        status: success ? 202 : 400,
       });
     });
 
