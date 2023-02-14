@@ -19,16 +19,7 @@
 
 */
 
-// Support joining a game without a room name
-
-// WebSocket: On client join game, push update to all
-// WebSocket: On client vote, push state update to all
-// WebSocket: On reset or reveal, push state update to all
-
 // There was a handdler to get player and watcher count from a game ID
 // used to add some welcome text on the readme.
 
-
-// ON CLIENT DISCONNECT:
-// - WebSocket: Push state update to all
 // - Server: If there are no players left, delete the game...
