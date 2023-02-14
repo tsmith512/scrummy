@@ -16,6 +16,11 @@ export interface GameState {
   players: Player[];
 }
 
+export interface ScrummyUpdate {
+  type: string;
+  game?: GameState;
+}
+
 export class ScrummyGame {
   state: DurableObjectState;
   game!: GameState;
@@ -32,11 +37,6 @@ export class ScrummyGame {
         players: [],
       };
     });
-
-    // Broadcast state every 10 seconds to keep websockets open.
-    setInterval(() => {
-      this.broadcastState();
-    }, 10 * 1000);
   }
 
   /**
@@ -52,7 +52,6 @@ export class ScrummyGame {
       id: p.id,
       vote: p.vote,
     }));
-    console.log(newState);
     return newState;
   }
 
@@ -128,14 +127,25 @@ export class ScrummyGame {
 
     this.game.players[i].socket = server;
 
-    server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); })
+    server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); });
+    server.addEventListener('message', (event: MessageEvent) => {
+      const msg = JSON.parse(event.data) as ScrummyUpdate;
+      if (msg?.type == 'ping') {
+        const response: ScrummyUpdate = { type: 'pong' };
+        server.send(JSON.stringify(response));
+      }
+    });
     server.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
   }
 
   broadcastState() {
+    const message: ScrummyUpdate = {
+      type: 'state',
+      game: this.cleanState(['name', 'id', 'reveal']),
+    }
     this.game.players.forEach((player) => {
       if (player.socket) {
-        player.socket.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
+        player.socket.send(JSON.stringify(message));
       }
     })
   }

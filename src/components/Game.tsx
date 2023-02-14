@@ -26,6 +26,11 @@ export interface gameInit {
   name: string;
   id?: string;
 }
+
+export interface ScrummyUpdate {
+  type: string;
+  game?: GameState;
+}
 // END.
 
 export default function Game() {
@@ -167,17 +172,26 @@ export default function Game() {
         const newSocket = new WebSocket(`ws://localhost:8787/api/game/${gameState?.id}/player/${me?.id}/socket`);
 
         newSocket.onmessage = (event: MessageEvent) => {
-          const msg = JSON.parse(event.data)
-          if (msg == 'ping') {
-            newSocket.send('pong');
-          } else {
-            setGameState(msg);
+          const msg = JSON.parse(event.data) as ScrummyUpdate;
+          if (msg?.game) {
+            setGameState(msg.game);
           }
         };
 
         newSocket.onclose = (event: CloseEvent) => {
           setJoined(false);
         }
+
+        // This is set inside the callback so it refers to the socket isntead of
+        // getting stuck referring to the init state of `socket` (null). This
+        // is okay because the response to a closed/failed socket is to exit
+        // the game, but I should fix this somehow...
+        setInterval(() => {
+          const message: ScrummyUpdate = {
+            type: 'ping'
+          }
+          newSocket.send(JSON.stringify(message));
+        }, 10 * 1000);
 
         return newSocket;
       });
