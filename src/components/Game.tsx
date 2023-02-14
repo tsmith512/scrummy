@@ -150,7 +150,7 @@ export default function Game() {
 
     if (lookup.status === 200) {
       const newGameState = await lookup.json() as GameState;
-      setGameLink(`https://${process.env.NEXT_PUBLIC_GAME_HOST}/#${gameName}`);
+      setGameLink(`${process.env.NEXT_PUBLIC_GAME_HOST}/#${gameName}`);
       setGameState(newGameState);
 
       // Step 2: Add the current player to the game
