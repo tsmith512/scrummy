@@ -205,7 +205,7 @@ export default function Game() {
       }, 10 * 1000);
 
       setSocket(() => {
-        const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/api/game/${gameState?.id}/player/${me?.id}/socket`);
+        const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
 
         newSocket.onmessage = (event: MessageEvent) => {
           const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
