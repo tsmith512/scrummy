@@ -47,7 +47,7 @@ export class ScrummyGame {
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
     this.state.blockConcurrencyWhile(async () => {
-      const stored = false; // await this.state.storage.get("gameState") as GameState;
+      const stored = await this.state.storage.get("gameState") as GameState;
       this.game = stored || {
         name: 'unknown', // @TODO: How would we set this, and does this matter?
         id: this.state.id.toString(),
@@ -89,8 +89,6 @@ export class ScrummyGame {
 
   async playerAdd(player: Player) {
     this.game.players.push(player);
-    console.log(JSON.stringify(player, null, 2));
-    console.log(JSON.stringify(this.game.players, null, 2));
     this.game.lastActive = Date.now();
     this.broadcastState();
     // await this.state.storage.put("gameState", this.game);
