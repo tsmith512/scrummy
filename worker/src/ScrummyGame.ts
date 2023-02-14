@@ -152,6 +152,11 @@ export class ScrummyGame {
   async handleSocket(server: WebSocket, playerId: string) {
     const i = this.game.players.findIndex(p => p.id === playerId);
 
+    if (i === -1) {
+      console.log('Player ID not found when assigning websocket');
+      return;
+    }
+
     server.accept();
 
     // @TODO: Some tricky work for error handling, see
@@ -159,7 +164,7 @@ export class ScrummyGame {
 
     this.game.players[i].socket = server;
 
-    server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); });
+    // server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); });
     server.addEventListener('message', (event: MessageEvent) => {
       const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
       if (msg?.type == 'ping') {
@@ -167,7 +172,12 @@ export class ScrummyGame {
         server.send(JSON.stringify(response));
       }
     });
-    server.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
+
+    const hello: ScrummyUpdate = {
+      type: 'state',
+      game: this.cleanState(['name', 'id', 'reveal']),
+    }
+    server.send(JSON.stringify(hello));
   }
 
   /**
