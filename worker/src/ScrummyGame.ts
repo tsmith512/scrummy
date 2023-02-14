@@ -257,11 +257,6 @@ export class ScrummyGame {
       const player = await request.json() as Player;
       const success = this.playerUpdate(player);
 
-      // Test doing an unannounced kick of a user to see if this works
-      // client-side. Boot the user who sizes something a 20.
-      if (player.vote === 20) {
-        await this.playerRemove(player);
-      }
       return new Response(null, {
         status: (success) ? 202 : 400
       });
