@@ -193,12 +193,12 @@ export default function Game() {
    * - If false, swap back to the readme/login UI
    */
   useEffect(() => {
-    let pollingTimer: any;
+    let pollingInterval: any;
 
     if (joined) {
       getSizes();
 
-      pollingTimer = setInterval(() => {
+      pollingInterval = setInterval(() => {
         if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
           getGameState();
         }
@@ -222,7 +222,7 @@ export default function Game() {
         // getting stuck referring to the init state of `socket` (null). This
         // is okay because the response to a closed/failed socket is to exit
         // the game, but I should fix this somehow...
-        setInterval(() => {
+        const pingInterval = setInterval(() => {
           const message: ScrummyUpdate = {
             type: 'ping'
           }
@@ -243,7 +243,7 @@ export default function Game() {
     }
 
     return () => {
-      clearInterval(pollingTimer);
+      clearInterval(pollingInterval);
       if (socket !== null) {
         socket.close();
         setSocket(null);
