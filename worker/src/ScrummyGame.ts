@@ -122,6 +122,8 @@ export class ScrummyGame {
     // https://github.com/cloudflare/workers-chat-demo/blob/master/src/chat.mjs#L67
 
     this.game.players[i].socket = server;
+
+    server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); })
     server.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
   }
 
