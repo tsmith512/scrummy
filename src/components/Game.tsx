@@ -100,7 +100,7 @@ export default function Game() {
       });
 
       if (res.status == 202) {
-        setMe({...me as Player, vote: null});
+        setMe({...me as Player, vote: undefined});
         getGameState();
       }
     }
@@ -122,7 +122,7 @@ export default function Game() {
       );
 
       if (res.status == 202) {
-        setMe({...me as Player, vote: newVote || null });
+        setMe({...me as Player, vote: newVote || undefined });
         getGameState();
       }
     }
