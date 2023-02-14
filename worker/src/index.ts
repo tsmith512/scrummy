@@ -1,5 +1,15 @@
+/**
+ *
+ *  ___ __ _ _ _  _ _ __  _ __ _  _
+ * (_-</ _| '_| || | '  \| '  \ || |
+ * /__/\__|_|  \_,_|_|_|_|_|_|_\_, |
+ *                             |__/
+ *
+ * Worker script for Scrummy's backend. This acts as a proxy and sanitization
+ * later between the client and the durable object for the game they joined.
+ */
+
 import { Router } from 'itty-router';
-import { Player } from './ScrummyGame';
 
 /**
  * Environment variables and bindings to DO, R2, KV, etc.
@@ -191,6 +201,14 @@ router.post('/api/game/:game/player', async (request, env: Env, context: any) =>
   context.player = {
     id: playerId,
   }
+});
+
+/**
+ * Pass along requests to set up a websocket for client control. This passes the
+ * request as-is straight to the game instance to get the Worker out of the way.
+ */
+router.all('/api/game/:game/player/:id/socket', async (request, env: Env, context: any) => {
+  return context.game.fetch(request);
 });
 
 router.post('/api/game/:game/player/:id/vote', async (request, env: Env, context: any) => {

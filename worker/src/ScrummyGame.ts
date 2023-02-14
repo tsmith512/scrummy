@@ -1,18 +1,42 @@
+/**
+ *
+ *  ___ __ _ _ _  _ _ __  _ __ _  _
+ * (_-</ _| '_| || | '  \| '  \ || |
+ * /__/\__|_|  \_,_|_|_|_|_|_|_\_, |
+ *                             |__/
+ *
+ * Durable Object representing a single game instance of Scrummy.
+ */
+
 import { Router } from "itty-router";
 import { basic404, Env, gameInit } from ".";
 
+/**
+ * Representation of a player
+ */
 export interface Player {
   nick: string;
   id: string;
   vote?: number | false;
+  socket?: WebSocket | null;
 }
 
+/**
+ * Representation of game state
+ */
 export interface GameState {
-  name: string;
   id: string;
   reveal: boolean;
-  lastActive: number;
+  lastActive?: number;
   players: Player[];
+}
+
+/**
+ * All WebSocket messages in either direction will use this interface.
+ */
+export interface ScrummyUpdate {
+  type: string;
+  game?: GameState;
 }
 
 export class ScrummyGame {
@@ -24,7 +48,6 @@ export class ScrummyGame {
     this.state.blockConcurrencyWhile(async () => {
       const stored = await this.state.storage.get("gameState") as GameState;
       this.game = stored || {
-        name: 'unknown', // @TODO: How would we set this, and does this matter?
         id: this.state.id.toString(),
         reveal: false,
         lastActive: Date.now(),
@@ -33,27 +56,46 @@ export class ScrummyGame {
     });
   }
 
+  /**
+   * Prep a game state clone that we can broadcast or save to persistent storage
+   *
+   * @param props (array of GameState keys) what keys to keep, aside from players
+   * @returns GameState object
+   */
+  cleanState(props: Array<keyof GameState>): GameState {
+    const newState = (({ ...props }) => ({ ...props}))(this.game) as GameState;
+    newState.players = this.game.players.map(p => ({
+      nick: p.nick,
+      id: p.id,
+      vote: p.vote,
+    }));
+    return newState;
+  }
+
   reveal(value: boolean) {
     this.game.reveal = value;
     this.game.lastActive = Date.now();
+    this.broadcastState();
   }
 
   reset() {
     this.game.players.forEach((p) => p.vote = undefined);
     this.reveal(false);
     this.game.lastActive = Date.now();
+    this.broadcastState();
   }
 
   async playerAdd(player: Player) {
     this.game.players.push(player);
     this.game.lastActive = Date.now();
-    await this.state.storage.put("gameState", this.game);
+    this.broadcastState();
+    // await this.state.storage.put("gameState", this.game);
   }
 
   /**
    * Update a player object in game state; currently used to vote.
    *
-   * Could ultimately be used to update a nickname, but why?
+   * @TODO: Could ultimately be used to update a nickname, but why?
    *
    * @param player (Player) A complete player object
    * @returns (boolean) was update successful?
@@ -69,13 +111,20 @@ export class ScrummyGame {
 
     if (player.vote) {
       this.game.players[i].vote = player.vote;
-      return true;
     } else {
       this.game.players[i].vote = undefined;
-      return true;
     }
+
+    this.broadcastState();
+    return true;
   }
 
+  /**
+   * Remove a player from the game state. Matches on ID.
+   *
+   * @param player (Player) A complete player object.
+   * @returns (boolean) true on success; false if player not found
+   */
   async playerRemove(player: Player): Promise<boolean> {
     const i = this.game.players.findIndex(p => p.id === player.id);
 
@@ -85,12 +134,91 @@ export class ScrummyGame {
 
     this.game.players.splice(i, 1);
     this.game.lastActive = Date.now();
-    await this.state.storage.put("gameState", this.game);
+    // await this.state.storage.put("gameState", this.game);
+
+    this.broadcastState();
     return true;
   }
 
+  /**
+   * Handle the creation of the server-side of the websocket to facilitate state
+   * updates and keepalive pings.
+   *
+   * @param server (WebSocket Pair) the server-side
+   * @param playerId (string) the Player ID to attach this socket to
+   */
+  async handleSocket(server: WebSocket, playerId: string) {
+    const i = this.game.players.findIndex(p => p.id === playerId);
+
+    if (i === -1) {
+      console.log('Player ID not found when assigning websocket');
+      return;
+    }
+
+    server.accept();
+
+    // @TODO: Some tricky work for error handling, see
+    // https://github.com/cloudflare/workers-chat-demo/blob/master/src/chat.mjs#L67
+
+    this.game.players[i].socket = server;
+
+    server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); });
+    server.addEventListener('message', (event: MessageEvent) => {
+      const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
+      if (msg?.type == 'ping') {
+        const response: ScrummyUpdate = { type: 'pong' };
+        server.send(JSON.stringify(response));
+      }
+    });
+
+    const hello: ScrummyUpdate = {
+      type: 'state',
+      game: this.cleanState(['id', 'reveal']),
+    }
+    server.send(JSON.stringify(hello));
+  }
+
+  /**
+   * Send the latest game state to all players. Called after any client event.
+   */
+  broadcastState() {
+    const message: ScrummyUpdate = {
+      type: 'state',
+      game: this.cleanState(['id', 'reveal']),
+    }
+    this.game.players.forEach((player) => {
+      if (player.socket) {
+        player.socket.send(JSON.stringify(message));
+      }
+    })
+  }
+
+  /**
+   * Init
+   *
+   * @param request (Request) Inbound request object to route.
+   * @returns (Promise<Request>)
+   */
   async fetch(request: Request) {
     const router = Router();
+
+    /**
+     * Set up a websocket for state change events.
+     *
+     * NOTE: This is the only request passed directly from the Worker to the Object
+     * with its original API path intact (so the Worker can bow out of the exchange).
+     */
+    router.all('/api/game/:game/player/:id/socket', async (request, env: Env, ctx) => {
+      console.log('fired');
+      if (request.headers.get('Upgrade') !== 'websocket') {
+        return new Response('expected websocket', { status: 400 });
+      }
+
+      const [client, server] = Object.values(new WebSocketPair());
+
+      await this.handleSocket(server, request.params.id);
+      return new Response(null, { status: 101, webSocket: client });
+    });
 
     /**
      * Return the entire game state object
@@ -126,6 +254,7 @@ export class ScrummyGame {
         id: Math.random().toString(36).substring(2,6),
       }
       await this.playerAdd(player);
+      this.broadcastState();
       return new Response(JSON.stringify(player), {status: 201});
     });
 
@@ -136,11 +265,6 @@ export class ScrummyGame {
       const player = await request.json() as Player;
       const success = this.playerUpdate(player);
 
-      // Test doing an unannounced kick of a user to see if this works
-      // client-side. Boot the user who sizes something a 20.
-      if (player.vote === 20) {
-        await this.playerRemove(player);
-      }
       return new Response(null, {
         status: (success) ? 202 : 400
       });
