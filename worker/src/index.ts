@@ -193,6 +193,14 @@ router.post('/api/game/:game/player', async (request, env: Env, context: any) =>
   }
 });
 
+/**
+ * Pass along requests to set up a websocket for client control. This passes the
+ * request as-is straight to the game instance to get the Worker out of the way.
+ */
+router.all('/api/game/:game/player/:id/socket', async (request, env: Env, context: any) => {
+  return context.game.fetch(request);
+});
+
 router.post('/api/game/:game/player/:id/vote', async (request, env: Env, context: any) => {
   const vote = await request.json() as number | false;
 

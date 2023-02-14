@@ -164,7 +164,10 @@ export default function Game() {
       }, 10 * 1000);
 
       if (gameState?.id) {
-        const newSocket = new WebSocket(`ws://dev.scrummy.cards/api/game/${gameState.id}/socket`);
+        const newSocket = new WebSocket(`ws://localhost:8787/api/game/${gameState.id}/player/${me?.id}/socket`);
+        newSocket.addEventListener('message', (event: MessageEvent) => {
+          setGameState(JSON.parse(event.data));
+        });
         setSocket(newSocket);
       }
 

@@ -5,13 +5,14 @@ export interface Player {
   nick: string;
   id: string;
   vote?: number | false;
+  socket?: WebSocket | null;
 }
 
 export interface GameState {
   name: string;
   id: string;
   reveal: boolean;
-  lastActive: number;
+  lastActive?: number;
   players: Player[];
 }
 
@@ -33,21 +34,41 @@ export class ScrummyGame {
     });
   }
 
+  /**
+   * Prep a game state clone that we can broadcast or save to persistent storage
+   *
+   * @param props (array of GameState keys) what keys to keep, aside from players
+   * @returns GameState object
+   */
+  cleanState(props: Array<keyof GameState>): GameState {
+    const newState = (({ ...props }) => ({ ...props}))(this.game) as GameState;
+    newState.players = this.game.players.map(p => ({
+      nick: p.nick,
+      id: p.id,
+      vote: p.vote,
+    }));
+    console.log(newState);
+    return newState;
+  }
+
   reveal(value: boolean) {
     this.game.reveal = value;
     this.game.lastActive = Date.now();
+    this.broadcastState();
   }
 
   reset() {
     this.game.players.forEach((p) => p.vote = undefined);
     this.reveal(false);
     this.game.lastActive = Date.now();
+    this.broadcastState();
   }
 
   async playerAdd(player: Player) {
     this.game.players.push(player);
     this.game.lastActive = Date.now();
-    await this.state.storage.put("gameState", this.game);
+    this.broadcastState();
+    // await this.state.storage.put("gameState", this.game);
   }
 
   /**
@@ -69,11 +90,12 @@ export class ScrummyGame {
 
     if (player.vote) {
       this.game.players[i].vote = player.vote;
-      return true;
     } else {
       this.game.players[i].vote = undefined;
-      return true;
     }
+
+    this.broadcastState();
+    return true;
   }
 
   async playerRemove(player: Player): Promise<boolean> {
@@ -85,15 +107,30 @@ export class ScrummyGame {
 
     this.game.players.splice(i, 1);
     this.game.lastActive = Date.now();
-    await this.state.storage.put("gameState", this.game);
+    // await this.state.storage.put("gameState", this.game);
+
+    this.broadcastState();
     return true;
   }
 
-  async handleSocket(server: WebSocket) {
+  async handleSocket(server: WebSocket, playerId: string) {
+    const i = this.game.players.findIndex(p => p.id === playerId);
+
     server.accept();
 
-    this.sessions.push({ server, })
-    // NOTE TO SELF: WE NEED TO PUT THE SOCKET IN THE PLAYER OBJECT
+    // @TODO: Some tricky work for error handling, see
+    // https://github.com/cloudflare/workers-chat-demo/blob/master/src/chat.mjs#L67
+
+    this.game.players[i].socket = server;
+    server.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
+  }
+
+  broadcastState() {
+    this.game.players.forEach((player) => {
+      if (player.socket) {
+        player.socket.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
+      }
+    })
   }
 
   async fetch(request: Request) {
@@ -105,14 +142,15 @@ export class ScrummyGame {
      * NOTE: This is the only request passed directly from the Worker to the Object
      * with its original API path intact (so the Worker can bow out of the exchange).
      */
-    router.all('/api/game/:game/socket', async (request, env: Env, ctx) => {
+    router.all('/api/game/:game/player/:id/socket', async (request, env: Env, ctx) => {
+      console.log('fired');
       if (request.headers.get('Upgrade') !== 'websocket') {
         return new Response('expected websocket', { status: 400 });
       }
 
       const [client, server] = Object.values(new WebSocketPair());
 
-      await this.handleSocket(server);
+      await this.handleSocket(server, request.params.id);
       return new Response(null, { status: 101, webSocket: client });
     });
 
@@ -150,6 +188,7 @@ export class ScrummyGame {
         id: Math.random().toString(36).substring(2,6),
       }
       await this.playerAdd(player);
+      this.broadcastState();
       return new Response(JSON.stringify(player), {status: 201});
     });
 
