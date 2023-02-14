@@ -12,24 +12,26 @@ import { Readme } from './Readme';
 export interface Player {
   nick: string;
   id: string;
-  vote: number | false | null;
+  vote?: number | false;
+  socket?: WebSocket | null;
 }
 
 export interface GameState {
   name: string;
   id: string;
   reveal: boolean;
+  lastActive?: number;
   players: Player[];
-}
-
-export interface gameInit {
-  name: string;
-  id?: string;
 }
 
 export interface ScrummyUpdate {
   type: string;
   game?: GameState;
+}
+
+export interface gameInit {
+  name: string;
+  id?: string;
 }
 // END.
 
@@ -41,6 +43,9 @@ export default function Game() {
   const [joined, setJoined] = useState(false as boolean);
   const [sizes, setSizes] = useState([] as number[]);
 
+  /**
+   * Manual fetch to grab the latest game state from the durable object
+   */
   const getGameState = async (): Promise<void> => {
     if (joined && gameState?.id) {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/status`)
@@ -63,12 +68,18 @@ export default function Game() {
     }
   };
 
+  /**
+   * Get an array of what story point cards we support
+   */
   const getSizes = async (): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/settings/sizes`)
     .then((res) => res.json())
     .then((payload: number[]) => setSizes(payload));
   }
 
+  /**
+   * Tell the game to reveal everyone's cards
+   */
   const handleReveal = async (): Promise<void> => {
     if (joined && gameState?.id) {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/reveal`, {
@@ -80,6 +91,9 @@ export default function Game() {
     }
   };
 
+  /**
+   * Tell the game to wipe everyone's hand and flip the cards
+   */
   const handleReset = async (): Promise<void> => {
     if (joined && gameState?.id) {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/reset`, {
@@ -93,6 +107,11 @@ export default function Game() {
     }
   };
 
+  /**
+   * Submit a vote
+   *
+   * @param n (number) story points vote
+   */
   const handleVote = async (n: number): Promise<void> => {
     if (joined && gameState?.id && me?.id) {
       const newVote = (me?.vote === n) ? false : n;
@@ -110,6 +129,14 @@ export default function Game() {
     }
   };
 
+  /**
+   * Join a game. Update state and UI on success; set up websocket, too.
+   *
+   * @TODO: Uhh, if this errors it kinda doesn't do anything.
+   *
+   * @param nick (string) player displayed nickname
+   * @param gameName (string) game name (not DO ID)
+   */
   const handleJoin = async (nick: string, gameName: string): Promise<void> => {
     localStorage.setItem('nickname', nick);
 
@@ -142,6 +169,10 @@ export default function Game() {
     }
   };
 
+  /**
+   * Tell the game that this user is leaving.
+   * (When other users leave, that's just a state update.)
+   */
   const handleDepart = async (): Promise<void> => {
     if (joined && gameState?.id && me?.id) {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/player/${me.id}`,
@@ -156,6 +187,11 @@ export default function Game() {
     }
   };
 
+  /**
+   * When `joined` changes:
+   * - If true, set up the websocket, ping timer, and poll timer -- with cleanup
+   * - If false, swap back to the readme/login UI
+   */
   useEffect(() => {
     let pollingTimer: any;
 

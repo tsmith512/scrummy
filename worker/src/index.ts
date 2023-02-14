@@ -1,5 +1,15 @@
+/**
+ *
+ *  ___ __ _ _ _  _ _ __  _ __ _  _
+ * (_-</ _| '_| || | '  \| '  \ || |
+ * /__/\__|_|  \_,_|_|_|_|_|_|_\_, |
+ *                             |__/
+ *
+ * Worker script for Scrummy's backend. This acts as a proxy and sanitization
+ * later between the client and the durable object for the game they joined.
+ */
+
 import { Router } from 'itty-router';
-import { Player } from './ScrummyGame';
 
 /**
  * Environment variables and bindings to DO, R2, KV, etc.

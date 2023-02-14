@@ -1,6 +1,19 @@
+/**
+ *
+ *  ___ __ _ _ _  _ _ __  _ __ _  _
+ * (_-</ _| '_| || | '  \| '  \ || |
+ * /__/\__|_|  \_,_|_|_|_|_|_|_\_, |
+ *                             |__/
+ *
+ * Durable Object representing a single game instance of Scrummy.
+ */
+
 import { Router } from "itty-router";
 import { basic404, Env, gameInit } from ".";
 
+/**
+ * Representation of a player
+ */
 export interface Player {
   nick: string;
   id: string;
@@ -8,6 +21,9 @@ export interface Player {
   socket?: WebSocket | null;
 }
 
+/**
+ * Representation of game state
+ */
 export interface GameState {
   name: string;
   id: string;
@@ -16,6 +32,9 @@ export interface GameState {
   players: Player[];
 }
 
+/**
+ * All WebSocket messages in either direction will use this interface.
+ */
 export interface ScrummyUpdate {
   type: string;
   game?: GameState;
@@ -78,7 +97,7 @@ export class ScrummyGame {
   /**
    * Update a player object in game state; currently used to vote.
    *
-   * Could ultimately be used to update a nickname, but why?
+   * @TODO: Could ultimately be used to update a nickname, but why?
    *
    * @param player (Player) A complete player object
    * @returns (boolean) was update successful?
@@ -102,6 +121,12 @@ export class ScrummyGame {
     return true;
   }
 
+  /**
+   * Remove a player from the game state. Matches on ID.
+   *
+   * @param player (Player) A complete player object.
+   * @returns (boolean) true on success; false if player not found
+   */
   async playerRemove(player: Player): Promise<boolean> {
     const i = this.game.players.findIndex(p => p.id === player.id);
 
@@ -117,6 +142,13 @@ export class ScrummyGame {
     return true;
   }
 
+  /**
+   * Handle the creation of the server-side of the websocket to facilitate state
+   * updates and keepalive pings.
+   *
+   * @param server (WebSocket Pair) the server-side
+   * @param playerId (string) the Player ID to attach this socket to
+   */
   async handleSocket(server: WebSocket, playerId: string) {
     const i = this.game.players.findIndex(p => p.id === playerId);
 
@@ -138,6 +170,9 @@ export class ScrummyGame {
     server.send(JSON.stringify(this.cleanState(['name', 'id', 'reveal'])));
   }
 
+  /**
+   * Send the latest game state to all players. Called after any client event.
+   */
   broadcastState() {
     const message: ScrummyUpdate = {
       type: 'state',
@@ -150,6 +185,12 @@ export class ScrummyGame {
     })
   }
 
+  /**
+   * Init
+   *
+   * @param request (Request) Inbound request object to route.
+   * @returns (Promise<Request>)
+   */
   async fetch(request: Request) {
     const router = Router();
 
