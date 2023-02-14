@@ -6,6 +6,7 @@ interface PlayingActionsProps {
   gameLink?: string;
   handleReveal: () => Promise<void>;
   handleReset: () => Promise<void>;
+  handleExit: () => Promise<void>;
 }
 
 export const PlayingActions = (props: PlayingActionsProps) => {
@@ -14,32 +15,27 @@ export const PlayingActions = (props: PlayingActionsProps) => {
   return (
     <section className={style.container}>
       <div className={style.contents}>
-        <input
-          type="button"
+        <button
           className={(props.reveal ? style.reveal : style.hidden )}
-          value="Reveal"
           onClick={(e) => {
-            e.preventDefault();
             props.handleReveal();
           }}
-        />
-        <input
-          type="button"
-          value="Reset"
+        >Reveal</button>
+        <button
           onClick={(e) => {
-            e.preventDefault();
             props.handleReset();
           }}
-        />
-        <input
-          type="button"
-          id="btnLink"
-          value="Game Link"
+        >Reset</button>
+        <button
           onClick={(e) => {
-            e.preventDefault();
             setLinkVisible(!linkVisible)
           }}
-        />
+        >Game Link</button>
+        <button
+          onClick={(e) => {
+            props.handleExit();
+          }}
+        >Exit</button>
       </div>
       <div className={[style.gameLink, (linkVisible ? style.visible : style.hidden)].join(' ')}>
         <input

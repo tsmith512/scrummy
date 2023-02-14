@@ -1,5 +1,15 @@
+/**
+ *
+ *  ___ __ _ _ _  _ _ __  _ __ _  _
+ * (_-</ _| '_| || | '  \| '  \ || |
+ * /__/\__|_|  \_,_|_|_|_|_|_|_\_, |
+ *                             |__/
+ *
+ * Worker script for Scrummy's backend. This acts as a proxy and sanitization
+ * later between the client and the durable object for the game they joined.
+ */
+
 import { Router } from 'itty-router';
-import { Player } from './ScrummyGame';
 
 /**
  * Environment variables and bindings to DO, R2, KV, etc.
@@ -19,7 +29,7 @@ export interface gameInit {
 /**
  * These headers are sent back on every response
  */
- export const globalheaders = {
+export const globalheaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
 };
@@ -38,15 +48,17 @@ const router = Router();
 //                 |_|
 export const basic404 = () => new Response('Route not found', { status: 404 });
 
-const basic200 = () => new Response('Scrummy backend is running', {
-  status: 200,
-  headers: globalheaders,
-});
+const basic200 = () =>
+  new Response('Scrummy backend is running', {
+    status: 200,
+    headers: globalheaders,
+  });
 
-const basicCors = () => new Response(null, {
-  status: 204,
-  headers: globalheaders,
-});
+const basicCors = () =>
+  new Response(null, {
+    status: 204,
+    headers: globalheaders,
+  });
 
 router.get('/api', basic200);
 router.options('*', basicCors);
@@ -57,7 +69,7 @@ router.options('*', basicCors);
 router.all('*', async (request, env: Env, context: any) => {
   const url = new URL(request.url);
   context.prefix = `${url.protocol}//${url.hostname}`;
-})
+});
 
 /**
  * Provide the frontend a list of acceptable story point sizes
@@ -65,7 +77,7 @@ router.all('*', async (request, env: Env, context: any) => {
 router.get('/api/settings/sizes', async (request, env: Env, context: any) => {
   return new Response(JSON.stringify(sizes), {
     headers: globalheaders,
-  })
+  });
 });
 
 /**
@@ -75,7 +87,7 @@ router.post('/api/game', async (request, env: Env, context: any) => {
   const payload: gameInit = await request.json();
 
   if (!payload?.name || !safeId.test(payload.name)) {
-    return new Response('Bad game name', {status: 400});
+    return new Response('Bad game name', { status: 400 });
   }
 
   context.gameId = env.GAME.idFromName(payload.name);
@@ -120,7 +132,6 @@ router.get('/api/game/:game/status', async (request, env: Env, context: any) => 
   });
 });
 
-
 /**
  * Flip the cards, or hide them
  */
@@ -161,7 +172,7 @@ router.post('/api/game/:game/player', async (request, env: Env, context: any) =>
   const payload: gameInit = await request.json();
 
   if (!payload?.name || !safeId.test(payload.name)) {
-    return new Response('Bad player name', {status: 400});
+    return new Response('Bad player name', { status: 400 });
   }
 
   const res = await context.game.fetch(`${context.prefix}/players/new`, {
@@ -181,7 +192,7 @@ router.post('/api/game/:game/player', async (request, env: Env, context: any) =>
 /**
  * Validate a player ID in URL arg so we only have to do it once
  */
- router.all('/api/game/:game/player/:id*', async (request, env: Env, context: any) => {
+router.all('/api/game/:game/player/:id*', async (request, env: Env, context: any) => {
   const playerId = request.params?.id || false;
 
   if (!playerId || !safeId.test(playerId)) {
@@ -190,35 +201,49 @@ router.post('/api/game/:game/player', async (request, env: Env, context: any) =>
 
   context.player = {
     id: playerId,
-  }
+  };
 });
 
-router.post('/api/game/:game/player/:id/vote', async (request, env: Env, context: any) => {
-  const vote = await request.json() as number | false;
+/**
+ * Pass along requests to set up a websocket for client control. This passes the
+ * request as-is straight to the game instance to get the Worker out of the way.
+ */
+router.all(
+  '/api/game/:game/player/:id/socket',
+  async (request, env: Env, context: any) => {
+    return context.game.fetch(request);
+  }
+);
 
-  // If the vote is FALSE or is a valid size, post the player to the game instance
-  if (vote === false || sizes.indexOf(vote) > -1) {
-    context.player.vote = vote;
+router.post(
+  '/api/game/:game/player/:id/vote',
+  async (request, env: Env, context: any) => {
+    const vote = (await request.json()) as number | false;
 
-    const res = await context.game.fetch(`${context.prefix}/players/vote`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(context.player),
-    });
+    // If the vote is FALSE or is a valid size, post the player to the game instance
+    if (vote === false || sizes.indexOf(vote) > -1) {
+      context.player.vote = vote;
 
-    return new Response(null, {
-      status: res.status,
+      const res = await context.game.fetch(`${context.prefix}/players/vote`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(context.player),
+      });
+
+      return new Response(null, {
+        status: res.status,
+        headers: globalheaders,
+      });
+    }
+
+    return new Response('Invalid vote', {
+      status: 400,
       headers: globalheaders,
     });
   }
-
-  return new Response('Invalid vote', {
-    status: 400,
-    headers: globalheaders,
-  });
-});
+);
 
 router.delete('/api/game/:game/player/:id', async (request, env: Env, context: any) => {
   const res = await context.game.fetch(`${context.prefix}/players/remove`, {
@@ -235,7 +260,6 @@ router.delete('/api/game/:game/player/:id', async (request, env: Env, context: a
   });
 });
 
-
 // Fallback: any request not already caught is a 404.
 router.all('*', basic404);
 
@@ -251,4 +275,4 @@ export default {
   // @TODO: scheduled jobs for garbage collecting?
 };
 
-export { ScrummyGame } from "./ScrummyGame";
+export { ScrummyGame } from './ScrummyGame';

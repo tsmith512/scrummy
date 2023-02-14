@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "npx wrangler dev",
 		"publish": "npx wrangler publish",
-		"format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
+		"format": "prettier --write  '*.{ts,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
 		"lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
 		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
 	},

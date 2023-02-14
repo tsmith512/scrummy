@@ -29,33 +29,36 @@ export const LoginActions = (props: LoginActionsProps) => {
           type="text"
           placeholder="Nickname?"
           value={newNick}
-          onChange={(e) => { setMyNewNick(e.target.value)}}
+          onChange={(e) => { setMyNewNick(e.currentTarget.value)}}
         />
         <input
           type="text"
           placeholder="New Game!"
           value={newGame}
-          onChange={(e) => { setMyNewGame(e.target.value)}}
+          onChange={(e) => { setMyNewGame(e.currentTarget.value)}}
         />
-        <input
+        <button
           type="button"
-          value="Play"
-          disabled={!newNick || !newGame}
+          disabled={!newNick}
           onClick={ (e) => {
-            e.preventDefault();
-            props.handleJoin(newNick, newGame);
+            if (!newGame) {
+              // User did not name their game nor did one come in with a url
+              // fragment, so let's make one up.
+              props.handleJoin(newNick, Math.random().toString(36).substring(2,10));
+            } else {
+              props.handleJoin(newNick, newGame);
+            }
           }}
-        />
-        <input
+        >Play</button>
+        <button
           type="button"
-          value="Watch"
           disabled={!newGame}
           onClick={ (e) => {
             e.preventDefault();
             // props.handleView(newGame);
             alert("Watch mode not yet implemented.");
           }}
-        />
+        >Watch</button>
       </div>
     </section>
   )

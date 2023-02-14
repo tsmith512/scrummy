@@ -18,7 +18,7 @@
   background: darken($low, 8%);
   box-shadow: $dark 0px 0px 5px inset;
 
-  input {
+  input, button {
     margin: 8px 0;
 
     @media ($bp-narrow) {
@@ -35,14 +35,14 @@
     }
   }
 
-  input[type="text"] {
+  input {
     width: 100%;
     @media ($bp-narrow) {
       width: 25%;
     }
   }
 
-  input[type="button"] {
+  button {
     width: 30%;
     cursor: pointer;
 
@@ -104,5 +104,9 @@
     border-radius: 6px;
     border: none;
     margin-bottom: 4px;
+  }
+
+  ::selection {
+    background: lighten($green, 30%);
   }
 }
