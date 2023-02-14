@@ -161,7 +161,7 @@ export class ScrummyGame {
 
     server.addEventListener('close', () => { this.playerRemove(this.game.players[i]); });
     server.addEventListener('message', (event: MessageEvent) => {
-      const msg = JSON.parse(event.data) as ScrummyUpdate;
+      const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
       if (msg?.type == 'ping') {
         const response: ScrummyUpdate = { type: 'pong' };
         server.send(JSON.stringify(response));
