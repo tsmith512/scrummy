@@ -32,6 +32,11 @@ export class ScrummyGame {
         players: [],
       };
     });
+
+    // Broadcast state every 10 seconds to keep websockets open.
+    setInterval(() => {
+      this.broadcastState();
+    }, 10 * 1000);
   }
 
   /**

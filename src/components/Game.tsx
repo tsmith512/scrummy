@@ -130,9 +130,9 @@ export default function Game() {
 
       if (join.status === 201) {
         const player = await join.json() as Player;
-        setJoined(true);
+        await getGameState();
         setMe(player);
-        getGameState();
+        setJoined(true);
       }
     }
   };
@@ -163,19 +163,30 @@ export default function Game() {
         }
       }, 10 * 1000);
 
-      if (gameState?.id) {
-        const newSocket = new WebSocket(`ws://localhost:8787/api/game/${gameState.id}/player/${me?.id}/socket`);
-        newSocket.addEventListener('message', (event: MessageEvent) => {
-          setGameState(JSON.parse(event.data));
-        });
-        setSocket(newSocket);
-      }
+      setSocket(() => {
+        const newSocket = new WebSocket(`ws://localhost:8787/api/game/${gameState?.id}/player/${me?.id}/socket`);
+
+        newSocket.onmessage = (event: MessageEvent) => {
+          const msg = JSON.parse(event.data)
+          if (msg == 'ping') {
+            newSocket.send('pong');
+          } else {
+            setGameState(msg);
+          }
+        };
+
+        newSocket.onclose = (event: CloseEvent) => {
+          setJoined(false);
+        }
+
+        return newSocket;
+      });
 
     } else {
       setGameState(null);
       setMe(null);
 
-      if (typeof window !== 'undefined' && socket !== null) {
+      if (socket !== null) {
         socket.close();
         setSocket(null);
       }
@@ -183,7 +194,7 @@ export default function Game() {
 
     return () => {
       clearInterval(pollingTimer);
-      if (typeof window !== 'undefined' && socket) {
+      if (socket !== null) {
         socket.close();
         setSocket(null);
       }
