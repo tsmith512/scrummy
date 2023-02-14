@@ -151,7 +151,7 @@ export default function Game() {
 
     if (lookup.status === 200) {
       const newGameState = await lookup.json() as GameState;
-      setGameLink(`https://${window.location.host}/#${gameName}`);
+      setGameLink(`https://${process.env.NEXT_PUBLIC_GAME_HOST}/#${gameName}`);
       setGameState(newGameState);
 
       // Step 2: Add the current player to the game
@@ -205,7 +205,7 @@ export default function Game() {
       }, 10 * 1000);
 
       setSocket(() => {
-        const newSocket = new WebSocket(`ws://localhost:8787/api/game/${gameState?.id}/player/${me?.id}/socket`);
+        const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/api/game/${gameState?.id}/player/${me?.id}/socket`);
 
         newSocket.onmessage = (event: MessageEvent) => {
           const msg = JSON.parse(event.data) as ScrummyUpdate;
