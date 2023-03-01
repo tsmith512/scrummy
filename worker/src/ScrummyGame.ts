@@ -9,35 +9,8 @@
  */
 
 import { Router } from 'itty-router';
-import { basic404, Env, gameInit } from '.';
-
-/**
- * Representation of a player
- */
-export interface Player {
-  nick: string;
-  id: string;
-  vote?: number | false;
-  socket?: WebSocket | null;
-}
-
-/**
- * Representation of game state
- */
-export interface GameState {
-  id: string;
-  reveal: boolean;
-  lastActive?: number;
-  players: Player[];
-}
-
-/**
- * All WebSocket messages in either direction will use this interface.
- */
-export interface ScrummyUpdate {
-  type: string;
-  game?: GameState;
-}
+import { basic404 } from '.';
+import { Env, gameInit, GameState, Player, ScrummyUpdate } from './types';
 
 export class ScrummyGame {
   state: DurableObjectState;

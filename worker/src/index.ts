@@ -11,20 +11,7 @@
 
 import { Router } from 'itty-router';
 
-/**
- * Environment variables and bindings to DO, R2, KV, etc.
- */
-export interface Env {
-  GAME: DurableObjectNamespace;
-}
-
-/**
- * Payload used to create a new game or a new character
- */
-export interface gameInit {
-  name: string;
-  id?: string;
-}
+import { Env, gameInit } from './types';
 
 /**
  * These headers are sent back on every response

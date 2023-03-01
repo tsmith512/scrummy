@@ -8,31 +8,9 @@ import { Players } from './Players';
 import { Hand } from './Hand';
 import { Readme } from './Readme';
 
-// THESE ARE COPIED FROM THE DURABLE OBJECT:
-export interface Player {
-  nick: string;
-  id: string;
-  vote?: number | false;
-  socket?: WebSocket | null;
-}
-
-export interface GameState {
-  id: string;
-  reveal: boolean;
-  lastActive?: number;
-  players: Player[];
-}
-
-export interface ScrummyUpdate {
-  type: string;
-  game?: GameState;
-}
-
-export interface gameInit {
-  name: string;
-  id?: string;
-}
-// END.
+// Grab some types from the Worker codebase which we use for shaping API calls
+// and WebSocket messages.
+import { Player, GameState, ScrummyUpdate, gameInit } from '../../worker/src/types';
 
 export default function Game() {
   const [me, setMe] = useState(null as Player | null);
