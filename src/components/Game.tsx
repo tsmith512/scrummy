@@ -32,6 +32,7 @@ export default function Game() {
 
         // If another player triggered a reset, this game state update affects
         // "me" too. And if I'm not still in the game state, kick me out.
+        // @TODO: That happened a lot with dropped connections... which I'm fixing...
         if (me) {
           const i = payload.players.findIndex(p => p.id == me.id);
           if (i === -1) {
@@ -170,16 +171,9 @@ export default function Game() {
    * - If false, swap back to the readme/login UI
    */
   useEffect(() => {
-    let pollingInterval: any;
 
     if (joined) {
       getSizes();
-
-      pollingInterval = setInterval(() => {
-        if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
-          getGameState();
-        }
-      }, 10 * 1000);
 
       setSocket(() => {
         const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
@@ -199,7 +193,7 @@ export default function Game() {
         // getting stuck referring to the init state of `socket` (null). This
         // is okay because the response to a closed/failed socket is to exit
         // the game, but I should fix this somehow...
-        const pingInterval = setInterval(() => {
+        setInterval(() => {
           const message: ScrummyUpdate = {
             type: 'ping'
           }
@@ -220,7 +214,6 @@ export default function Game() {
     }
 
     return () => {
-      clearInterval(pollingInterval);
       if (socket !== null) {
         socket.close();
         setSocket(null);
