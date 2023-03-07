@@ -113,12 +113,13 @@ export default function Game() {
    * @TODO: Uhh, if this errors it kinda doesn't do anything.
    *
    * @param nick (string) player displayed nickname
-   * @param gameName (string) game name (not DO ID)
+   * @param gameName (string) game name (not Durable Object ID)
    */
   const handleJoin = async (nick: string, gameName: string): Promise<void> => {
     localStorage.setItem('nickname', nick);
 
-    // Step 1: Identify (either create or look up) the game
+    // Step 1: Identify (either create or look up) the game. We need to get the
+    // Durable Object ID from the game's nickname.
     // @TODO: It'd be great to make this a one-step.
     const lookup = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game`,
       {
