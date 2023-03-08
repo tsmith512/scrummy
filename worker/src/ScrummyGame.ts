@@ -138,7 +138,10 @@ export class ScrummyGame {
     this.game.players[i].socket = server;
 
     server.addEventListener('close', () => {
-      this.playerRemove(this.game.players[i]);
+      // @TODO: If the socket closes, remove the object from the player, but
+      // leave the player in the game. This allows websockets to reconnect
+      // instead of kicking a player out.
+      delete this.game.players[i].socket;
     });
 
     server.addEventListener('message', (event: MessageEvent) => {

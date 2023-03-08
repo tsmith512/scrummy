@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 
 import style from '@/styles/game.module.scss';
@@ -16,9 +16,12 @@ export default function Game() {
   const [me, setMe] = useState(null as Player | null);
   const [gameState, setGameState] = useState(null as GameState | null);
   const [gameLink, setGameLink] = useState(null as string | null);
-  const [socket, setSocket] = useState(null as null | WebSocket);
   const [joined, setJoined] = useState(false as boolean);
+  const [tryReconnect, setTryReconnect] = useState(0);
   const [sizes, setSizes] = useState([] as number[]);
+
+  const socket = useRef(null as null | WebSocket);
+  const interval = useRef(null as null | number);
 
   /**
    * Manual fetch to grab the latest game state from the durable object
@@ -166,61 +169,95 @@ export default function Game() {
     }
   };
 
+  const handlePing = async (): Promise<void> => {
+    if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+      const message: ScrummyUpdate = {
+        type: 'ping'
+      }
+      socket.current.send(JSON.stringify(message));
+    } else {
+      getGameState();
+    }
+  }
+
   /**
-   * When `joined` changes:
-   * - If true, set up the websocket, ping timer, and poll timer -- with cleanup
-   * - If false, swap back to the readme/login UI
+   * When the component loads, figure out what story point sizes we accept.
    */
   useEffect(() => {
+    getSizes();
+  }, []);
 
+  /**
+   * When `joined` changes or we attempt a reconnect:
+   * - If true, set up the websocket, ping/poll timer -- with cleanup
+   * - If false, clear all state and swap back to the readme/login UI
+   */
+  useEffect(() => {
     if (joined) {
-      getSizes();
+      // If we have a left-over socket, close it.
+      if (socket.current) {
+        socket.current.close(1000);
+      }
 
-      setSocket(() => {
-        const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
+      // If we have a leftover ping interval, clear it.
+      if (interval.current) {
+        window.clearInterval(interval.current);
+      }
 
-        newSocket.onmessage = (event: MessageEvent) => {
-          const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
-          if (msg?.game) {
-            setGameState(msg.game);
-          }
-        };
+      // Open a new socket to the known game and player ID
+      const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
 
-        newSocket.onclose = (event: CloseEvent) => {
-          setJoined(false);
+      newSocket.onmessage = (event: MessageEvent) => {
+        const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
+        if (msg?.game) {
+          setGameState(msg.game);
         }
+      };
 
-        // This is set inside the callback so it refers to the socket isntead of
-        // getting stuck referring to the init state of `socket` (null). This
-        // is okay because the response to a closed/failed socket is to exit
-        // the game, but I should fix this somehow...
-        setInterval(() => {
-          const message: ScrummyUpdate = {
-            type: 'ping'
-          }
-          newSocket.send(JSON.stringify(message));
-        }, 10 * 1000);
+      newSocket.onclose = (event: CloseEvent) => {
+        // @TODO: Trigger the websocket to reconnect by firing this effect again.
+        // Need to include logic to avoid a race condition if a disconnect was
+        // intentional.
+        if (event.code !== 1000) {
+          setTryReconnect(tryReconnect + 1);
+        }
+      }
 
-        return newSocket;
-      });
+      newSocket.onerror = (event: Event) => {
+        setTryReconnect(tryReconnect + 1);
+      }
+
+      interval.current = window.setInterval(handlePing, 10 * 1000);
+
+      socket.current = newSocket;
 
     } else {
       setGameState(null);
       setMe(null);
 
-      if (socket !== null) {
-        socket.close();
-        setSocket(null);
+      if (socket.current !== null) {
+        socket.current.close(1000);
+        socket.current = null;
+      }
+
+      if (interval.current) {
+        window.clearInterval(interval.current);
+        interval.current = null;
       }
     }
 
     return () => {
-      if (socket !== null) {
-        socket.close();
-        setSocket(null);
+      if (socket.current !== null) {
+        socket.current.close();
+        socket.current = null;
+      }
+
+      if (interval.current) {
+        window.clearInterval(interval.current);
+        interval.current = null;
       }
     }
-  }, [joined]);
+  }, [joined, tryReconnect]);
 
   return (
     <div className={style.game}>
