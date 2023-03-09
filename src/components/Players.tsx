@@ -1,6 +1,6 @@
 import React from 'react';
 import style from '../styles/players.module.scss';
-import { Player } from './Game';
+import { Player } from 'worker/src/types';
 
 export interface PlayersProps {
   players?: Player[];

@@ -1,6 +1,5 @@
 import React from 'react';
 import style from '../styles/hand.module.scss';
-import { Player } from './Game';
 
 export interface HandProps {
   sizes: number[];

@@ -29,7 +29,7 @@ export default function Game() {
   const getGameState = async (): Promise<void> => {
     if (joined && gameState?.id) {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/status`)
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<GameState>)
       .then((payload: GameState) => {
         setGameState(payload);
 
@@ -45,7 +45,7 @@ export default function Game() {
             setMe({...payload.players[i]});
           }
         }
-      })
+      });
     }
   };
 
@@ -54,7 +54,7 @@ export default function Game() {
    */
   const getSizes = async (): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/settings/sizes`)
-    .then((res) => res.json())
+    .then((res) => res.json() as Promise<number[]>)
     .then((payload: number[]) => setSizes(payload));
   }
 
