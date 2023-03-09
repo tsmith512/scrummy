@@ -211,6 +211,20 @@ export default function Game() {
         const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
         if (msg?.game) {
           setGameState(msg.game);
+
+
+          // If another player triggered a reset, this game state update affects
+          // "me" too. And if I'm not still in the game state, kick me out.
+          // @TODO: DRY -- abstract or unify with getGameState()
+          if (me && msg.game) {
+            const i = msg.game.players.findIndex(p => p.id == me.id);
+            if (i === -1) {
+              // I got kicked...
+              setJoined(false);
+            } else {
+              setMe({...msg.game.players[i]});
+            }
+          }
         }
       };
 
