@@ -133,6 +133,7 @@ export default function Game() {
 
     if (lookup.status === 200) {
       const newGameState = await lookup.json() as GameState;
+      console.log(`Found game ID: ${newGameState.id}`);
       setGameLink(`${process.env.NEXT_PUBLIC_GAME_HOST}/#${gameName}`);
       setGameState(newGameState);
 
@@ -144,6 +145,7 @@ export default function Game() {
 
       if (join.status === 201) {
         const player = await join.json() as Player;
+        console.log(`Joined game as player ID: ${player.id}`);
         await getGameState();
         setMe(player);
         setJoined(true);
@@ -178,7 +180,7 @@ export default function Game() {
     } else {
       getGameState();
     }
-  }
+  };
 
   /**
    * When the component loads, figure out what story point sizes we accept.
@@ -193,6 +195,7 @@ export default function Game() {
    * - If false, clear all state and swap back to the readme/login UI
    */
   useEffect(() => {
+    console.log(`Joined/Reconnect effect fired`);
     if (joined) {
       // If we have a left-over socket, close it.
       if (socket.current) {
@@ -207,11 +210,14 @@ export default function Game() {
       // Open a new socket to the known game and player ID
       const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
 
+      newSocket.onopen = () => {
+        console.log('Socket opened');
+      };
+
       newSocket.onmessage = (event: MessageEvent) => {
         const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
         if (msg?.game) {
           setGameState(msg.game);
-
 
           // If another player triggered a reset, this game state update affects
           // "me" too. And if I'm not still in the game state, kick me out.
@@ -229,40 +235,27 @@ export default function Game() {
       };
 
       newSocket.onclose = (event: CloseEvent) => {
-        // @TODO: Trigger the websocket to reconnect by firing this effect again.
-        // Need to include logic to avoid a race condition if a disconnect was
-        // intentional.
+        console.log(event);
+        console.log(event.code === 1000 ? `Socket closed.` : `Socket terminated.`);
         if (event.code !== 1000) {
           setTryReconnect(tryReconnect + 1);
         }
       }
 
       newSocket.onerror = (event: Event) => {
+        console.log('Socket errored:', event);
         setTryReconnect(tryReconnect + 1);
       }
 
       interval.current = window.setInterval(handlePing, 10 * 1000);
-
       socket.current = newSocket;
-
     } else {
+      console.log('Not in game. Cleaning up.');
       setGameState(null);
       setMe(null);
 
       if (socket.current !== null) {
         socket.current.close(1000);
-        socket.current = null;
-      }
-
-      if (interval.current) {
-        window.clearInterval(interval.current);
-        interval.current = null;
-      }
-    }
-
-    return () => {
-      if (socket.current !== null) {
-        socket.current.close();
         socket.current = null;
       }
 
