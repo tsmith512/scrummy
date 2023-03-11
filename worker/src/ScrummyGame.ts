@@ -205,7 +205,7 @@ export class ScrummyGame {
      * Return the entire game state object
      */
     router.get('/status', async (request, env: Env, ctx) => {
-      return new Response(JSON.stringify(this.game));
+      return new Response(JSON.stringify(this.cleanState()));
     });
 
     /**

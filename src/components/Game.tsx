@@ -10,7 +10,7 @@ import { Readme } from './Readme';
 
 // Grab some types from the Worker codebase which we use for shaping API calls
 // and WebSocket messages.
-import { Player, GameState, ScrummyUpdate, gameInit } from '../../worker/src/types';
+import { Player, GameState, ScrummyUpdate } from '../../worker/src/types';
 
 export default function Game() {
   const [me, setMe] = useState(null as Player | null);
@@ -31,21 +31,31 @@ export default function Game() {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/status`)
       .then((res) => res.json() as Promise<GameState>)
       .then((payload: GameState) => {
-        setGameState(payload);
-
-        // If another player triggered a reset, this game state update affects
-        // "me" too. And if I'm not still in the game state, kick me out.
-        // @TODO: That happened a lot with dropped connections... which I'm fixing...
-        if (me) {
-          const i = payload.players.findIndex(p => p.id == me.id);
-          if (i === -1) {
-            // I got kicked...
-            setJoined(false);
-          } else {
-            setMe({...payload.players[i]});
-          }
-        }
+        updateGameState(payload);
       });
+    }
+  };
+
+  /**
+   * Update the current game state and the current player. This is called either
+   * by a getGateState request or if an updated state comes in via the WebSocket
+   *
+   * @param newState (GameState) updated game state object
+   */
+  const updateGameState = async (newState: GameState): Promise<void> => {
+    setGameState(newState);
+
+    // If another player triggered a reset, this game state update affects
+    // "me" too. And if I'm not still in the game state, kick me out.
+    // @TODO: That happened a lot with dropped connections... which I'm fixing...
+    if (me) {
+      const i = newState.players.findIndex(p => p.id == me.id);
+      if (i === -1) {
+        // I got kicked...
+        setJoined(false);
+      } else {
+        setMe({...newState.players[i]});
+      }
     }
   };
 
@@ -134,8 +144,11 @@ export default function Game() {
     if (lookup.status === 200) {
       const newGameState = await lookup.json() as GameState;
       console.log(`Found game ID: ${newGameState.id}`);
+
       setGameLink(`${process.env.NEXT_PUBLIC_GAME_HOST}/#${gameName}`);
-      setGameState(newGameState);
+      window.location.hash = gameName;
+
+      updateGameState(newGameState);
 
       // Step 2: Add the current player to the game
       const join = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${newGameState.id}/player`, {
@@ -171,6 +184,9 @@ export default function Game() {
     }
   };
 
+  /**
+   * WebSocket keepalive, with a fallback to a manual fetch of /status
+   */
   const handlePing = async (): Promise<void> => {
     if (socket.current && socket.current.readyState === WebSocket.OPEN) {
       const message: ScrummyUpdate = {
@@ -193,6 +209,9 @@ export default function Game() {
    * When `joined` changes or we attempt a reconnect:
    * - If true, set up the websocket, ping/poll timer -- with cleanup
    * - If false, clear all state and swap back to the readme/login UI
+   *
+   * @TODO: This also runs when the component loads before joining. Would be
+   * cleaner to split the welcome/readme into a separate component from the game
    */
   useEffect(() => {
     console.log(`Joined/Reconnect effect fired`);
@@ -217,24 +236,13 @@ export default function Game() {
       newSocket.onmessage = (event: MessageEvent) => {
         const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
         if (msg?.game) {
-          setGameState(msg.game);
-
-          // If another player triggered a reset, this game state update affects
-          // "me" too. And if I'm not still in the game state, kick me out.
-          // @TODO: DRY -- abstract or unify with getGameState()
-          if (me && msg.game) {
-            const i = msg.game.players.findIndex(p => p.id == me.id);
-            if (i === -1) {
-              // I got kicked...
-              setJoined(false);
-            } else {
-              setMe({...msg.game.players[i]});
-            }
-          }
+          updateGameState(msg.game);
         }
       };
 
       newSocket.onclose = (event: CloseEvent) => {
+        // @TODO: This does not work. The code is always 1006 whether I set it
+        // on a proper exit or the socket dies for reasons unknown...
         console.log(event);
         console.log(event.code === 1000 ? `Socket closed.` : `Socket terminated.`);
         if (event.code !== 1000) {
