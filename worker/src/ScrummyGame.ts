@@ -9,35 +9,8 @@
  */
 
 import { Router } from 'itty-router';
-import { basic404, Env, gameInit } from '.';
-
-/**
- * Representation of a player
- */
-export interface Player {
-  nick: string;
-  id: string;
-  vote?: number | false;
-  socket?: WebSocket | null;
-}
-
-/**
- * Representation of game state
- */
-export interface GameState {
-  id: string;
-  reveal: boolean;
-  lastActive?: number;
-  players: Player[];
-}
-
-/**
- * All WebSocket messages in either direction will use this interface.
- */
-export interface ScrummyUpdate {
-  type: string;
-  game?: GameState;
-}
+import { basic404 } from '.';
+import { Env, gameInit, GameState, Player, ScrummyUpdate } from './types';
 
 export class ScrummyGame {
   state: DurableObjectState;
@@ -46,8 +19,9 @@ export class ScrummyGame {
   constructor(state: DurableObjectState, env: Env) {
     this.state = state;
     this.state.blockConcurrencyWhile(async () => {
-      const stored = (await this.state.storage.get('gameState')) as GameState;
-      this.game = stored || {
+      // We do not save games to persistent storage, so the constructor can
+      // start from scratch and move on.
+      this.game = {
         id: this.state.id.toString(),
         reveal: false,
         lastActive: Date.now(),
@@ -57,18 +31,21 @@ export class ScrummyGame {
   }
 
   /**
-   * Prep a game state clone that we can broadcast or save to persistent storage
+   * Prep a game state clone that can be broadcast to clients (ignoring things
+   * they don't care about and websockets objects)
    *
-   * @param props (array of GameState keys) what keys to keep, aside from players
    * @returns GameState object
    */
-  cleanState(props: Array<keyof GameState>): GameState {
-    const newState = (({ ...props }) => ({ ...props }))(this.game) as GameState;
-    newState.players = this.game.players.map((p) => ({
-      nick: p.nick,
-      id: p.id,
-      vote: p.vote,
-    }));
+  cleanState(): GameState {
+    const newState: GameState = {
+      id: this.game.id,
+      reveal: this.game.reveal,
+      players: this.game.players.map((p) => ({
+        nick: p.nick,
+        id: p.id,
+        vote: p.vote,
+      })),
+    };
     return newState;
   }
 
@@ -89,7 +66,6 @@ export class ScrummyGame {
     this.game.players.push(player);
     this.game.lastActive = Date.now();
     this.broadcastState();
-    // await this.state.storage.put("gameState", this.game);
   }
 
   /**
@@ -134,7 +110,6 @@ export class ScrummyGame {
 
     this.game.players.splice(i, 1);
     this.game.lastActive = Date.now();
-    // await this.state.storage.put("gameState", this.game);
 
     this.broadcastState();
     return true;
@@ -163,8 +138,12 @@ export class ScrummyGame {
     this.game.players[i].socket = server;
 
     server.addEventListener('close', () => {
-      this.playerRemove(this.game.players[i]);
+      // @TODO: If the socket closes, remove the object from the player, but
+      // leave the player in the game. This allows websockets to reconnect
+      // instead of kicking a player out.
+      delete this.game.players[i].socket;
     });
+
     server.addEventListener('message', (event: MessageEvent) => {
       const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
       if (msg?.type == 'ping') {
@@ -175,7 +154,7 @@ export class ScrummyGame {
 
     const hello: ScrummyUpdate = {
       type: 'state',
-      game: this.cleanState(['id', 'reveal']),
+      game: this.cleanState(),
     };
     server.send(JSON.stringify(hello));
   }
@@ -186,7 +165,7 @@ export class ScrummyGame {
   broadcastState() {
     const message: ScrummyUpdate = {
       type: 'state',
-      game: this.cleanState(['id', 'reveal']),
+      game: this.cleanState(),
     };
     this.game.players.forEach((player) => {
       if (player.socket) {
@@ -226,7 +205,7 @@ export class ScrummyGame {
      * Return the entire game state object
      */
     router.get('/status', async (request, env: Env, ctx) => {
-      return new Response(JSON.stringify(this.game));
+      return new Response(JSON.stringify(this.cleanState()));
     });
 
     /**

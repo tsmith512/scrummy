@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 
 import style from '@/styles/game.module.scss';
@@ -8,39 +8,20 @@ import { Players } from './Players';
 import { Hand } from './Hand';
 import { Readme } from './Readme';
 
-// THESE ARE COPIED FROM THE DURABLE OBJECT:
-export interface Player {
-  nick: string;
-  id: string;
-  vote?: number | false;
-  socket?: WebSocket | null;
-}
-
-export interface GameState {
-  id: string;
-  reveal: boolean;
-  lastActive?: number;
-  players: Player[];
-}
-
-export interface ScrummyUpdate {
-  type: string;
-  game?: GameState;
-}
-
-export interface gameInit {
-  name: string;
-  id?: string;
-}
-// END.
+// Grab some types from the Worker codebase which we use for shaping API calls
+// and WebSocket messages.
+import { Player, GameState, ScrummyUpdate } from '../../worker/src/types';
 
 export default function Game() {
   const [me, setMe] = useState(null as Player | null);
   const [gameState, setGameState] = useState(null as GameState | null);
   const [gameLink, setGameLink] = useState(null as string | null);
-  const [socket, setSocket] = useState(null as null | WebSocket);
   const [joined, setJoined] = useState(false as boolean);
+  const [tryReconnect, setTryReconnect] = useState(0);
   const [sizes, setSizes] = useState([] as number[]);
+
+  const socket = useRef(null as null | WebSocket);
+  const interval = useRef(null as null | number);
 
   /**
    * Manual fetch to grab the latest game state from the durable object
@@ -48,22 +29,33 @@ export default function Game() {
   const getGameState = async (): Promise<void> => {
     if (joined && gameState?.id) {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${gameState.id}/status`)
-      .then((res) => res.json())
+      .then((res) => res.json() as Promise<GameState>)
       .then((payload: GameState) => {
-        setGameState(payload);
+        updateGameState(payload);
+      });
+    }
+  };
 
-        // If another player triggered a reset, this game state update affects
-        // "me" too. And if I'm not still in the game state, kick me out.
-        if (me) {
-          const i = payload.players.findIndex(p => p.id == me.id);
-          if (i === -1) {
-            // I got kicked...
-            setJoined(false);
-          } else {
-            setMe({...payload.players[i]});
-          }
-        }
-      })
+  /**
+   * Update the current game state and the current player. This is called either
+   * by a getGateState request or if an updated state comes in via the WebSocket
+   *
+   * @param newState (GameState) updated game state object
+   */
+  const updateGameState = async (newState: GameState): Promise<void> => {
+    setGameState(newState);
+
+    // If another player triggered a reset, this game state update affects
+    // "me" too. And if I'm not still in the game state, kick me out.
+    // @TODO: That happened a lot with dropped connections... which I'm fixing...
+    if (me) {
+      const i = newState.players.findIndex(p => p.id == me.id);
+      if (i === -1) {
+        // I got kicked...
+        setJoined(false);
+      } else {
+        setMe({...newState.players[i]});
+      }
     }
   };
 
@@ -72,7 +64,7 @@ export default function Game() {
    */
   const getSizes = async (): Promise<void> => {
     await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/settings/sizes`)
-    .then((res) => res.json())
+    .then((res) => res.json() as Promise<number[]>)
     .then((payload: number[]) => setSizes(payload));
   }
 
@@ -134,12 +126,13 @@ export default function Game() {
    * @TODO: Uhh, if this errors it kinda doesn't do anything.
    *
    * @param nick (string) player displayed nickname
-   * @param gameName (string) game name (not DO ID)
+   * @param gameName (string) game name (not Durable Object ID)
    */
   const handleJoin = async (nick: string, gameName: string): Promise<void> => {
     localStorage.setItem('nickname', nick);
 
-    // Step 1: Identify (either create or look up) the game
+    // Step 1: Identify (either create or look up) the game. We need to get the
+    // Durable Object ID from the game's nickname.
     // @TODO: It'd be great to make this a one-step.
     const lookup = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game`,
       {
@@ -150,8 +143,12 @@ export default function Game() {
 
     if (lookup.status === 200) {
       const newGameState = await lookup.json() as GameState;
+      console.log(`Found game ID: ${newGameState.id}`);
+
       setGameLink(`${process.env.NEXT_PUBLIC_GAME_HOST}/#${gameName}`);
-      setGameState(newGameState);
+      window.location.hash = gameName;
+
+      updateGameState(newGameState);
 
       // Step 2: Add the current player to the game
       const join = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/game/${newGameState.id}/player`, {
@@ -161,6 +158,7 @@ export default function Game() {
 
       if (join.status === 201) {
         const player = await join.json() as Player;
+        console.log(`Joined game as player ID: ${player.id}`);
         await getGameState();
         setMe(player);
         setJoined(true);
@@ -187,68 +185,94 @@ export default function Game() {
   };
 
   /**
-   * When `joined` changes:
-   * - If true, set up the websocket, ping timer, and poll timer -- with cleanup
-   * - If false, swap back to the readme/login UI
+   * WebSocket keepalive, with a fallback to a manual fetch of /status
+   */
+  const handlePing = async (): Promise<void> => {
+    if (socket.current && socket.current.readyState === WebSocket.OPEN) {
+      const message: ScrummyUpdate = {
+        type: 'ping'
+      }
+      socket.current.send(JSON.stringify(message));
+    } else {
+      getGameState();
+    }
+  };
+
+  /**
+   * When the component loads, figure out what story point sizes we accept.
    */
   useEffect(() => {
-    let pollingInterval: any;
+    getSizes();
+  }, []);
 
+  /**
+   * When `joined` changes or we attempt a reconnect:
+   * - If true, set up the websocket, ping/poll timer -- with cleanup
+   * - If false, clear all state and swap back to the readme/login UI
+   *
+   * @TODO: This also runs when the component loads before joining. Would be
+   * cleaner to split the welcome/readme into a separate component from the game
+   */
+  useEffect(() => {
+    console.log(`Joined/Reconnect effect fired`);
     if (joined) {
-      getSizes();
+      // If we have a left-over socket, close it.
+      if (socket.current) {
+        socket.current.close(1000);
+      }
 
-      pollingInterval = setInterval(() => {
-        if (typeof window !== 'undefined' && document.visibilityState === 'visible') {
-          getGameState();
+      // If we have a leftover ping interval, clear it.
+      if (interval.current) {
+        window.clearInterval(interval.current);
+      }
+
+      // Open a new socket to the known game and player ID
+      const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
+
+      newSocket.onopen = () => {
+        console.log('Socket opened');
+      };
+
+      newSocket.onmessage = (event: MessageEvent) => {
+        const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
+        if (msg?.game) {
+          updateGameState(msg.game);
         }
-      }, 10 * 1000);
+      };
 
-      setSocket(() => {
-        const newSocket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_ENDPOINT}/game/${gameState?.id}/player/${me?.id}/socket`);
-
-        newSocket.onmessage = (event: MessageEvent) => {
-          const msg = JSON.parse(event.data.toString()) as ScrummyUpdate;
-          if (msg?.game) {
-            setGameState(msg.game);
-          }
-        };
-
-        newSocket.onclose = (event: CloseEvent) => {
-          setJoined(false);
+      newSocket.onclose = (event: CloseEvent) => {
+        // @TODO: This does not work. The code is always 1006 whether I set it
+        // on a proper exit or the socket dies for reasons unknown...
+        console.log(event);
+        console.log(event.code === 1000 ? `Socket closed.` : `Socket terminated.`);
+        if (event.code !== 1000) {
+          setTryReconnect(tryReconnect + 1);
         }
+      }
 
-        // This is set inside the callback so it refers to the socket isntead of
-        // getting stuck referring to the init state of `socket` (null). This
-        // is okay because the response to a closed/failed socket is to exit
-        // the game, but I should fix this somehow...
-        const pingInterval = setInterval(() => {
-          const message: ScrummyUpdate = {
-            type: 'ping'
-          }
-          newSocket.send(JSON.stringify(message));
-        }, 10 * 1000);
+      newSocket.onerror = (event: Event) => {
+        console.log('Socket errored:', event);
+        setTryReconnect(tryReconnect + 1);
+      }
 
-        return newSocket;
-      });
-
+      interval.current = window.setInterval(handlePing, 10 * 1000);
+      socket.current = newSocket;
     } else {
+      console.log('Not in game. Cleaning up.');
       setGameState(null);
       setMe(null);
 
-      if (socket !== null) {
-        socket.close();
-        setSocket(null);
+      if (socket.current !== null) {
+        socket.current.close(1000);
+        socket.current = null;
       }
-    }
 
-    return () => {
-      clearInterval(pollingInterval);
-      if (socket !== null) {
-        socket.close();
-        setSocket(null);
+      if (interval.current) {
+        window.clearInterval(interval.current);
+        interval.current = null;
       }
     }
-  }, [joined]);
+  }, [joined, tryReconnect]);
 
   return (
     <div className={style.game}>
