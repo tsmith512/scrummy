@@ -8,7 +8,10 @@ workers_dev = false
 
 # PRODUCTION
 
-route = "scrummy.cards/api/*"
+routes = [
+  { pattern = "scrummy.cards/api/*", custom_domain = false },
+  { pattern = "playscrummy.com/api/*", custom_domain = false }
+]
 vars = { ENVIRONMENT = "production" }
 
 [durable_objects]
@@ -22,7 +25,10 @@ new_classes = ["ScrummyGame"]
 
 [env.dev]
 name = "scrummy-dev"
-route = "dev.scrummy.cards/api/*"
+routes = [
+  { pattern = "dev.scrummy.cards/api/*", custom_domain = false },
+  { pattern = "dev.playscrummy.com/api/*", custom_domain = false }
+]
 vars = { ENVIRONMENT = "dev" }
 
 [env.dev.durable_objects]
